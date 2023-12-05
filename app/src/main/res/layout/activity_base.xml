@@ -4,12 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".BaseActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fc_map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.naver.maps.map.MapFragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
