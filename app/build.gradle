@@ -5,7 +5,7 @@ plugins {
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def naverClientId = properties.getProperty("NAVER_CLIENT_ID")
+def kakaoRestApiKey = properties.getProperty("KAKAO_REST_API_KEY")
 
 android {
     namespace 'com.ihavesookchi.climbingrecord'
@@ -19,7 +19,7 @@ android {
         versionName "1.0"
 
         manifestPlaceholders = [
-                naverClientId: naverClientId
+                kakaoRestApiKey: kakaoRestApiKey
         ]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -38,6 +38,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -49,6 +52,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // naver map
-    implementation 'com.naver.maps:map-sdk:3.17.0'
+    // kakao map
+    implementation 'com.kakao.maps.open:android:2.6.0'
 }
