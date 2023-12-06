@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">ClimbingRecord</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">클밍록</string>
+
+    <!-- menu -->
+    <string name="menu_map" translatable="false">Map</string>
+    <string name="menu_list" translatable="false">List</string>
+    <string name="menu_add" translatable="false">Add</string>
+    <string name="menu_goals" translatable="false">Goals</string>
+    <string name="menu_profile" translatable="false">Profile</string>
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_map"
+        android:icon="@drawable/ic_map"
+        tools:ignore="MenuTitle" />
+    <item android:id="@+id/menu_list"
+        android:icon="@drawable/ic_record_list"
+        tools:ignore="MenuTitle" />
+    <item android:id="@+id/menu_add"
+        android:icon="@drawable/ic_add_record"
+        tools:ignore="MenuTitle" />
+    <item android:id="@+id/menu_goals"
+        android:icon="@drawable/ic_goals"
+        tools:ignore="MenuTitle" />
+    <item android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_profile"
+        tools:ignore="MenuTitle" />
+</menu>
