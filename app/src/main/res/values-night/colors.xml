@@ -11,5 +11,5 @@
     <color name="dark_gray">#FF464646</color>
     <color name="medium_gray">#FFB9B9B9</color>
 
-    <color name="menu_stroke_color">@color/dark_gray</color>
+    <color name="menu_stroke_color">@color/medium_gray</color>
 </resources>
