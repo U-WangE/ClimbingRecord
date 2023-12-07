@@ -4,10 +4,10 @@
     <item android:id="@+id/menu_map"
         android:icon="@drawable/ic_map"
         tools:ignore="MenuTitle" />
-    <item android:id="@+id/menu_list"
+    <item android:id="@+id/menu_record_list"
         android:icon="@drawable/ic_record_list"
         tools:ignore="MenuTitle" />
-    <item android:id="@+id/menu_add"
+    <item android:id="@+id/menu_add_record"
         android:icon="@drawable/ic_add_record"
         tools:ignore="MenuTitle" />
     <item android:id="@+id/menu_goals"
