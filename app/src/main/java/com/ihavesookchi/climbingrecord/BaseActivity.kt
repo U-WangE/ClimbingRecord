@@ -33,7 +33,8 @@ open class BaseActivity : AppCompatActivity() {
                     replaceFragment(ProfileFragment())
                 }
                 else -> {
-
+                    ClimbingRecordLogger.getInstance()?.saveLog("BaseActivity  BottomNavigationBar.setOnItemSelectedListener -> else",
+                        "item: ${item},  itemId: ${item.itemId}, itemTitle: ${item.title}, itemOrder: ${item.order}")
                 }
             }
             return@setOnItemSelectedListener true

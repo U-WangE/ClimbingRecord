@@ -54,4 +54,7 @@ dependencies {
 
     // kakao map
     implementation 'com.kakao.maps.open:android:2.6.0'
+
+    // Okhttp
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.5'
 }
