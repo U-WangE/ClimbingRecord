@@ -7,6 +7,9 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def kakaoRestApiKey = properties.getProperty("KAKAO_REST_API_KEY")
 
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(project.rootProject.file("keystore.properties")))
+
 android {
     namespace 'com.ihavesookchi.climbingrecord'
     compileSdk 33
@@ -25,10 +28,29 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
         release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "ClimbingRecord_${versionName}.apk"
+            }
         }
     }
     compileOptions {
