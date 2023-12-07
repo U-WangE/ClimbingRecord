@@ -25,7 +25,8 @@ class MapActivity : BaseActivity() {
 
             override fun onMapError(error: Exception?) {
                 // 인증 실패 및 지도 사용 중 에러가 발생할 때 호출됨
-                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "onMapError  code : ${error.hashCode()}")
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
+                    "onMapError   code : ${error.hashCode()}   cause : ${error?.cause}   message : ${error?.message}")
             }
 
         }, object: KakaoMapReadyCallback() {
