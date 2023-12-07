@@ -10,6 +10,8 @@ open class BaseActivity : AppCompatActivity() {
     private var _binding: ActivityBaseBinding? = null
     private val binding get() = _binding!!
 
+    private val CLASS_NAME = this::class.java.simpleName
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityBaseBinding.inflate(layoutInflater)
@@ -18,23 +20,33 @@ open class BaseActivity : AppCompatActivity() {
         binding.bnBottomNavigationBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_map -> {
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
+                        "BottomNavigationBar Item Selected : menu_map")
                     startActivity(Intent(this, MapActivity::class.java))
                 }
                 R.id.menu_record_list -> {
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
+                        "BottomNavigationBar Item Selected : menu_record_list")
                     startActivity(Intent(this, MapActivity::class.java))
                 }
                 R.id.menu_add_record -> {
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
+                        "BottomNavigationBar Item Selected : menu_add_record")
                     replaceFragment(AddRecordFragment())
                 }
                 R.id.menu_goals -> {
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
+                        "BottomNavigationBar Item Selected : menu_goals")
                     replaceFragment(GoalsFragment())
                 }
                 R.id.menu_profile -> {
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
+                        "BottomNavigationBar Item Selected : menu_profile")
                     replaceFragment(ProfileFragment())
                 }
                 else -> {
-                    ClimbingRecordLogger.getInstance()?.saveLog("BaseActivity  BottomNavigationBar.setOnItemSelectedListener -> else",
-                        "item: ${item},  itemId: ${item.itemId}, itemTitle: ${item.title}, itemOrder: ${item.order}")
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
+                        "BottomNavigationBar.setOnItemSelectedListener -> else  {  item: ${item},  itemId: ${item.itemId}, itemTitle: ${item.title}, itemOrder: ${item.order}  }")
                 }
             }
             return@setOnItemSelectedListener true

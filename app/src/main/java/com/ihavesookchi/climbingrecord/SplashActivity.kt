@@ -14,6 +14,6 @@ class SplashActivity : AppCompatActivity() {
         _binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        startActivity(Intent(this, BaseActivity::class.java))
+        startActivity(Intent(this, MapActivity::class.java))
     }
 }
