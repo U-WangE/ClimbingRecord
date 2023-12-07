@@ -6,5 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".BaseActivity">
 
+    <FrameLayout
+        android:id="@+id/fl_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bn_bottom_navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:itemIconTint="@color/menu_stroke_color"
+            app:menu="@menu/navigation_menu_items"
+            android:layout_gravity="bottom"
+            />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

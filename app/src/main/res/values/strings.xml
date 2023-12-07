@@ -3,8 +3,9 @@
 
     <!-- menu -->
     <string name="menu_map" translatable="false">Map</string>
-    <string name="menu_list" translatable="false">List</string>
-    <string name="menu_add" translatable="false">Add</string>
+    <string name="menu_record_list" translatable="false">List</string>
+    <string name="menu_add_record" translatable="false">Add</string>
     <string name="menu_goals" translatable="false">Goals</string>
     <string name="menu_profile" translatable="false">Profile</string>
+
 </resources>
