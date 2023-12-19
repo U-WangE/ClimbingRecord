@@ -1,4 +1,4 @@
-package com.ihavesookchi.climbingrecord
+package com.ihavesookchi.climbingrecord.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +14,6 @@ class SplashActivity : AppCompatActivity() {
         _binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        startActivity(Intent(this, MapActivity::class.java))
+        startActivity(Intent(this, BaseActivity::class.java))
     }
 }

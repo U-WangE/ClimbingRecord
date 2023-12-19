@@ -10,6 +10,8 @@
 
     <color name="dark_gray">#FF464646</color>
     <color name="medium_gray">#FFB9B9B9</color>
+    <color name="low_gray">#FF979797</color>
 
-    <color name="menu_stroke_color">@color/medium_gray</color>
+    <color name="nav_icon_state_checked_color">@color/white</color>
+    <color name="nav_icon_state_unchecked_color">@color/low_gray</color>
 </resources>
