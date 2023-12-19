@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BaseActivity">
+    tools:context=".view.BaseActivity">
 
     <FrameLayout
         android:id="@+id/fl_frame_layout"
@@ -17,10 +17,11 @@
         android:id="@+id/bn_bottom_navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        app:itemIconTint="@color/menu_stroke_color"
+        app:itemIconTint="@color/bottom_nav_icon_color"
         app:menu="@menu/navigation_menu_items"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintTop_toBottomOf="@id/fl_frame_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

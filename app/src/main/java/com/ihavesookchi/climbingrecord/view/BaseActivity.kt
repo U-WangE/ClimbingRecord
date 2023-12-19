@@ -1,9 +1,25 @@
-package com.ihavesookchi.climbingrecord
+package com.ihavesookchi.climbingrecord.view
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
+import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.ActivityBaseBinding
 
 open class BaseActivity : AppCompatActivity() {
@@ -17,17 +33,19 @@ open class BaseActivity : AppCompatActivity() {
         _binding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        replaceFragment(MapFragment())
+
         binding.bnBottomNavigationBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_map -> {
                     ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
                         "BottomNavigationBar Item Selected : menu_map")
-                    startActivity(Intent(this, MapActivity::class.java))
+                    replaceFragment(MapFragment())
                 }
                 R.id.menu_record_list -> {
                     ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
                         "BottomNavigationBar Item Selected : menu_record_list")
-                    startActivity(Intent(this, MapActivity::class.java))
+                    replaceFragment(RecordListFragment())
                 }
                 R.id.menu_add_record -> {
                     ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,

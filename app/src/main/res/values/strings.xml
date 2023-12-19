@@ -7,5 +7,7 @@
     <string name="menu_add_record" translatable="false">Add</string>
     <string name="menu_goals" translatable="false">Goals</string>
     <string name="menu_profile" translatable="false">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
