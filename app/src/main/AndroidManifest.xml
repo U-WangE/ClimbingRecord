@@ -29,13 +29,6 @@
         <activity
             android:name=".view.BaseActivity"
             android:exported="false" />
-        <activity
-            android:name=".view.MapActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.RecordListActivity"
-            android:exported="false" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_MAPS_API_KEY}" />

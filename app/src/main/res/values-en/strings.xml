@@ -2,4 +2,19 @@
 <resources>
     <string name="app_name">ClimbingRecord</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="setting">Setting</string>
+    <string name="permission_re_request">Re-request</string>
+
+    <string name="permission_notice_title">Guide to granting required permissions</string>
+    <string name="permission_notice_contents">
+        Permission is required for the following reasons.\n
+        &#8226; Location\n
+        &#160;&#160;This is a necessary permission for map and climbing location display.
+    </string>
+    <string name="permission_notice_comment">Go to the Settings screen for permission.</string>
 </resources>

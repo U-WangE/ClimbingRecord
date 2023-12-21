@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!-- Gmarket Sans Font -->
+<!-- XXXX Small -->
+    <style name="style_kcc_chassam_medium_xxxx_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">5sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold_xxxx_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">5sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+    <!-- XXX Small -->
+    <style name="style_kcc_chassam_medium_xxx_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold_xxx_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+<!-- XX Small -->
+    <style name="style_kcc_chassam_medium_xx_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textFontWeight">300</item>
+    </style>
+    <style name="style_kcc_chassam_bold_xx_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+
+<!-- X Small -->
+    <style name="style_kcc_chassam_medium_x_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold_x_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+<!-- Small -->
+    <style name="style_kcc_chassam_light_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textFontWeight">300</item>
+    </style>
+    <style name="style_kcc_chassam_medium_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold_small">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+<!-- Medium -->
+    <style name="style_kcc_chassam_medium">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+<!-- Large -->
+    <style name="style_kcc_chassam_medium_large">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold_large">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+    <!-- X Large -->
+    <style name="style_kcc_chassam_medium_x_large">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold_x_large">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+</resources>
