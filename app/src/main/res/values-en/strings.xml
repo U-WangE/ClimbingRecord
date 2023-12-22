@@ -17,4 +17,5 @@
         &#160;&#160;This is a necessary permission for map and climbing location display.
     </string>
     <string name="permission_notice_comment">Go to the Settings screen for permission.</string>
+    <string name="hint_search_keyword">Search place or address</string>
 </resources>

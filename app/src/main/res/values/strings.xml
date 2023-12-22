@@ -24,4 +24,6 @@
         &#160;&#160;지도 및 클라이밍장 위치 표시를 위해 반드시 필요한 권한입니다.
     </string>
     <string name="permission_notice_comment">권한 허용을 위해 설정화면으로 이동합니다.</string>
+
+    <string name="hint_search_keyword">장소, 주소 검색</string>
 </resources>
