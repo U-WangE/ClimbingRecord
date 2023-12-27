@@ -61,6 +61,7 @@ class SplashActivity : AppCompatActivity() {
         if (!isPermissionGranted) {
             ActivityCompat.requestPermissions(this, permissions, requestCode)
         } else {
+            startActivity(Intent(this, BaseActivity::class.java))
         }
         return isPermissionGranted
     }

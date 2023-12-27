@@ -1,30 +1,19 @@
 package com.ihavesookchi.climbingrecord.view
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.location.LocationManager
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.ActivityBaseBinding
+import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 
 open class BaseActivity : AppCompatActivity() {
     private var _binding: ActivityBaseBinding? = null
     private val binding get() = _binding!!
+
+    private val sharedViewModel: BaseViewModel by viewModels()
 
     private val CLASS_NAME = this::class.java.simpleName
 

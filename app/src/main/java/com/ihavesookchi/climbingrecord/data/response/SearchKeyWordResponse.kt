@@ -6,7 +6,7 @@ data class SearchKeyWordResponse(
     @SerializedName("meta")
     val meta: Meta,
     @SerializedName("document")
-    val document: Document
+    val document: List<Document>
 ) {
     data class Meta(
         @SerializedName("total_count")
