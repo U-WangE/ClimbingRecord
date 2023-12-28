@@ -30,8 +30,10 @@ import com.ihavesookchi.climbingrecord.CommonUtil.twoButtonPopupWindow
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.ActivitySplashBinding
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupYesNoBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.system.exitProcess
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
     private var _binding: ActivitySplashBinding? = null
     private val binding get() = _binding!!

@@ -2,7 +2,7 @@ package com.ihavesookchi.climbingrecord.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class SearchKeyWordResponse(
+data class SearchKeywordResponse(
     @SerializedName("meta")
     val meta: Meta,
     @SerializedName("document")

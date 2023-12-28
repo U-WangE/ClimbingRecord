@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.GoogleMap
 import com.ihavesookchi.climbingrecord.databinding.FragmentRecordListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecordListFragment : Fragment() {
     private var _binding: FragmentRecordListBinding? = null
     private val binding get() = _binding!!
