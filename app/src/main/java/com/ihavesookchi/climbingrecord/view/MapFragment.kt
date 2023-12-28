@@ -5,14 +5,11 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -25,18 +22,21 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.ihavesookchi.climbingrecord.R
+import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.databinding.FragmentMapBinding
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MapFragment : Fragment(), OnMapReadyCallback {
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
-    private val sharedViewModel: BaseViewModel by activityViewModels {
-        object: ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T = BaseViewModel() as T
-        }
-    }
+    private val sharedViewModel: BaseViewModel by activityViewModels()
+
+    @Inject
+    lateinit var kakaoApi: KakaoApi
 
     private val CLASS_NAME = this::class.java.simpleName
 
@@ -58,6 +58,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
+
+        sharedViewModel.searchKeywordApi()
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.fg_map) as SupportMapFragment
         mapFragment.getMapAsync(this)

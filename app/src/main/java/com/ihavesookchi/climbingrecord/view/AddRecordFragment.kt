@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ihavesookchi.climbingrecord.databinding.FragmentAddRecordBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddRecordFragment : Fragment() {
     private var _binding: FragmentAddRecordBinding? = null
     private val binding get() = _binding!!

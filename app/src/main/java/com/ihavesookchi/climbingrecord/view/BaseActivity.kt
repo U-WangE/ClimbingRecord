@@ -8,7 +8,9 @@ import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.ActivityBaseBinding
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 open class BaseActivity : AppCompatActivity() {
     private var _binding: ActivityBaseBinding? = null
     private val binding get() = _binding!!
