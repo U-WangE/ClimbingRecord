@@ -1,13 +1,18 @@
 package com.ihavesookchi.climbingrecord.di
 
+import android.content.Context
+import androidx.room.Room
 import com.ihavesookchi.climbingrecord.data.Const
 import com.ihavesookchi.climbingrecord.data.Const.KAKAO_URL
 import com.ihavesookchi.climbingrecord.data.KakaoApi
+import com.ihavesookchi.climbingrecord.data.dao.ClimbingCenterDao
+import com.ihavesookchi.climbingrecord.data.db.AppDatabase
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.SearchRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -19,6 +24,22 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "app_database"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideClimbingCenterDao(database: AppDatabase): ClimbingCenterDao {
+        return database.climbingCenterDao()
+    }
 
     @Provides
     @Singleton
@@ -46,5 +67,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSearchRepository(kakaoRetrofit: KakaoApi): SearchRepository = SearchRepositoryImpl(kakaoRetrofit)
+    fun provideSearchRepository(kakaoRetrofit: KakaoApi, climbingCenterDao: ClimbingCenterDao): SearchRepository = SearchRepositoryImpl(kakaoRetrofit, climbingCenterDao)
 }

@@ -23,7 +23,6 @@ class BaseViewModel @Inject constructor(
 
                         is SearchKeywordUiState.SearchKeywordFailure -> {
                         }
-
                         else -> {}
                     }
                 }
