@@ -19,6 +19,7 @@ class BaseViewModel @Inject constructor(
                 .collect { uiState ->
                     when (uiState) {
                         is SearchKeywordUiState.SearchKeywordSuccess -> {
+
                         }
 
                         is SearchKeywordUiState.SearchKeywordFailure -> {

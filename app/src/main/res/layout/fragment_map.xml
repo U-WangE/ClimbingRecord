@@ -12,31 +12,50 @@
         android:layout_height="match_parent"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_search_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_round_radius_100_pressed"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp"
-        android:layout_marginTop="20dp"
+        android:paddingTop="20dp"
         app:layout_constraintWidth_percent="0.9"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
 
-        <EditText
-            android:id="@+id/et_searchBar"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_searchBar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:hint="@string/hint_search_keyword"
-            android:paddingBottom="3dp"
-            android:inputType="text"
-            android:imeOptions="actionSearch"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_radius_100_pressed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/sb_searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                style="@style/style_kcc_chassam_medium_large"
+                app:queryHint="@string/hint_search_keyword"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                app:iconifiedByDefault="false"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/cl_search_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.databinding.FragmentMapBinding
@@ -123,11 +126,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }, delayMillis)
     }
 
+    // Keyboard Search 클릭 시 이벤트 처리
     private fun searchEditorAction() {
-        binding.etSearchBar.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH)
-                sharedViewModel.searchKeywordApi(binding.etSearchBar.text.toString())
-            true
-        }
+        binding.sbSearchBar.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Get Search Event    Search Keyword  :  ${binding.sbSearchBar.query}")
+
+                sharedViewModel.searchKeywordApi(binding.sbSearchBar.query.toString())
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return true
+            }
+        })
     }
+
 }
