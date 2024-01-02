@@ -8,6 +8,7 @@ object Dummy {
             meta = SearchKeywordResponse.Meta(
                 totalCount = 6,
                 pageableCount = 6,
+                lastUpdateDate = 1704170624L,
                 sameName = SearchKeywordResponse.Meta.SameName(
                     keyword = "클라이밍"
                 )
