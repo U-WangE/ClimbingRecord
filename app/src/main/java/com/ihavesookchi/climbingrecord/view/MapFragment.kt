@@ -8,12 +8,9 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.SearchView.OnQueryTextListener
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -64,7 +61,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        searchEditorAction()
+        searchViewAction()
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.fg_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -127,7 +124,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     // Keyboard Search 클릭 시 이벤트 처리
-    private fun searchEditorAction() {
+    private fun searchViewAction() {
         binding.sbSearchBar.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Get Search Event    Search Keyword  :  ${binding.sbSearchBar.query}")
