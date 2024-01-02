@@ -10,8 +10,17 @@ data class SearchKeywordResponse(
 ) {
     data class Meta(
         @SerializedName("total_count")
-        val totalCount: Int
-    )
+        val totalCount: Int,
+        @SerializedName("pageable_count")
+        val pageableCount: Int,
+        @SerializedName("same_name")
+        val sameName: SameName
+    ) {
+        data class SameName(
+            @SerializedName("keyword")
+            val keyword: String
+        )
+    }
 
     data class Document(
         @SerializedName("id")
@@ -22,9 +31,9 @@ data class SearchKeywordResponse(
         val addressName: String,
         @SerializedName("road_address_name")
         val roadAddressName: String,
-        @SerializedName("x")
+        @SerializedName("x")  // longitude
         val x: String,
-        @SerializedName("y")
+        @SerializedName("y")  // latitude
         val y: String
     )
 }
