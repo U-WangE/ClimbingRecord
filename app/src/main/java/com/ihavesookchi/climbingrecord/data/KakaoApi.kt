@@ -9,6 +9,7 @@ import retrofit2.http.Query
 interface KakaoApi {
     @GET(SEARCH_KEYWORD)
     suspend fun searchKeywordApi(
-        @Query("query") keyword: String
+        @Query("query") keyword: String,
+        @Query("size") size: Int = 5
     ): Response<SearchKeywordResponse>
 }

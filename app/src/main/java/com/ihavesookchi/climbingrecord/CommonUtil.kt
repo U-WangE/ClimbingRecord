@@ -8,8 +8,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupYesNoBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object CommonUtil {
+    private val CLASS_NAME = this::class.java.simpleName
+
+    fun formatDateFromMillis(dateFormat: String, milliseconds: Long): String {
+        return try {
+            SimpleDateFormat(dateFormat, Locale.getDefault()).format(Date(milliseconds))
+        } catch (e: IllegalArgumentException) {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Invalid date format : $dateFormat,\n $e")
+            ""
+        } catch (e: Exception) {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Error formatting date : $dateFormat,\n $e")
+            ""
+        }
+    }
+
     fun twoButtonPopupWindow(
         context: Context,
         view: View,

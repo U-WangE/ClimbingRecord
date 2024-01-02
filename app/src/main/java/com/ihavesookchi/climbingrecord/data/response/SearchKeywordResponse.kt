@@ -1,7 +1,5 @@
 package com.ihavesookchi.climbingrecord.data.response
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class SearchKeywordResponse(
@@ -13,10 +11,6 @@ data class SearchKeywordResponse(
     data class Meta(
         @SerializedName("total_count")
         val totalCount: Int,
-        @SerializedName("pageable_count")
-        val pageableCount: Int,
-        @SerializedName("last_update_date")
-        val lastUpdateDate: Long,
         @SerializedName("same_name")
         val sameName: SameName
     ) {
@@ -26,9 +20,7 @@ data class SearchKeywordResponse(
         )
     }
 
-    @Entity(tableName = "climbing_centers")
     data class Document(
-        @PrimaryKey
         @SerializedName("id")
         val id: String,
         @SerializedName("place_name")
