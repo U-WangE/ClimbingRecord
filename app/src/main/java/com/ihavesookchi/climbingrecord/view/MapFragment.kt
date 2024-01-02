@@ -8,8 +8,10 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -59,7 +61,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        sharedViewModel.searchKeywordApi()
+        searchEditorAction()
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.fg_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -119,5 +121,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Handler(Looper.getMainLooper()).postDelayed({
             fusedLocationClient.removeLocationUpdates(locationCallback)
         }, delayMillis)
+    }
+
+    private fun searchEditorAction() {
+        binding.etSearchBar.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH)
+                sharedViewModel.searchKeywordApi(binding.etSearchBar.text.toString())
+            true
+        }
     }
 }

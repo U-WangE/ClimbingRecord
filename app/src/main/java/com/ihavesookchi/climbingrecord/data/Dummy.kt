@@ -6,9 +6,7 @@ object Dummy {
     fun getSearchKeyWordResponse(): SearchKeywordResponse {
         return SearchKeywordResponse(
             meta = SearchKeywordResponse.Meta(
-                totalCount = 6,
-                pageableCount = 6,
-                lastUpdateDate = 1704170624L,
+                totalCount = 5,
                 sameName = SearchKeywordResponse.Meta.SameName(
                     keyword = "클라이밍"
                 )
@@ -53,14 +51,6 @@ object Dummy {
                     roadAddressName = "서울 종로구 돈화문로5가길 1",
                     x = "126.991397046749",
                     y = "37.57091093329"
-                ),
-                SearchKeywordResponse.Document(
-                    id = "222397833",
-                    placeName = "크래커클라이밍",
-                    addressName = "서울 중랑구 상봉동 102",
-                    roadAddressName = "서울 중랑구 면목로92길 37-4",
-                    x = "127.087996840602",
-                    y = "37.5958828114614"
                 )
             )
         )

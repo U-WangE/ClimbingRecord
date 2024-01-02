@@ -13,9 +13,9 @@ class BaseViewModel @Inject constructor(
     private val searchRepository: SearchRepository
 ): ViewModel() {
 
-    fun searchKeywordApi() {
+    fun searchKeywordApi(keyword: String) {
         viewModelScope.launch {
-            searchRepository.searchKeywordApi("클라이밍")
+            searchRepository.searchKeywordApi(keyword)
                 .collect { uiState ->
                     when (uiState) {
                         is SearchKeywordUiState.SearchKeywordSuccess -> {

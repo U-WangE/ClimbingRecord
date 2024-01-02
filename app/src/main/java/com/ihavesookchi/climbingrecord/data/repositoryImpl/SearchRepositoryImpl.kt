@@ -2,7 +2,6 @@ package com.ihavesookchi.climbingrecord.data.repositoryImpl
 
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.KakaoApi
-import com.ihavesookchi.climbingrecord.data.dao.ClimbingCenterDao
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
 import com.ihavesookchi.climbingrecord.data.uistate.SearchKeywordUiState
@@ -14,10 +13,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
-    private val kakaoRetrofit: KakaoApi,
-    private val climbingCenterDao: ClimbingCenterDao
+    private val kakaoRetrofit: KakaoApi
 ): SearchRepository {
-
+    private var searchKeywordResponse: SearchKeywordResponse? = null
     private val CLASS_NAME = this::class.java.simpleName
 
     override fun searchKeywordApi(keyword: String): Flow<SearchKeywordUiState> {
@@ -29,29 +27,35 @@ class SearchRepositoryImpl @Inject constructor(
 
                 when (response.code()) {
                     200 -> {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "kakao search Keyword api success -> response : $response")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "kakao search Keyword api Success    response  :  $response")
 
                         withContext(Dispatchers.IO) {
-                            checkInsertData(response.body()!!)
+                            searchKeywordResponse = response.body()
+
+                            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "kakao search Keyword response Saved    searchKeywordResponse  :  $searchKeywordResponse")
                         }
+
                         emit(SearchKeywordUiState.SearchKeywordSuccess)
                     }
                     else -> {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "kakao search Keyword api else -> response : $response")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "kakao search Keyword api Else    response : $response")
+
+                        searchKeywordResponse = null
 
                         emit(SearchKeywordUiState.SearchKeywordFailure)
                     }
                 }
             } catch (e: Exception) {
-                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "kakao search Keyword api exception -> error : $e")
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "kakao search Keyword api exception    error : $e")
+
+                searchKeywordResponse = null
 
                 emit(SearchKeywordUiState.SearchKeywordFailure)
             }
         }.flowOn(Dispatchers.IO)
     }
 
-    private suspend fun checkInsertData(response: SearchKeywordResponse) {
-        val documents = response.document
-        climbingCenterDao.insertAllClimbingCenter(documents)
+    override fun getClimbingCenters(): List<SearchKeywordResponse.Document> {
+        return searchKeywordResponse?.document ?: emptyList()
     }
 }
