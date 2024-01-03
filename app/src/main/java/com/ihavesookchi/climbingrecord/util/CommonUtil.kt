@@ -1,12 +1,12 @@
-package com.ihavesookchi.climbingrecord
+package com.ihavesookchi.climbingrecord.util
 
 import android.content.Context
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupYesNoBinding
 import java.text.SimpleDateFormat
 import java.util.Date
