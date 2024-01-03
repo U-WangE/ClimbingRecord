@@ -18,4 +18,5 @@
     </string>
     <string name="permission_notice_comment">Go to the Settings screen for permission.</string>
     <string name="hint_search_keyword">Search place or address</string>
+    <string name="notice_no_search_result_for_keyword">No search results for \\\"%s\\\".</string>
 </resources>

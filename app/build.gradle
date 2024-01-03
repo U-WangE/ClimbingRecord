@@ -18,6 +18,7 @@ android {
     compileSdk 34
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.ihavesookchi.climbingrecord"
         minSdk 28
         targetSdk 33
