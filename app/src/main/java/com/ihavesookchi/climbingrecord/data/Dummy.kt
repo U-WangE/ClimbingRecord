@@ -11,7 +11,7 @@ object Dummy {
                     keyword = "클라이밍"
                 )
             ),
-            document = listOf(
+            documents = listOf(
                 SearchKeywordResponse.Document(
                     id = "807578478",
                     placeName = "더클라임 강남점",

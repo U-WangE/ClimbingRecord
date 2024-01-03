@@ -23,6 +23,6 @@ class SearchRepositoryImpl @Inject constructor(
     }
 
     override fun getClimbingCenters(): List<SearchKeywordResponse.Document> {
-        return searchKeywordResponse?.document ?: emptyList()
+        return searchKeywordResponse?.documents ?: emptyList()
     }
 }

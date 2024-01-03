@@ -5,13 +5,13 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -29,6 +29,7 @@ import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.uistate.SearchKeywordUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentMapBinding
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
+import com.ihavesookchi.climbingrecord.viewModel.MapViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -38,6 +39,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val binding get() = _binding!!
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
+    private val viewModel: MapViewModel by viewModels()
 
     @Inject
     lateinit var kakaoApi: KakaoApi
@@ -133,7 +135,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Get Search Event    Search Keyword  :  ${binding.sbSearchBar.query}")
 
-                sharedViewModel.searchKeywordApi(binding.sbSearchBar.query.toString())
+                viewModel.searchKeywordApi(binding.sbSearchBar.query.toString())
                 return true
             }
 
@@ -144,15 +146,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun observingSearchKeywordUiState() {
-        sharedViewModel.searchKeywordUiState.observe(viewLifecycleOwner) {
+        viewModel.searchKeywordUiState.observe(viewLifecycleOwner) {
             when (it) {
                 is SearchKeywordUiState.SearchKeywordSuccess -> {
-                    Log.d("여기", "여기")
-
                 }
 
                 is SearchKeywordUiState.SearchKeywordFailure -> {
-                    Log.d("여기", "여기3")
+
                 }
             }
         }
