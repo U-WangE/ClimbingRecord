@@ -6,17 +6,18 @@ import androidx.annotation.Keep
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 
 class ClimbingRecordLogger(context: Context) {
     private val mContext : Context
@@ -69,6 +70,8 @@ class ClimbingRecordLogger(context: Context) {
 
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val nowTime: String = sdf.format(date)
+
+        Log.i(title, msg)
 
         fileOutputStream.write("$nowTime   ||   Title  [  $title  ]   ||   Message  [  $msg  ]\n".toByteArray())
         fileOutputStream.close()

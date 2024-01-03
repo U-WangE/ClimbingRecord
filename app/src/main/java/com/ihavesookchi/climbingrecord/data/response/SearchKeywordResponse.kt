@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class SearchKeywordResponse(
     @SerializedName("meta")
     val meta: Meta,
-    @SerializedName("document")
-    val document: List<Document>
+    @SerializedName("documents")
+    val documents: List<Document>
 ) {
     data class Meta(
         @SerializedName("total_count")
