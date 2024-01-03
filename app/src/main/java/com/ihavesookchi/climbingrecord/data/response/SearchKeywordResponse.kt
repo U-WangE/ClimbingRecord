@@ -30,8 +30,8 @@ data class SearchKeywordResponse(
         @SerializedName("road_address_name")
         val roadAddressName: String,
         @SerializedName("x")  // longitude
-        val x: String,
+        val longitude: String,
         @SerializedName("y")  // latitude
-        val y: String
+        val latitude: String
     )
 }
