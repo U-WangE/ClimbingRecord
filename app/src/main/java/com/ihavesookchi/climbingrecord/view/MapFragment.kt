@@ -5,6 +5,7 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.data.KakaoApi
+import com.ihavesookchi.climbingrecord.data.uistate.SearchKeywordUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentMapBinding
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,6 +64,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
         searchViewAction()
+
+        observingSearchKeywordUiState()
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.fg_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -137,6 +141,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 return true
             }
         })
+    }
+
+    private fun observingSearchKeywordUiState() {
+        sharedViewModel.searchKeywordUiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is SearchKeywordUiState.SearchKeywordSuccess -> {
+                    Log.d("여기", "여기")
+
+                }
+
+                is SearchKeywordUiState.SearchKeywordFailure -> {
+                    Log.d("여기", "여기3")
+                }
+            }
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.ihavesookchi.climbingrecord.data.repositoryImpl
 
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
@@ -18,6 +19,7 @@ class SearchRepositoryImpl @Inject constructor(
 
     override fun setSearchKeywordResponse(searchKeywordResponse: SearchKeywordResponse?) {
         this.searchKeywordResponse = searchKeywordResponse
+        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Set SearchKeywordResponse Done    searchKeywordResponse  :  ${this.searchKeywordResponse}")
     }
 
     override fun getClimbingCenters(): List<SearchKeywordResponse.Document> {
