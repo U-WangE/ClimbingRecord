@@ -22,7 +22,11 @@ class SearchRepositoryImpl @Inject constructor(
         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Set SearchKeywordResponse Done    searchKeywordResponse  :  ${this.searchKeywordResponse}")
     }
 
-    override fun getClimbingCenters(): List<SearchKeywordResponse.Document> {
+    override fun getSearchData(): List<SearchKeywordResponse.Document> {
         return searchKeywordResponse?.documents ?: emptyList()
+    }
+
+    override fun removeSearchData() {
+        searchKeywordResponse = null
     }
 }
