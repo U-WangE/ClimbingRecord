@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="20dp"
+    android:paddingVertical="15dp"
     android:paddingHorizontal="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -11,7 +11,7 @@
         android:id="@+id/tv_notice_no_search_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/style_kcc_chassam_medium_large"
+        style="@style/style_kcc_chassam_medium"
         android:text="@string/notice_no_search_result_for_keyword"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

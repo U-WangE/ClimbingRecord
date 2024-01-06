@@ -10,6 +10,7 @@ import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
 import com.ihavesookchi.climbingrecord.databinding.ItemSearchListBinding
 import com.ihavesookchi.climbingrecord.databinding.ItemSearchListEmptyBinding
+import kotlin.math.min
 
 class SearchListAdapter(
     private val keyword: String,
@@ -35,16 +36,7 @@ class SearchListAdapter(
         )
     }
 
-    override fun getItemCount(): Int {
-        return if (climbingCenters.isNotEmpty()) {
-            if (climbingCenters.size > 5)
-                5
-            else
-                climbingCenters.size
-        }
-        else
-            1
-    }
+    override fun getItemCount() = if (climbingCenters.isNotEmpty()) min(climbingCenters.size, 5) else 1
 
     override fun onBindViewHolder(holder: SearchListAdapter.ViewHolder, position: Int) {
         try {

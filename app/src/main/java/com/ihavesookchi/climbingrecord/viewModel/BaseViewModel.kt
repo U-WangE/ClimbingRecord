@@ -12,7 +12,11 @@ class BaseViewModel @Inject constructor(
 ): ViewModel() {
     private val CLASS_NAME = this::class.java.simpleName
 
-    fun getClimbingCenters(): List<SearchKeywordResponse.Document> {
-        return searchRepository.getClimbingCenters()
+    fun getSearchData(): List<SearchKeywordResponse.Document> {
+        return searchRepository.getSearchData()
+    }
+
+    fun removeSearchData() {
+        searchRepository.removeSearchData()
     }
 }

@@ -1,21 +1,20 @@
 package com.ihavesookchi.climbingrecord.view
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color.RED
-import android.graphics.ColorFilter
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -29,7 +28,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -148,26 +146,47 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Get Search Event    Search Keyword  :  ${binding.sbSearchBar.query}")
 
+                binding.rvSearchList.visibility = VISIBLE
+                binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.light_gray))
+                binding.clSearchLayout.invalidate()
                 viewModel.searchKeywordApi(binding.sbSearchBar.query.toString())
                 return true
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
                 binding.rvSearchList.visibility = VISIBLE
+                binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.light_gray))
+                binding.clSearchLayout.invalidate()
 
                 //TODO::전체 데이터 저장 후 비교 필요
-                setSearchListAdapter(query?:"", sharedViewModel.getClimbingCenters())
+                Log.d("여기", "여기")
+                setSearchListAdapter(query?:"", sharedViewModel.getSearchData())
 
                 return true
             }
         })
+
+
+        binding.sbSearchBar.findViewById<View>(androidx.appcompat.R.id.search_close_btn).setOnClickListener {
+            binding.sbSearchBar.setQuery("", false)
+
+            sharedViewModel.removeSearchData()
+        }
+        
+        binding.sbSearchBar.setOnQueryTextFocusChangeListener { searchView, hasFocus ->
+            if (!hasFocus) {
+                binding.rvSearchList.visibility = GONE
+                binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+                binding.clSearchLayout.invalidate()
+            }
+        }
     }
 
     private fun observingSearchKeywordUiState() {
         viewModel.searchKeywordUiState.observe(viewLifecycleOwner) {
             when (it) {
                 is SearchKeywordUiState.SearchKeywordSuccess -> {
-                    setSearchListAdapter(binding.sbSearchBar.query.toString(), sharedViewModel.getClimbingCenters())
+                    setSearchListAdapter(binding.sbSearchBar.query.toString(), sharedViewModel.getSearchData())
                 }
 
                 is SearchKeywordUiState.SearchKeywordFailure -> {
@@ -178,9 +197,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setSearchListAdapter(keyword: String, climbingCenters: List<SearchKeywordResponse.Document>) {
+
         binding.rvSearchList.adapter = SearchListAdapter(keyword, climbingCenters) { center ->
             binding.sbSearchBar.setQuery(center.placeName, false)
-            binding.rvSearchList.visibility = GONE
+
+            binding.sbSearchBar.clearFocus()
 
             val latLng = LatLng(center.latitude.toDouble(),center.longitude.toDouble())
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f))
@@ -192,6 +213,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
             )
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+
+            viewModel.searchKeywordApi(center.placeName)
         }
     }
 }
