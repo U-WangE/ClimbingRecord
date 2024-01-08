@@ -146,22 +146,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Get Search Event    Search Keyword  :  ${binding.sbSearchBar.query}")
 
-                binding.rvSearchList.visibility = VISIBLE
-                binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.light_gray))
-                binding.clSearchLayout.invalidate()
+                binding.rvSearchList.adapter?.notifyItemRangeRemoved(0, sharedViewModel.getSearchData().size)
+
                 viewModel.searchKeywordApi(binding.sbSearchBar.query.toString())
+
                 return true
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                binding.rvSearchList.visibility = VISIBLE
-                binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.light_gray))
-                binding.clSearchLayout.invalidate()
-
-                //TODO::전체 데이터 저장 후 비교 필요
-                Log.d("여기", "여기")
-                setSearchListAdapter(query?:"", sharedViewModel.getSearchData())
-
                 return true
             }
         })
@@ -197,6 +189,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setSearchListAdapter(keyword: String, climbingCenters: List<SearchKeywordResponse.Document>) {
+        binding.rvSearchList.visibility = VISIBLE
+        binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.light_gray))
+        binding.clSearchLayout.invalidate()
 
         binding.rvSearchList.adapter = SearchListAdapter(keyword, climbingCenters) { center ->
             binding.sbSearchBar.setQuery(center.placeName, false)
@@ -214,7 +209,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             )
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
 
-            viewModel.searchKeywordApi(center.placeName)
+            binding.rvSearchList.adapter = SearchListAdapter(center.placeName, listOf(center)) {}
         }
     }
 }
