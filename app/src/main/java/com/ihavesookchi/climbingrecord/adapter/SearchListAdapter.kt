@@ -61,6 +61,7 @@ class SearchListAdapter(
 
                     clClimbingCenterLayout.setOnClickListener {
                         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, " Climbing Center Item Select Event    center  :  $center")
+
                         onItemSelected(center)
                     }
                 }
