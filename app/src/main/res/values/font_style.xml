@@ -103,4 +103,28 @@
         <item name="android:textFontWeight">700</item>
     </style>
 
+    <!-- XX Large -->
+    <style name="style_kcc_chassam_medium_xx_large">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold_xx_large">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+    <!-- XXX Large -->
+    <style name="style_kcc_chassam_medium_xxx_large">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+    <style name="style_kcc_chassam_bold_xxx_large">
+        <item name="android:fontFamily">@font/kcc_chassam</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:textFontWeight">700</item>
+    </style>
+
 </resources>

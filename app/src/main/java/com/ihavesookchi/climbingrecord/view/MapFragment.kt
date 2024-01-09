@@ -146,7 +146,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Get Search Event    Search Keyword  :  ${binding.sbSearchBar.query}")
 
-                binding.rvSearchList.adapter?.notifyItemRangeRemoved(0, sharedViewModel.getSearchData().size)
+                binding.rvSearchList.adapter?.notifyItemRangeRemoved(0, viewModel.getSearchData().size)
 
                 viewModel.searchKeywordApi(binding.sbSearchBar.query.toString())
 
@@ -160,13 +160,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
 
         binding.sbSearchBar.findViewById<View>(androidx.appcompat.R.id.search_close_btn).setOnClickListener {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Listen Search close button event")
+
             binding.sbSearchBar.setQuery("", false)
 
-            sharedViewModel.removeSearchData()
+            viewModel.removeSearchData()
         }
         
         binding.sbSearchBar.setOnQueryTextFocusChangeListener { searchView, hasFocus ->
             if (!hasFocus) {
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Focus removed from Search Bar")
+
                 binding.rvSearchList.visibility = GONE
                 binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
                 binding.clSearchLayout.invalidate()
@@ -178,7 +182,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         viewModel.searchKeywordUiState.observe(viewLifecycleOwner) {
             when (it) {
                 is SearchKeywordUiState.SearchKeywordSuccess -> {
-                    setSearchListAdapter(binding.sbSearchBar.query.toString(), sharedViewModel.getSearchData())
+                    setSearchListAdapter(binding.sbSearchBar.query.toString(), viewModel.getSearchData())
                 }
 
                 is SearchKeywordUiState.SearchKeywordFailure -> {
@@ -207,9 +211,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     .title(center.placeName)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
             )
+
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
 
             binding.rvSearchList.adapter = SearchListAdapter(center.placeName, listOf(center)) {}
         }
     }
+
+    // 추후 Map 에서 암장 기록 추가 시 사용할 함수
+    //TODO:: viewModel.setSelectedClimbingCenter(center)
 }

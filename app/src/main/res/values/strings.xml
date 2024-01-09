@@ -9,6 +9,8 @@
     <string name="menu_profile" translatable="false">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
 
+    <string name="zero" translatable="false">0</string>
+
     <string name="yes">예</string>
     <string name="no">아니요</string>
     <string name="ok">확인</string>
@@ -16,6 +18,13 @@
     <string name="close">닫기</string>
     <string name="setting">설정</string>
     <string name="permission_re_request">권한재요청</string>
+
+    <string name="d_of_d_day" translatable="false">D-</string>
+
+    <string name="x_count" translatable="false">X %d</string>
+    <string name="number_out_of_number" translatable="false">%1$d / %2$d</string>
+
+    <string name="commas" translatable="false">,</string>
 
     <string name="permission_notice_title">필수 권한 허용 안내</string>
     <string name="permission_notice_contents">
@@ -27,4 +36,12 @@
 
     <string name="hint_search_keyword">장소, 주소 검색</string>
     <string name="notice_no_search_result_for_keyword">\"%s\" 에 대한 검색 결과가 없습니다.</string>
+
+    <!-- date -->
+    <string name="y_m_d_tilde_y_m_d_slash">%1$tF(yyyy/MM/dd) ~ %2$tF(yyyy/MM/dd)</string>
+
+    <!-- default -->
+    <string name="default_hyphen" translatable="false">-</string>
+    <string name="default_hyphen_out_of_hyphen" translatable="false">- / -</string>
+
 </resources>

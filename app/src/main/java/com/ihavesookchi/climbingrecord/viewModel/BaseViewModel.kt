@@ -2,6 +2,7 @@ package com.ihavesookchi.climbingrecord.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
+import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,11 +13,11 @@ class BaseViewModel @Inject constructor(
 ): ViewModel() {
     private val CLASS_NAME = this::class.java.simpleName
 
-    fun getSearchData(): List<SearchKeywordResponse.Document> {
-        return searchRepository.getSearchData()
+    fun getSelectedClimbingCenter() {
+        searchRepository.getSelectedClimbingCenter()
     }
 
-    fun removeSearchData() {
-        searchRepository.removeSearchData()
+    fun getGoalsAchievementData(): GoalsDataResponse.GoalsAchievementStatus {
+        return TODO("Provide the return value")
     }
 }

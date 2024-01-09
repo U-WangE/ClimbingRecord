@@ -8,4 +8,6 @@ interface SearchRepository {
     fun setSearchKeywordResponse(searchKeywordResponse: SearchKeywordResponse?)
     fun getSearchData(): List<SearchKeywordResponse.Document>
     fun removeSearchData()
+    fun setSelectedClimbingCenter(selectedClimbingCenter: SearchKeywordResponse.Document)
+    fun getSelectedClimbingCenter(): SearchKeywordResponse.Document?
 }

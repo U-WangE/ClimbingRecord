@@ -11,6 +11,9 @@ class SearchRepositoryImpl @Inject constructor(
     private val kakaoRetrofit: KakaoApi
 ): SearchRepository {
     private var searchKeywordResponse: SearchKeywordResponse? = null
+
+    private var selectedClimbingCenter: SearchKeywordResponse.Document? = null
+
     private val CLASS_NAME = this::class.java.simpleName
 
     override suspend fun searchKeywordApi(keyword: String): Response<SearchKeywordResponse> {
@@ -28,5 +31,13 @@ class SearchRepositoryImpl @Inject constructor(
 
     override fun removeSearchData() {
         searchKeywordResponse = null
+    }
+
+    override fun setSelectedClimbingCenter(selectedClimbingCenter: SearchKeywordResponse.Document) {
+        this.selectedClimbingCenter = selectedClimbingCenter
+    }
+
+    override fun getSelectedClimbingCenter(): SearchKeywordResponse.Document? {
+        return this.selectedClimbingCenter
     }
 }

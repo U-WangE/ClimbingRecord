@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
+import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
 import com.ihavesookchi.climbingrecord.data.uistate.SearchKeywordUiState
 import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,4 +45,15 @@ class MapViewModel @Inject constructor(
         }
     }
 
+    fun getSearchData(): List<SearchKeywordResponse.Document> {
+        return searchRepository.getSearchData()
+    }
+
+    fun removeSearchData() {
+        searchRepository.removeSearchData()
+    }
+
+    fun setSelectedClimbingCenter(selectedClimbingCenter: SearchKeywordResponse.Document) {
+        searchRepository.setSelectedClimbingCenter(selectedClimbingCenter)
+    }
 }

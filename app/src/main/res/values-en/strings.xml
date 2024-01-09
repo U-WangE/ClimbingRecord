@@ -19,4 +19,8 @@
     <string name="permission_notice_comment">Go to the Settings screen for permission.</string>
     <string name="hint_search_keyword">Search place or address</string>
     <string name="notice_no_search_result_for_keyword">No search results for \\\"%s\\\".</string>
+
+    <!-- date -->
+    <string name="y_m_d_tilde_y_m_d_slash">%1$tF(MM/dd/yyyy) ~ %2$tF(MM/dd/yyyy)</string>
+
 </resources>
