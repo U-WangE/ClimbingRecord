@@ -36,10 +36,10 @@ android {
 
     signingConfigs {
         release {
+            storeFile project.rootProject.file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
         }
     }
 
@@ -81,32 +81,35 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // Okhttp
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.5'
+    // viewModels
+    implementation 'androidx.fragment:fragment-ktx:1.6.2'
 
-    // Google Map
-    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    // coroutine
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
 
-    // Retrofit
+    // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
+    // okhttp
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.5'
+
     // gson
     implementation 'com.google.code.gson:gson:2.10.1'
-
-    // viewmodels
-    implementation 'androidx.fragment:fragment-ktx:1.6.2'
 
     // hilt
     implementation 'com.google.dagger:hilt-android:2.44'
     kapt 'com.google.dagger:hilt-android-compiler:2.44'
 
-    // coroutine
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    // google Map
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
+    // google Login
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
 
     // firebase
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-auth-ktx'
 }

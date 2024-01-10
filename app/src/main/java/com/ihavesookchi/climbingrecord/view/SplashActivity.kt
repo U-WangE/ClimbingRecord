@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.firebase.auth.FirebaseAuth
 import com.ihavesookchi.climbingrecord.util.CommonUtil.twoButtonPopupWindow
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.ActivitySplashBinding
@@ -49,11 +50,10 @@ class SplashActivity : AppCompatActivity() {
         val isPermissionGranted = permissions.all {
             ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
         }
-        if (!isPermissionGranted) {
+
+        if (!isPermissionGranted)
             ActivityCompat.requestPermissions(this, permissions, requestCode)
-        } else {
-            startActivity(Intent(this, BaseActivity::class.java))
-        }
+
         return isPermissionGranted
     }
 
@@ -67,7 +67,7 @@ class SplashActivity : AppCompatActivity() {
         if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
             when (requestCode) {
                 LOCATION_REQUEST_CODE -> {
-                    startActivity(Intent(this, BaseActivity::class.java))
+                    checkLoggedIn()
                 }
             }
         } else {
@@ -133,6 +133,17 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    private fun gpsLocationResult() {
+        gpsLocationResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    checkLoggedIn()
+                } else {
+                    locationPermission()
+                }
+            }
+    }
+
     @SuppressLint("NewApi")
     fun locationPermission() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -146,7 +157,7 @@ class SplashActivity : AppCompatActivity() {
                 )
                 if (isLocationPermissionGranted) {
                     Log.d("권한", "locationPermission() -> Granted Location Permission")
-                    startActivity(Intent(this, BaseActivity::class.java))
+                    checkLoggedIn()
                 }
             }
             false -> {
@@ -155,24 +166,13 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun gpsLocationResult() {
-        gpsLocationResultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    startActivity(Intent(this, BaseActivity::class.java))
-                } else {
-                    locationPermission()
-                }
-            }
-    }
-
     private fun settingResult() {
         settingResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     when (result.data?.extras?.getInt("requestCode")) {
                         LOCATION_REQUEST_CODE -> {
-                            startActivity(Intent(this, BaseActivity::class.java))
+                            checkLoggedIn()
                         }
                         else -> {
                             locationPermission()
@@ -181,7 +181,7 @@ class SplashActivity : AppCompatActivity() {
                 } else {
                     when (result.data?.extras?.getInt("requestCode")) {
                         LOCATION_REQUEST_CODE -> {
-                            startActivity(Intent(this, BaseActivity::class.java))
+                            checkLoggedIn()
                         }
                         else -> {
                             // setting에서 권한 수락 안 한 경우
@@ -190,5 +190,15 @@ class SplashActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    private fun checkLoggedIn() {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val currentUser = firebaseAuth.currentUser
+
+        if (currentUser != null)
+            startActivity(Intent(this, BaseActivity::class.java))
+        else
+            startActivity(Intent(this, LoginActivity::class.java))
     }
 }

@@ -12,7 +12,12 @@
           "package_name": "com.ihavesookchi.climbingrecord"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "513550835823-aat7e46a9vqrbosafl5bb3u19ucrg0qf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAjg-g5kDl5w2lBZ3XIhRmzzt6RaWU3T6s"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513550835823-aat7e46a9vqrbosafl5bb3u19ucrg0qf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

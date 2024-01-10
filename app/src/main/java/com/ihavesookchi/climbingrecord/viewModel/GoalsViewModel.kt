@@ -5,9 +5,10 @@ import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 @HiltViewModel
-class GoalsViewModel: ViewModel() {
+class GoalsViewModel @Inject constructor(): ViewModel() {
     private var _goalsDataUiState: SingleLiveEvent<GoalsDataUiState> = SingleLiveEvent()
     val goalsDataUiState: SingleLiveEvent<GoalsDataUiState> get() = _goalsDataUiState
 
