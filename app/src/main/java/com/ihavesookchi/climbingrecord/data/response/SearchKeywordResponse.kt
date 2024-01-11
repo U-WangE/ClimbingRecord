@@ -9,9 +9,9 @@ data class SearchKeywordResponse(
     val documents: List<Document>
 ) {
     data class Meta(
-        @SerializedName("total_count")
+        @SerializedName("totalCount")
         val totalCount: Int,
-        @SerializedName("same_name")
+        @SerializedName("sameName")
         val sameName: SameName
     ) {
         data class SameName(
@@ -23,11 +23,11 @@ data class SearchKeywordResponse(
     data class Document(
         @SerializedName("id")
         val id: String,
-        @SerializedName("place_name")
+        @SerializedName("placeName")
         val placeName: String,
-        @SerializedName("address_name")
+        @SerializedName("addressName")
         val addressName: String,
-        @SerializedName("road_address_name")
+        @SerializedName("roadAddressName")
         val roadAddressName: String,
         @SerializedName("x")  // longitude
         val longitude: String,

@@ -3,13 +3,13 @@ package com.ihavesookchi.climbingrecord.data.response
 import com.google.gson.annotations.SerializedName
 
 data class GoalsDataResponse(
-    @SerializedName("goals_achievement_status")
+    @SerializedName("goalsAchievementStatus")
     val goalsAchievementStatus: GoalsAchievementStatus
 ) {
     data class GoalsAchievementStatus(
-        @SerializedName("start_date")
+        @SerializedName("startDate")
         val startDate: Long,
-        @SerializedName("end_date")
+        @SerializedName("endDate")
         val endDate: Long,
         @SerializedName("goalsDetail")
         val goalsDetail: List<GoalDetail>
@@ -17,9 +17,9 @@ data class GoalsDataResponse(
         data class GoalDetail(
             @SerializedName("goal")
             val goal: Int,
-            @SerializedName("goal_actual")
+            @SerializedName("goalActual")
             val goalActual: Int,
-            @SerializedName("goal_rgb")
+            @SerializedName("goalColorRGB")
             val goalColorRGB: String,
         )
     }
