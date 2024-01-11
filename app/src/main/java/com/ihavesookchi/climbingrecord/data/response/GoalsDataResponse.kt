@@ -3,7 +3,7 @@ package com.ihavesookchi.climbingrecord.data.response
 import com.google.gson.annotations.SerializedName
 
 data class GoalsDataResponse(
-    @SerializedName("goalsAchievementStatus")
+    @SerializedName("goalsAchievement_status")
     val goalsAchievementStatus: GoalsAchievementStatus
 ) {
     data class GoalsAchievementStatus(
