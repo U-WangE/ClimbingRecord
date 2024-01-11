@@ -3,7 +3,9 @@ package com.ihavesookchi.climbingrecord.di
 import com.ihavesookchi.climbingrecord.data.Const
 import com.ihavesookchi.climbingrecord.data.Const.KAKAO_URL
 import com.ihavesookchi.climbingrecord.data.KakaoApi
+import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
+import com.ihavesookchi.climbingrecord.data.repositoryImpl.GoalsDataRepositoryImpl
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.SearchRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -47,4 +49,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideSearchRepository(kakaoRetrofit: KakaoApi): SearchRepository = SearchRepositoryImpl(kakaoRetrofit)
+
+    @Provides
+    @Singleton
+    fun provideGoalsDataRepository(kakaoRetrofit: KakaoApi): GoalsDataRepository = GoalsDataRepositoryImpl(kakaoRetrofit)
 }

@@ -38,7 +38,7 @@
     <string name="notice_no_search_result_for_keyword">\"%s\" 에 대한 검색 결과가 없습니다.</string>
 
     <!-- date -->
-    <string name="y_m_d_tilde_y_m_d_slash">%1$tF(yyyy/MM/dd) ~ %2$tF(yyyy/MM/dd)</string>
+    <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
 
     <!-- default -->
     <string name="default_hyphen" translatable="false">-</string>

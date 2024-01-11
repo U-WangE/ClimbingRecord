@@ -19,7 +19,6 @@ import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsBinding
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class GoalsFragment : Fragment() {
@@ -62,7 +61,7 @@ class GoalsFragment : Fragment() {
     }
 
     private fun setDDay() {
-        val dDay = TimeUnit.MILLISECONDS.toDays(viewModel.getEndDate() - viewModel.getStartDate())
+        val dDay = viewModel.getGoalsDDay()
 
         //TODO:: 추후 색 지정 필요
         binding.icGoalsStatus.tvDayOfDDay.setTextColor(
@@ -70,7 +69,7 @@ class GoalsFragment : Fragment() {
                 when {
                     dDay < 3L -> R.color.purple_700
                     dDay < 7L -> R.color.purple_200
-                    else -> R.color.black
+                    else -> R.color.white
                 }
             )
         )
@@ -83,14 +82,14 @@ class GoalsFragment : Fragment() {
         with(binding.icGoalsStatus) {
             val goalImageList = listOf(ivFirstGoalAchievementImage, ivSecondGoalAchievementImage)
             val goalStatusList = listOf(tvFirstGoalAchievementStatus, tvSecondGoalAchievementStatus)
-            val goalsDetails = viewModel.getGoalsDetails()
+            val getGoalDetails = viewModel.getGoalDetails()
 
-            if (goalsDetails.isNotEmpty())
-                for (i in goalsDetails.indices) {
-                    goalsDetails[i].run {
+            if (getGoalDetails.isNotEmpty())
+                for (i in getGoalDetails.indices) {
+                    getGoalDetails[i].run {
                         goalImageList[i].setColorFilter(Color.parseColor(goalColorRGB), PorterDuff.Mode.SRC_IN)
                         goalStatusList[i].text = getString(R.string.number_out_of_number, goalActual, goal)
-                        goalStatusList[i].setTextColor(getColor(requireContext(), if (goalActual == goal) R.color.purple_200 else R.color.black))
+                        goalStatusList[i].setTextColor(getColor(requireContext(), if (goalActual == goal) R.color.purple_200 else R.color.white))
                     }
                     setSecondGoalVisibility(i > 0)
                 }
@@ -116,7 +115,7 @@ class GoalsFragment : Fragment() {
 
 
     private fun setGoalsAAchievementPeriod() {
-        binding.icGoalsStatus.tvFirstGoalAchievementStatus.text =
+        binding.icGoalsStatus.tvGoalAchievementPeriod.text =
             getString(R.string.y_m_d_tilde_y_m_d_slash, viewModel.getStartDate(), viewModel.getEndDate())
     }
 
