@@ -40,6 +40,12 @@
     <!-- date -->
     <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
 
+    <string name="this_date_type_record">이번 %s 기록</string>
+    <string name="exercise_time">운동 시간</string>
+    <string name="achievement_total_count">완등 개수</string>
+    <string name="exercise_count">운동 횟수</string>
+
+
     <!-- default -->
     <string name="default_hyphen" translatable="false">-</string>
     <string name="default_hyphen_out_of_hyphen" translatable="false">- / -</string>

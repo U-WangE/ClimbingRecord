@@ -23,4 +23,9 @@
     <!-- date -->
     <string name="y_m_d_tilde_y_m_d_slash">%1$tm/%1$td/%1$tY ~ %2$tm/%2$td/%2$tY</string>
 
+    <string name="this_date_type_record">This %s\'s record</string>
+    <string name="exercise_time">Exercise_time</string>
+    <string name="achievement_total_count">Achievement Total Count</string>
+    <string name="exercise_count">Exercise Count</string>
+
 </resources>
