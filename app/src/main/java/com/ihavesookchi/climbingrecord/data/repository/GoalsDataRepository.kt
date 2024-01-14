@@ -10,4 +10,5 @@ interface GoalsDataRepository {
     fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail>
     fun getStartDate(): Long
     fun getEndDate(): Long
+    fun getTrackingClimbingRecords(): List<GoalsDataResponse.TrackingClimbingRecord>
 }

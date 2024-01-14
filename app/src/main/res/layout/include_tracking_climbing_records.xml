@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_round_radius_8_stroke"
     android:padding="15dp">
 
     <TextView
-        android:id="@+id/tv_tracker_date_type"
+        android:id="@+id/tv_tracking_by_date_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/style_kcc_chassam_bold"
@@ -24,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintTop_toBottomOf="@id/tv_tracker_date_type"
+        app:layout_constraintTop_toBottomOf="@id/tv_tracking_by_date_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_divider_first"
@@ -65,7 +64,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_divider"
         app:layout_constraintWidth_percent="0.025"
-        app:layout_constraintTop_toBottomOf="@id/tv_tracker_date_type"
+        app:layout_constraintTop_toBottomOf="@id/tv_tracking_by_date_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/ll_exercise_count_layout"
         app:layout_constraintEnd_toStartOf="@id/ll_achievement_total_count_layout"
@@ -78,15 +77,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_divider_second"
         app:layout_constraintStart_toEndOf="@id/iv_divider_first"
-        app:layout_constraintTop_toBottomOf="@id/tv_tracker_date_type"
+        app:layout_constraintTop_toBottomOf="@id/tv_tracking_by_date_type"
         app:layout_constraintWidth_percent="0.3">
 
         <TextView
             android:id="@+id/tv_achievement_total_count_title"
-            style="@style/style_kcc_chassam_bold_x_small"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center"
+            style="@style/style_kcc_chassam_bold_x_small"
             android:text="@string/achievement_total_count"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@id/tv_achievement_total_count"
@@ -114,7 +113,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_divider"
         app:layout_constraintWidth_percent="0.025"
-        app:layout_constraintTop_toBottomOf="@id/tv_tracker_date_type"
+        app:layout_constraintTop_toBottomOf="@id/tv_tracking_by_date_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/ll_achievement_total_count_layout"
         app:layout_constraintEnd_toStartOf="@id/ll_exercise_time_layout"
@@ -125,7 +124,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintTop_toBottomOf="@id/tv_tracker_date_type"
+        app:layout_constraintTop_toBottomOf="@id/tv_tracking_by_date_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_divider_second"
         app:layout_constraintEnd_toEndOf="parent"

@@ -33,14 +33,8 @@ class GoalsDataRepositoryImpl @Inject constructor(
         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Set GoalsDataResponse Done    goalsDataResponse  :  $goalsDataResponse")
     }
 
-    override fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail> {
-        return goalsDataResponse.goalsAchievementStatus.goalDetails
-    }
-
-    override fun getStartDate(): Long {
-        return goalsDataResponse.goalsAchievementStatus.startDate
-    }
-    override fun getEndDate(): Long {
-        return goalsDataResponse.goalsAchievementStatus.endDate
-    }
+    override fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail> = goalsDataResponse.goalsAchievementStatus.goalDetails
+    override fun getStartDate(): Long = goalsDataResponse.goalsAchievementStatus.startDate
+    override fun getEndDate(): Long = goalsDataResponse.goalsAchievementStatus.endDate
+    override fun getTrackingClimbingRecords(): List<GoalsDataResponse.TrackingClimbingRecord> = goalsDataResponse.trackingClimbingRecords
 }

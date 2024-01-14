@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.ihavesookchi.climbingrecord.R
+import com.ihavesookchi.climbingrecord.adapter.ClimbTrackerAdapter
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsBinding
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
@@ -46,6 +47,7 @@ class GoalsFragment : Fragment() {
             when(it) {
                 is GoalsDataUiState.GoalsDataSuccess -> {
                     setGoalsAchievement()
+                    setClimbTracker()
                 }
                 else -> {}
             }
@@ -53,7 +55,7 @@ class GoalsFragment : Fragment() {
     }
 
     private fun setGoalsAchievement() {
-        // goalsAchievement Ui에 해당 하는 기능
+        // 목표 및 달성율 Ui에 해당 하는 기능
         setDDay()
         setGoalsAchievementDetail()
         setGoalsAAchievementPeriod()
@@ -104,7 +106,6 @@ class GoalsFragment : Fragment() {
             tvFirstGoalAchievementStatus.text = getString(R.string.default_hyphen_out_of_hyphen)
         }
     }
-
     private fun setSecondGoalVisibility(isVisible : Boolean) {
         with(binding.icGoalsStatus) {
             listOf(tvCommas, ivSecondGoalAchievementImage, tvSecondGoalAchievementStatus).forEach {
@@ -125,5 +126,10 @@ class GoalsFragment : Fragment() {
         binding.icGoalsStatus.ivGoalsModify.setOnClickListener {
             startActivity(Intent(requireContext(), GoalsAchievementSettingActivity::class.java))
         }
+    }
+
+    private fun setClimbTracker() {
+        // 달, 년 별 Climbing 기록 Ui에 해당 하는 기능
+        binding.rvTrackingClimbingRecords.adapter = ClimbTrackerAdapter(viewModel.getTrackingClimbingRecords())
     }
 }
