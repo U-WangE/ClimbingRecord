@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.adapter.ClimbTrackerAdapter
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
@@ -130,6 +132,8 @@ class GoalsFragment : Fragment() {
 
     private fun setClimbTracker() {
         // 달, 년 별 Climbing 기록 Ui에 해당 하는 기능
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvTrackingClimbingRecords)
         binding.rvTrackingClimbingRecords.adapter = ClimbTrackerAdapter(viewModel.getTrackingClimbingRecords())
     }
 }
