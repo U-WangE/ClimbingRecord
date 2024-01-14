@@ -1,11 +1,15 @@
 package com.ihavesookchi.climbingrecord.util
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupYesNoBinding
 import java.text.SimpleDateFormat
@@ -27,7 +31,13 @@ object CommonUtil {
         }
     }
 
+    fun setSVGColorFilter(appCompatImageView: AppCompatImageView, goalColorRGB: String) {
+        appCompatImageView.setColorFilter(Color.parseColor(goalColorRGB), PorterDuff.Mode.SRC_IN)
+    }
 
+    fun setSVGColorFilter(appCompatImageView: AppCompatImageView, goalColorId: Int, context: Context) {
+        appCompatImageView.setColorFilter(ContextCompat.getColor(context, goalColorId), PorterDuff.Mode.SRC_IN)
+    }
 
     fun twoButtonPopupWindow(
         context: Context,

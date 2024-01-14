@@ -21,4 +21,6 @@
 
     <color name="nav_icon_state_checked_color">@color/black</color>
     <color name="nav_icon_state_unchecked_color">@color/dark_gray</color>
+
+    <color name="svgFilterColorWhiteBlack">@color/black</color>
 </resources>

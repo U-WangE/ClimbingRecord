@@ -9,16 +9,17 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.adapter.ClimbTrackerAdapter
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsBinding
+import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,6 +63,7 @@ class GoalsFragment : Fragment() {
         setGoalsAchievementDetail()
         setGoalsAAchievementPeriod()
         intentGoalsAchievementSetting()
+        setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
     }
 
     private fun setDDay() {
@@ -91,7 +93,7 @@ class GoalsFragment : Fragment() {
             if (getGoalDetails.isNotEmpty())
                 for (i in getGoalDetails.indices) {
                     getGoalDetails[i].run {
-                        goalImageList[i].setColorFilter(Color.parseColor(goalColorRGB), PorterDuff.Mode.SRC_IN)
+                        setSVGColorFilter(goalImageList[i], goalColorRGB)
                         goalStatusList[i].text = getString(R.string.number_out_of_number, goalActual, goal)
                         goalStatusList[i].setTextColor(getColor(requireContext(), if (goalActual == goal) R.color.purple_200 else R.color.white))
                     }
@@ -116,7 +118,6 @@ class GoalsFragment : Fragment() {
         }
     }
 
-
     private fun setGoalsAAchievementPeriod() {
         binding.icGoalsStatus.tvGoalAchievementPeriod.text =
             getString(R.string.y_m_d_tilde_y_m_d_slash, viewModel.getStartDate(), viewModel.getEndDate())
@@ -134,6 +135,8 @@ class GoalsFragment : Fragment() {
         // 달, 년 별 Climbing 기록 Ui에 해당 하는 기능
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvTrackingClimbingRecords)
-        binding.rvTrackingClimbingRecords.adapter = ClimbTrackerAdapter(viewModel.getTrackingClimbingRecords())
+        binding.rvTrackingClimbingRecords.adapter = ClimbTrackerAdapter(viewModel.getTrackingClimbingRecords()) {
+            binding.rvTrackingClimbingRecords.smoothScrollToPosition(it)
+        }
     }
 }
