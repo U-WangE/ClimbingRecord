@@ -14,7 +14,6 @@ class ClimbTrackerAdapter(
     private val trackingClimbingRecords: List<GoalsDataResponse.TrackingClimbingRecord>,
     private val positionSwitchCallBack: (Int) -> Unit
 ): RecyclerView.Adapter<ClimbTrackerAdapter.ViewHolder>() {
-    private val CLASS_NAME = this::class.java.simpleName
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClimbTrackerAdapter.ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context)
@@ -39,7 +38,9 @@ class ClimbTrackerAdapter(
                 tvExerciseCount.text = trackingClimbingRecord.exerciseCount.toString()
                 tvAchievementTotalCount.text = trackingClimbingRecord.achievementTotalCount.toString()
                 tvExerciseTime.text = trackingClimbingRecord.exerciseTime.toString()
+
                 setSVGColorFilter(ivDateTypeSwitchButton, R.color.svgFilterColorWhiteBlack, context)
+
                 ivDateTypeSwitchButton.setOnClickListener {
                     positionSwitchCallBack(if (position == 0) 1 else 0)
                 }

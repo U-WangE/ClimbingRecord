@@ -43,6 +43,16 @@
         app:layout_constraintEnd_toStartOf="@id/vi_ending_point_bar"
         />
 
+    <TextView
+        android:id="@+id/tv_actual_point_goal_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/style_kcc_chassam_bold_xxx_small"
+        app:layout_constraintBottom_toTopOf="@id/iv_actual_point_image"
+        app:layout_constraintStart_toStartOf="@id/vi_actual_point_bar"
+        app:layout_constraintEnd_toEndOf="@id/vi_actual_point_bar"
+        />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_actual_point_image"
         android:layout_width="wrap_content"
@@ -52,8 +62,7 @@
         android:maxWidth="24dp"
         android:adjustViewBounds="true"
         android:elevation="1dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@id/vi_actual_point_bar"
         app:layout_constraintStart_toStartOf="@id/vi_actual_point_bar"
         app:layout_constraintEnd_toEndOf="@id/vi_actual_point_bar"

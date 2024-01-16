@@ -65,6 +65,7 @@ class GoalsFragment : Fragment() {
         setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
     }
 
+    // D-Day Setting || 3, 7일 마다 색 변경 적용
     private fun setDDay() {
         val dDay = viewModel.getGoalsDDay()
 
@@ -83,6 +84,12 @@ class GoalsFragment : Fragment() {
 
     }
 
+    /*
+     (Icon : Actual / Goal)
+     작성한 Goal 에 따른 UI Setting
+     Goal 달성 정도에 따른 색 변화
+     Goal 없는 경우 처리
+     */
     private fun setGoalsAchievementDetail() {
         with(binding.icGoalsStatus) {
             val goalImageList = listOf(ivFirstGoalAchievementImage, ivSecondGoalAchievementImage)
@@ -117,6 +124,7 @@ class GoalsFragment : Fragment() {
         }
     }
 
+    // yyyy/mm/dd ~ yyyy/mm/dd
     private fun setGoalsAchievementPeriod() {
         binding.icGoalsStatus.tvGoalAchievementPeriod.text =
             getString(R.string.y_m_d_tilde_y_m_d_slash, viewModel.getStartDate(), viewModel.getEndDate())
@@ -130,6 +138,10 @@ class GoalsFragment : Fragment() {
         }
     }
 
+    /*
+    이번달, 이번연도  운동 시간, 완등 개수, 운동 횟수 UI
+    switch button 클릭시 Month <-> Year
+     */
     private fun setClimbTracker() {
         // 달, 년 별 Climbing 기록 Ui에 해당 하는 기능
         val snapHelper = LinearSnapHelper()
@@ -139,6 +151,7 @@ class GoalsFragment : Fragment() {
         }
     }
 
+    // Goals, Goals Period 의 달성, 진행율 표시 Bar Graph
     private fun setGoalsAchievementGraph() {
         binding.rvBarGraph.adapter = GoalsAchievementBarGraphAdapter(viewModel.getGoalsAchievementStatus())
     }
