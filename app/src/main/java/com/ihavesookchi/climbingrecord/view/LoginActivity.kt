@@ -13,12 +13,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
     private var _binding: ActivityLoginBinding? = null
     private val binding get() = _binding!!
+
+    private val CLASS_NAME = this::class.java.simpleName
 
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -57,14 +60,15 @@ class LoginActivity : AppCompatActivity() {
                             .getResult(ApiException::class.java)
                             .idToken
                             .let {
+                                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Google Sign In Success")
                                 firebaseAuthWithGoogle(it)
                             }
                     } catch (e: ApiException) {
-                        Log.d("여기3", e.toString())
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Api Exception   Error  :  $e")
                     }
                 } else {
-                    Log.d("여기", "Google Sign-In failed. Result code: ${result.resultCode}")
-                    // 사용자가 로그인을 취소하거나 다른 이유로 실패한 경우의 처리를 추가할 수 있습니다.
+                    // 사용자가 로그인을 취소하거나 다른 이유로 실패한 경우
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Google Sign-In failed.   Result code  :  ${result.resultCode}")
                 }
             }
     }
@@ -74,11 +78,12 @@ class LoginActivity : AppCompatActivity() {
             .signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
             .addOnCompleteListener(this) { result ->
                 if (result.isSuccessful) {
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Firebase Sign In and Credential Success")
                     startActivity(Intent(this, BaseActivity::class.java))
                     finish()
                 }
                 else
-                    Log.d("여기", "$result")
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Firebase Sign In and Credential Failed   Error  :  $result")
             }
     }
 

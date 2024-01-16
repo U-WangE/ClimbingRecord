@@ -127,7 +127,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             10000L
         )
             .setWaitForAccurateLocation(true)
-            .setMinUpdateIntervalMillis(5000)  // 최소 업데이트 시간 10초
+            .setMinUpdateIntervalMillis(5000)  // 최소 업데이트 시간 5초
             .setMaxUpdateDelayMillis(15000)  // 최대 업데이트 지연 시간 15초
             .build()
 
