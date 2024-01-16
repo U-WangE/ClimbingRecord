@@ -37,4 +37,5 @@ class GoalsDataRepositoryImpl @Inject constructor(
     override fun getStartDate(): Long = goalsDataResponse.goalsAchievementStatus.startDate
     override fun getEndDate(): Long = goalsDataResponse.goalsAchievementStatus.endDate
     override fun getTrackingClimbingRecords(): List<GoalsDataResponse.TrackingClimbingRecord> = goalsDataResponse.trackingClimbingRecords
+    override fun getGoalsAchievementStatus(): GoalsDataResponse.GoalsAchievementStatus = goalsDataResponse.goalsAchievementStatus
 }

@@ -1,15 +1,12 @@
 package com.ihavesookchi.climbingrecord.view
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.adapter.ClimbTrackerAdapter
+import com.ihavesookchi.climbingrecord.adapter.GoalsAchievementBarGraphAdapter
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
@@ -51,6 +49,7 @@ class GoalsFragment : Fragment() {
                 is GoalsDataUiState.GoalsDataSuccess -> {
                     setGoalsAchievement()
                     setClimbTracker()
+                    setGoalsAchievementGraph()
                 }
                 else -> {}
             }
@@ -61,7 +60,7 @@ class GoalsFragment : Fragment() {
         // 목표 및 달성율 Ui에 해당 하는 기능
         setDDay()
         setGoalsAchievementDetail()
-        setGoalsAAchievementPeriod()
+        setGoalsAchievementPeriod()
         intentGoalsAchievementSetting()
         setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
     }
@@ -118,7 +117,7 @@ class GoalsFragment : Fragment() {
         }
     }
 
-    private fun setGoalsAAchievementPeriod() {
+    private fun setGoalsAchievementPeriod() {
         binding.icGoalsStatus.tvGoalAchievementPeriod.text =
             getString(R.string.y_m_d_tilde_y_m_d_slash, viewModel.getStartDate(), viewModel.getEndDate())
     }
@@ -138,5 +137,9 @@ class GoalsFragment : Fragment() {
         binding.rvTrackingClimbingRecords.adapter = ClimbTrackerAdapter(viewModel.getTrackingClimbingRecords()) {
             binding.rvTrackingClimbingRecords.smoothScrollToPosition(it)
         }
+    }
+
+    private fun setGoalsAchievementGraph() {
+        binding.rvBarGraph.adapter = GoalsAchievementBarGraphAdapter(viewModel.getGoalsAchievementStatus())
     }
 }

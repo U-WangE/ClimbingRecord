@@ -20,4 +20,6 @@
     <color name="nav_icon_state_unchecked_color">@color/gray</color>
 
     <color name="svgFilterColorWhiteBlack">@color/white</color>
+
+    <color name="yellow">#FFF200</color>
 </resources>

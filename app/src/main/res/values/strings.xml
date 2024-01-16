@@ -18,6 +18,8 @@
     <string name="close">닫기</string>
     <string name="setting">설정</string>
     <string name="permission_re_request">권한재요청</string>
+    <string name="start_en" translatable="false">Start</string>
+    <string name="goal_en" translatable="false">Goal</string>
 
     <string name="d_of_d_day" translatable="false">D-</string>
 
@@ -39,6 +41,7 @@
 
     <!-- date -->
     <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
+    <string name="y_m_d">%1$tY/%1$tm/%1$td</string>
 
     <string name="this_date_type_record">이번 %s 기록</string>
     <string name="exercise_time">운동 시간</string>
