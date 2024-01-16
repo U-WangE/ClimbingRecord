@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_round_radius_8_stroke"
+    android:id="@+id/cl_goals_status_layout"
     app:layout_constraintTop_toTopOf="parent"
     >
 
@@ -24,11 +25,10 @@
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_goals_status_layout"
+        android:id="@+id/cl_goals_achievement_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         >

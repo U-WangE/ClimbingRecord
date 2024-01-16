@@ -23,9 +23,14 @@ class GoalsViewModel @Inject constructor(
 
     private val CLASS_NAME = this::class.java.simpleName
 
+    fun initData() {
+        goalsDataRepository.initResponse()
+    }
 
     fun goalsApi() {
         viewModelScope.launch(Dispatchers.IO) {
+            initData()
+
             goalsDataRepository.goalsDataApi().let {
                 launch(Dispatchers.Main) {
                     try {

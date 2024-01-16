@@ -20,6 +20,9 @@ class GoalsDataRepositoryImpl @Inject constructor(
 
     private val db = Firebase.firestore
     private val firebaseAuth = FirebaseAuth.getInstance()
+
+    override fun initResponse() { goalsDataResponse = GoalsDataResponse() }
+
     override suspend fun goalsDataApi(): DocumentSnapshot? {
         return db.collection("goals")
             .document(firebaseAuth.currentUser?.uid ?: "anonymous")

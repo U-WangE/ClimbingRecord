@@ -45,23 +45,27 @@ class GoalsFragment : Fragment() {
         return binding.root
     }
     private fun setDefaultUISetting() {
-        with(binding) {
-            setVisibilityOfGoalAchievement(GONE)
-            intentGoalsAchievementSetting()
-        }
+        binding.icGoalsStatus.clGoalsStatusLayout.visibility = GONE
+
+        setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
+        intentGoalsAchievementSetting()
     }
 
     private fun observingGoalsDataUiState() {
         viewModel.goalsDataUiState.observe(viewLifecycleOwner) {
+
+            binding.icGoalsStatus.clGoalsStatusLayout.visibility = VISIBLE
+
+            setGoalsAchievement()
+            setClimbTracker()
+            setGoalsAchievementGraph()
+
             when(it) {
                 is GoalsDataUiState.GoalsDataSuccess -> {
                     setVisibilityOfGoalAchievement(VISIBLE)
-                    setGoalsAchievement()
-                    setClimbTracker()
-                    setGoalsAchievementGraph()
                 }
                 is GoalsDataUiState.GoalsDataIsNull -> {
-                    setDefaultUISetting()
+                    setVisibilityOfGoalAchievement(GONE)
                 }
                 else -> {}
             }
@@ -69,27 +73,31 @@ class GoalsFragment : Fragment() {
     }
 
     private fun setVisibilityOfGoalAchievement(visibility: Int) {
-        when (visibility) {
-            VISIBLE -> {
-                binding.icGoalsStatus.clGoalsStatusLayout.visibility = VISIBLE
-                binding.icGoalsStatus.tvAdviseSettingGoal.visibility = GONE
-            }
-            GONE -> {
-                binding.icGoalsStatus.clGoalsStatusLayout.visibility = GONE
-                binding.icGoalsStatus.tvAdviseSettingGoal.visibility = VISIBLE
-            }
-            else -> {}
-        }
+        with(binding) {
+            when (visibility) {
+                VISIBLE -> {
+                    icGoalsStatus.clGoalsAchievementLayout.visibility = VISIBLE
+                    icGoalsStatus.tvAdviseSettingGoal.visibility = GONE
+                }
+                GONE -> {
+                    icGoalsStatus.clGoalsAchievementLayout.visibility = GONE
+                    icGoalsStatus.tvAdviseSettingGoal.visibility = VISIBLE
+                }
 
+                else -> {}
+            }
+        }
     }
 
     private fun setGoalsAchievement() {
         // 목표 및 달성율 Ui에 해당 하는 기능
-        setDDay()
-        setGoalsAchievementDetail()
-        setGoalsAchievementPeriod()
-        intentGoalsAchievementSetting()
-        setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
+        if (viewModel.getGoalDetails().isNotEmpty()) {
+            setDDay()
+            setGoalsAchievementDetail()
+            setGoalsAchievementPeriod()
+        } else {  // goal achievement data 가 없는 경우
+            setVisibilityOfGoalAchievement(GONE)
+        }
     }
 
     // D-Day Setting || 3, 7일 마다 색 변경 적용
@@ -123,24 +131,14 @@ class GoalsFragment : Fragment() {
             val goalStatusList = listOf(tvFirstGoalAchievementStatus, tvSecondGoalAchievementStatus)
             val getGoalDetails = viewModel.getGoalDetails()
 
-            if (getGoalDetails.isNotEmpty())
-                for (i in getGoalDetails.indices) {
-                    getGoalDetails[i].run {
-                        setSVGColorFilter(goalImageList[i], goalColorRGB)
-                        goalStatusList[i].text = getString(R.string.number_out_of_number, goalActual, goal)
-                        goalStatusList[i].setTextColor(getColor(requireContext(), if (goalActual == goal) R.color.purple_200 else R.color.white))
-                    }
-                    setSecondGoalVisibility(i > 0)
+            for (i in getGoalDetails.indices) {
+                getGoalDetails[i].run {
+                    setSVGColorFilter(goalImageList[i], goalColorRGB)
+                    goalStatusList[i].text = getString(R.string.number_out_of_number, goalActual, goal)
+                    goalStatusList[i].setTextColor(getColor(requireContext(), if (goalActual == goal) R.color.purple_200 else R.color.white))
                 }
-            else {
-                resetFirstGoal()
+                setSecondGoalVisibility(i > 0)
             }
-        }
-    }
-    private fun resetFirstGoal() {
-        with(binding.icGoalsStatus) {
-            ivFirstGoalAchievementImage.colorFilter = null
-            tvFirstGoalAchievementStatus.text = getString(R.string.default_hyphen_out_of_hyphen)
         }
     }
     private fun setSecondGoalVisibility(isVisible : Boolean) {
