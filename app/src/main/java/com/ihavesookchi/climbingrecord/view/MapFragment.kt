@@ -188,6 +188,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 is SearchKeywordUiState.SearchKeywordFailure -> {
 
                 }
+
+                else -> {}
             }
         }
     }

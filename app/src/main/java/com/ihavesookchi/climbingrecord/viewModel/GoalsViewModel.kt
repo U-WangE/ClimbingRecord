@@ -36,7 +36,7 @@ class GoalsViewModel @Inject constructor(
                         _goalsDataUiState.value = GoalsDataUiState.GoalsDataSuccess
 
                     } catch (nullPointerException: NullPointerException) {
-                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataFailure
+                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataIsNull
 
                         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Unexpected null value    nullException : $nullPointerException")
                     } catch(e: Exception) {

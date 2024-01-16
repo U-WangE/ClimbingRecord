@@ -36,24 +36,51 @@ class GoalsFragment : Fragment() {
     ): View? {
         _binding = FragmentGoalsBinding.inflate(inflater, container, false)
 
+        setDefaultUISetting()
+
         viewModel.goalsApi()
 
         observingGoalsDataUiState()
 
         return binding.root
     }
+    private fun setDefaultUISetting() {
+        with(binding) {
+            setVisibilityOfGoalAchievement(GONE)
+            intentGoalsAchievementSetting()
+        }
+    }
 
     private fun observingGoalsDataUiState() {
         viewModel.goalsDataUiState.observe(viewLifecycleOwner) {
             when(it) {
                 is GoalsDataUiState.GoalsDataSuccess -> {
+                    setVisibilityOfGoalAchievement(VISIBLE)
                     setGoalsAchievement()
                     setClimbTracker()
                     setGoalsAchievementGraph()
                 }
+                is GoalsDataUiState.GoalsDataIsNull -> {
+                    setDefaultUISetting()
+                }
                 else -> {}
             }
         }
+    }
+
+    private fun setVisibilityOfGoalAchievement(visibility: Int) {
+        when (visibility) {
+            VISIBLE -> {
+                binding.icGoalsStatus.clGoalsStatusLayout.visibility = VISIBLE
+                binding.icGoalsStatus.tvAdviseSettingGoal.visibility = GONE
+            }
+            GONE -> {
+                binding.icGoalsStatus.clGoalsStatusLayout.visibility = GONE
+                binding.icGoalsStatus.tvAdviseSettingGoal.visibility = VISIBLE
+            }
+            else -> {}
+        }
+
     }
 
     private fun setGoalsAchievement() {
