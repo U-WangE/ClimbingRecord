@@ -10,6 +10,7 @@
     <!-- TODO: Remove or change this placeholder text -->
 
     <string name="zero" translatable="false">0</string>
+    <string name="commas" translatable="false">,</string>
 
     <string name="yes">예</string>
     <string name="no">아니요</string>
@@ -26,7 +27,6 @@
     <string name="x_count" translatable="false">X %d</string>
     <string name="number_out_of_number" translatable="false">%1$d / %2$d</string>
 
-    <string name="commas" translatable="false">,</string>
 
     <string name="permission_notice_title">필수 권한 허용 안내</string>
     <string name="permission_notice_contents">
@@ -36,12 +36,17 @@
     </string>
     <string name="permission_notice_comment">권한 허용을 위해 설정화면으로 이동합니다.</string>
 
+
     <string name="hint_search_keyword">장소, 주소 검색</string>
     <string name="notice_no_search_result_for_keyword">\"%s\" 에 대한 검색 결과가 없습니다.</string>
+
+
+    <string name="hint_link_to_instagram" translatable="false">Link to Instagram</string>
 
     <!-- date -->
     <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
     <string name="y_m_d">%1$tY/%1$tm/%1$td</string>
+
 
     <string name="this_date_type_record">이번 %s 기록</string>
     <string name="exercise_time">운동 시간</string>

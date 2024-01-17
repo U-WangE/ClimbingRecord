@@ -115,9 +115,8 @@ class GoalsAchievementBarGraphAdapter(
 
                     /*
                     비율(horizontalBias) 에 따른 layout_constraintHorizontal_bias 값 적용
-                    0부터 Actual bias 까지 이동 하는 Animation 추가
+                    0부터 Actual bias 까지 이동 하는 Animation
                      */
-
                     val valueAnimator = ValueAnimator.ofFloat(0f, horizontalBias)
                     valueAnimator.addUpdateListener { animation ->
                         val animatedValue = animation.animatedValue as Float
