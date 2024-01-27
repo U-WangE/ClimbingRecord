@@ -54,6 +54,7 @@ class GoalsFragment : Fragment() {
         binding.icGoalsStatus.clGoalsStatusLayout.visibility = GONE
 
         setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
+        setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
         setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorWhiteBlack, requireContext())
         setSVGColorFilter(binding.icProfile.ivModify, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
         intentInstagramSetting()
