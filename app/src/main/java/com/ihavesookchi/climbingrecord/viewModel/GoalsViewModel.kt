@@ -54,13 +54,15 @@ class GoalsViewModel @Inject constructor(
         }
     }
 
-    fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail> = goalsDataRepository.getGoalDetails()
+    fun getTrackingClimbingRecords(): List<GoalsDataResponse.TrackingClimbingRecord> = goalsDataRepository.getTrackingClimbingRecords()
 
+    fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail> = goalsDataRepository.getGoalDetails()
     fun getStartDate(): Calendar {
         return Calendar.getInstance().apply {
             timeInMillis = goalsDataRepository.getStartDate()
         }
     }
+
     fun getEndDate(): Calendar {
         return Calendar.getInstance().apply {
             timeInMillis = goalsDataRepository.getEndDate()
@@ -68,8 +70,6 @@ class GoalsViewModel @Inject constructor(
     }
 
     fun getGoalsDDay(): Long = TimeUnit.MILLISECONDS.toDays(goalsDataRepository.getEndDate() - System.currentTimeMillis())
-
-    fun getTrackingClimbingRecords(): List<GoalsDataResponse.TrackingClimbingRecord> = goalsDataRepository.getTrackingClimbingRecords()
 
     fun getGoalsAchievementStatus(): GoalsDataResponse.GoalsAchievementStatus = goalsDataRepository.getGoalsAchievementStatus()
 }

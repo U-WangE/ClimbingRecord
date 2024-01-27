@@ -57,5 +57,5 @@
     <!-- default -->
     <string name="default_hyphen" translatable="false">-</string>
     <string name="default_hyphen_out_of_hyphen" translatable="false">- / -</string>
-
+    <string name="default_unknown" translatable="false">Unknown</string>
 </resources>

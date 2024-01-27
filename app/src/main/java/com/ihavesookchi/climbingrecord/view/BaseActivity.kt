@@ -48,11 +48,6 @@ open class BaseActivity : AppCompatActivity() {
 
                     replaceFragment(GoalsFragment())
                 }
-                R.id.menu_profile -> {
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : menu_profile")
-
-                    replaceFragment(ProfileFragment())
-                }
                 else -> {
                     ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar.setOnItemSelectedListener -> else  {  item: ${item},  itemId: ${item.itemId}, itemTitle: ${item.title}, itemOrder: ${item.order}  }")
                 }

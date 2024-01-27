@@ -48,6 +48,8 @@ class GoalsFragment : Fragment() {
         binding.icGoalsStatus.clGoalsStatusLayout.visibility = GONE
 
         setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
+        setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorWhiteBlack, requireContext())
+        setSVGColorFilter(binding.icProfile.ivNicknameModify, R.color.svgFilterColorSteelGrayDarkBlack, requireContext())
         intentGoalsAchievementSetting()
     }
 
@@ -56,9 +58,10 @@ class GoalsFragment : Fragment() {
 
             binding.icGoalsStatus.clGoalsStatusLayout.visibility = VISIBLE
 
-            setGoalsAchievement()
+            setProfile()
             setClimbTracker()
             setGoalsAchievementGraph()
+            setGoalsAchievement()
 
             when(it) {
                 is GoalsDataUiState.GoalsDataSuccess -> {
@@ -66,12 +69,38 @@ class GoalsFragment : Fragment() {
                 }
                 is GoalsDataUiState.GoalsDataIsNull -> {
                     setVisibilityOfGoalAchievement(GONE)
+
                 }
                 else -> {}
             }
         }
     }
 
+    private fun setProfile() {
+//        viewModel.getProfileImage()
+//        viewModel.setInstagramLink()
+//        viewModel.setNm
+    }
+
+    /*
+    이번달, 이번연도  운동 시간, 완등 개수, 운동 횟수 UI
+    switch button 클릭시 Month <-> Year
+     */
+    private fun setClimbTracker() {
+        // 달, 년 별 Climbing 기록 Ui에 해당 하는 기능
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvTrackingClimbingRecords)
+        binding.rvTrackingClimbingRecords.adapter = ClimbTrackerAdapter(viewModel.getTrackingClimbingRecords()) {
+            binding.rvTrackingClimbingRecords.smoothScrollToPosition(it)
+        }
+    }
+
+    // Goals, Goals Period 의 달성, 진행율 표시 Bar Graph
+    private fun setGoalsAchievementGraph() {
+        binding.rvBarGraph.adapter = GoalsAchievementBarGraphAdapter(viewModel.getGoalsAchievementStatus())
+    }
+
+    // DB에 데이터가 없는 경우 Default 문구 보여줌
     private fun setVisibilityOfGoalAchievement(visibility: Int) {
         with(binding) {
             when (visibility) {
@@ -161,23 +190,5 @@ class GoalsFragment : Fragment() {
         binding.icGoalsStatus.ivGoalsModify.setOnClickListener {
             startActivity(Intent(requireContext(), GoalsAchievementSettingActivity::class.java))
         }
-    }
-
-    /*
-    이번달, 이번연도  운동 시간, 완등 개수, 운동 횟수 UI
-    switch button 클릭시 Month <-> Year
-     */
-    private fun setClimbTracker() {
-        // 달, 년 별 Climbing 기록 Ui에 해당 하는 기능
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(binding.rvTrackingClimbingRecords)
-        binding.rvTrackingClimbingRecords.adapter = ClimbTrackerAdapter(viewModel.getTrackingClimbingRecords()) {
-            binding.rvTrackingClimbingRecords.smoothScrollToPosition(it)
-        }
-    }
-
-    // Goals, Goals Period 의 달성, 진행율 표시 Bar Graph
-    private fun setGoalsAchievementGraph() {
-        binding.rvBarGraph.adapter = GoalsAchievementBarGraphAdapter(viewModel.getGoalsAchievementStatus())
     }
 }
