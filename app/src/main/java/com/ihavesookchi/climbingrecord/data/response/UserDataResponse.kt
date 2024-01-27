@@ -6,5 +6,7 @@ data class UserDataResponse(
     @SerializedName("nickname")
     var nickname: String = "Unknown",
     @SerializedName("profileImage")
-    var profileImage: String = ""
+    var profileImage: String = "",
+    @SerializedName("instagramUserName")
+    var instagramUserName: String = ""
 )
