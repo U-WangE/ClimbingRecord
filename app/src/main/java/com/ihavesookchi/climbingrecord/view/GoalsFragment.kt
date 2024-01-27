@@ -1,6 +1,8 @@
 package com.ihavesookchi.climbingrecord.view
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +14,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearSnapHelper
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.adapter.ClimbTrackerAdapter
 import com.ihavesookchi.climbingrecord.adapter.GoalsAchievementBarGraphAdapter
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
+import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +30,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class GoalsFragment : Fragment() {
     private var _binding: FragmentGoalsBinding? = null
     private val binding get() = _binding!!
+
+    private val CLASS_NAME = this::class.java.simpleName
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
     private val viewModel: GoalsViewModel by viewModels()
@@ -50,6 +56,7 @@ class GoalsFragment : Fragment() {
         setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
         setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorWhiteBlack, requireContext())
         setSVGColorFilter(binding.icProfile.ivNicknameModify, R.color.svgFilterColorSteelGrayDarkBlack, requireContext())
+        intentInstagramSetting()
         intentGoalsAchievementSetting()
     }
 
@@ -77,8 +84,52 @@ class GoalsFragment : Fragment() {
 
     private fun setProfile() {
 //        viewModel.getProfileImage()
-//        viewModel.setInstagramLink()
+        setInstagramLink()
 //        viewModel.setNm
+    }
+
+    private fun setInstagramLink() {
+        //TODO:: 인스타그램 id 세팅
+    }
+
+
+    private fun intentInstagramSetting() {
+        binding.icProfile.llInstagramLayout.setOnClickListener {
+            val instagramUserName = binding.icProfile.tvInstagramUserName.text
+            if (instagramUserName != getString(R.string.hint_link_to_instagram)) {
+                intentInstagram(instagramUserName)
+            } else {
+                toast(requireContext(), getString(R.string.toast_input_instagram_user_name))
+
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setInstagramLink()   instagram 사용자 이름이 입력되지 않았습니다.")
+            }
+        }
+    }
+
+    /*
+    * Instagram 설치 유/무에 따라 앱/웹에서 열기
+    */
+    private fun intentInstagram(instagramUserName: CharSequence) {
+        if (isInstagramAppInstalled()) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("http://instagram.com/_u/$instagramUserName")
+            intent.setPackage("com.instagram.android")
+            startActivity(intent)
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("http://instagram.com/$instagramUserName")
+            startActivity(intent)
+        }
+    }
+
+    private fun isInstagramAppInstalled(): Boolean {
+        val packageManager = requireContext().packageManager
+        return try {
+            packageManager.getPackageInfo("com.instagram.android", PackageManager.GET_ACTIVITIES)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
     }
 
     /*
@@ -153,6 +204,7 @@ class GoalsFragment : Fragment() {
      Goal 달성 정도에 따른 색 변화
      Goal 없는 경우 처리
      */
+
     private fun setGoalsAchievementDetail() {
         with(binding.icGoalsStatus) {
             val goalImageList = listOf(ivFirstGoalAchievementImage, ivSecondGoalAchievementImage)

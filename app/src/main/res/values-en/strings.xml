@@ -17,6 +17,9 @@
         &#160;&#160;This is a necessary permission for map and climbing location display.
     </string>
     <string name="permission_notice_comment">Go to the Settings screen for permission.</string>
+
+    <string name="toast_input_instagram_user_name">Please enter your Instagram username.</string>
+
     <string name="hint_search_keyword">Search place or address</string>
     <string name="notice_no_search_result_for_keyword">No search results for \\\"%s\\\".</string>
 

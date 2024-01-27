@@ -48,13 +48,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
+    private val CLASS_NAME = this::class.java.simpleName
+
     private val sharedViewModel: BaseViewModel by activityViewModels()
+
     private val viewModel: MapViewModel by viewModels()
 
     @Inject
     lateinit var kakaoApi: KakaoApi
-
-    private val CLASS_NAME = this::class.java.simpleName
 
     // map
     private lateinit var googleMap: GoogleMap
