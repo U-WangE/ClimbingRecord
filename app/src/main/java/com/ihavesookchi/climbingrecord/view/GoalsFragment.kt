@@ -55,7 +55,7 @@ class GoalsFragment : Fragment() {
 
         setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
         setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorWhiteBlack, requireContext())
-        setSVGColorFilter(binding.icProfile.ivNicknameModify, R.color.svgFilterColorSteelGrayDarkBlack, requireContext())
+        setSVGColorFilter(binding.icProfile.ivModify, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
         intentInstagramSetting()
         intentGoalsAchievementSetting()
     }
@@ -132,6 +132,10 @@ class GoalsFragment : Fragment() {
         }
     }
 
+
+    /**
+     * 이번 월,년 운동 Layout
+     **/
     /*
     이번달, 이번연도  운동 시간, 완등 개수, 운동 횟수 UI
     switch button 클릭시 Month <-> Year
@@ -145,11 +149,9 @@ class GoalsFragment : Fragment() {
         }
     }
 
-    // Goals, Goals Period 의 달성, 진행율 표시 Bar Graph
-    private fun setGoalsAchievementGraph() {
-        binding.rvBarGraph.adapter = GoalsAchievementBarGraphAdapter(viewModel.getGoalsAchievementStatus())
-    }
-
+    /**
+     * D-Day Layout
+     **/
     // DB에 데이터가 없는 경우 Default 문구 보여줌
     private fun setVisibilityOfGoalAchievement(visibility: Int) {
         with(binding) {
@@ -241,5 +243,13 @@ class GoalsFragment : Fragment() {
         binding.icGoalsStatus.ivGoalsModify.setOnClickListener {
             startActivity(Intent(requireContext(), GoalsAchievementSettingActivity::class.java))
         }
+    }
+
+    /**
+     * D-Day Graph
+     **/
+    // Goals, Goals Period 의 달성, 진행율 표시 Bar Graph
+    private fun setGoalsAchievementGraph() {
+        binding.rvBarGraph.adapter = GoalsAchievementBarGraphAdapter(viewModel.getGoalsAchievementStatus())
     }
 }
