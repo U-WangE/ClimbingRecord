@@ -23,31 +23,32 @@ class GoalsViewModel @Inject constructor(
 
     private val CLASS_NAME = this::class.java.simpleName
 
-    fun initData() {
+    private fun initData() {
         goalsDataRepository.initResponse()
     }
 
-    fun goalsApi() {
+    fun getFirebaseGoalsData() {
         viewModelScope.launch(Dispatchers.IO) {
             initData()
 
             goalsDataRepository.goalsDataApi().let {
                 launch(Dispatchers.Main) {
                     try {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Goals Api Success    DocumentSnapshot : $it")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Goals Api Success    DocumentSnapshot : $it")
 
                         goalsDataRepository.setGoalsData(it!!)
 
                         _goalsDataUiState.value = GoalsDataUiState.GoalsDataSuccess
 
                     } catch (nullPointerException: NullPointerException) {
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Unexpected null value    nullException : $nullPointerException")
+
                         _goalsDataUiState.value = GoalsDataUiState.GoalsDataIsNull
 
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Unexpected null value    nullException : $nullPointerException")
                     } catch(e: Exception) {
-                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataFailure
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Other exception    exception : $e")
 
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Other exception    exception : $e")
+                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataFailure
                     }
                 }
             }

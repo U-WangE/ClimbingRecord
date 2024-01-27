@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
+import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
 import com.ihavesookchi.climbingrecord.databinding.ActivityBaseBinding
+import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,8 +26,37 @@ open class BaseActivity : AppCompatActivity() {
         _binding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedViewModel.getFirebaseUserData()
+        observingGoalsDataUiState()
+
         replaceFragment(MapFragment())
 
+        setNavigationBarSelectedListener()
+    }
+
+    fun replaceFragment(fragment: Fragment, bundle: Bundle? = null) {
+        fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction
+            .replace(R.id.fl_frame_layout, fragment)
+            .commit()
+    }
+
+    private fun observingGoalsDataUiState() {
+        sharedViewModel.userDataUiState.observe(this) {
+            when (it) {
+                is UserDataUiState.UserDataSuccess -> {
+
+                }
+                is UserDataUiState.UserDataFailure -> {
+                    toast(this, "UserDataUiState.UserDataFailure")
+                }
+            }
+        }
+    }
+
+    private fun setNavigationBarSelectedListener() {
         binding.bnBottomNavigationBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_map -> {
@@ -54,14 +85,5 @@ open class BaseActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener true
         }
-    }
-
-    fun replaceFragment(fragment: Fragment, bundle: Bundle? = null) {
-        fragment.arguments = bundle
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction
-            .replace(R.id.fl_frame_layout, fragment)
-            .commit()
     }
 }

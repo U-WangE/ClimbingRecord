@@ -38,7 +38,7 @@ class GoalsFragment : Fragment() {
 
         setDefaultUISetting()
 
-        viewModel.goalsApi()
+        viewModel.getFirebaseGoalsData()
 
         observingGoalsDataUiState()
 
@@ -69,7 +69,6 @@ class GoalsFragment : Fragment() {
                 }
                 is GoalsDataUiState.GoalsDataIsNull -> {
                     setVisibilityOfGoalAchievement(GONE)
-
                 }
                 else -> {}
             }

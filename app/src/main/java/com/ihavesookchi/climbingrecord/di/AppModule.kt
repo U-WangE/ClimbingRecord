@@ -5,8 +5,10 @@ import com.ihavesookchi.climbingrecord.data.Const.KAKAO_URL
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
+import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.GoalsDataRepositoryImpl
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.SearchRepositoryImpl
+import com.ihavesookchi.climbingrecord.data.repositoryImpl.UserDataRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,6 +47,10 @@ object AppModule {
             .build()
             .create(KakaoApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideUserDataRepository(): UserDataRepository = UserDataRepositoryImpl()
 
     @Provides
     @Singleton

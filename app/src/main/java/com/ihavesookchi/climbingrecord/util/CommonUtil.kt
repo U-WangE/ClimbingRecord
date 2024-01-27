@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
@@ -18,6 +19,14 @@ import java.util.Locale
 
 object CommonUtil {
     private val CLASS_NAME = this::class.java.simpleName
+
+    private var toast: Toast? = null
+
+    fun toast(context: Context, message: String) {
+        toast?.cancel()
+        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        toast?.show()
+    }
 
     fun formatDateFromMillis(dateFormat: String, milliseconds: Long): String {
         return try {
