@@ -80,9 +80,7 @@ class GoalsViewModel @Inject constructor(
     /**
      * Profile
      **/
-    private fun getUserData(): UserDataResponse {
-        return userDataRepository.getUserData()
-    }
+    private fun getUserData(): UserDataResponse = userDataRepository.getUserData()
 
     fun getInstagramUserName(): String = getUserData().instagramUserName
     fun getNickName(): String = getUserData().nickname

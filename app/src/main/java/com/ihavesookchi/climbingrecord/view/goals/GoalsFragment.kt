@@ -22,6 +22,7 @@ import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
+import com.ihavesookchi.climbingrecord.view.BaseActivity
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,9 +57,10 @@ class GoalsFragment : Fragment() {
         setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
         setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
         setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorWhiteBlack, requireContext())
-        setSVGColorFilter(binding.icProfile.ivModify, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.icProfile.ivProfileModify, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
 
         setProfile()
+        intentProfileItemSetting()
         intentInstagramSetting()
         intentGoalsAchievementSetting()
     }
@@ -91,27 +93,41 @@ class GoalsFragment : Fragment() {
     }
 
     private fun setProfileImage() {
+        //TODO:: 이미지
         binding.icProfile.ivProfileImage
     }
 
     private fun setInstagramUserName() {
-        binding.icProfile.tvInstagramUserName.text = viewModel.getInstagramUserName()
+        binding.icProfile.tvInstagramUserName.text =
+            viewModel.getInstagramUserName().ifEmpty { getString(R.string.hint_link_to_instagram) }
     }
 
     private fun setNickName() {
-        binding.icProfile.tvNickname.text = viewModel.getNickName()
+        binding.icProfile.tvNickname.text =
+            viewModel.getNickName().ifEmpty { getString(R.string.default_unknown) }
+    }
+
+    private fun intentProfileItemSetting() {
+        binding.icProfile.ivProfileModify.setOnClickListener {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "intentProfileItemSetting() Profile 변경 버튼 Clicked")
+
+            (activity as BaseActivity).addFragment(ProfileItemChangeFragment())
+        }
     }
 
 
     private fun intentInstagramSetting() {
         binding.icProfile.llInstagramLayout.setOnClickListener {
-            val instagramUserName = binding.icProfile.tvInstagramUserName.text
-            if (instagramUserName != getString(R.string.hint_link_to_instagram)) {
+            val instagramUserName = viewModel.getInstagramUserName()
+
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "intentInstagramSetting() Instagram 이동 버튼 Clicked   instagramUserName  :  $instagramUserName")
+
+            if (instagramUserName.isNotEmpty()) {
                 intentInstagram(instagramUserName)
             } else {
                 toast(requireContext(), getString(R.string.toast_input_instagram_user_name))
 
-                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setInstagramLink()   instagram 사용자 이름이 입력 되어 있지 않습니다.")
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setInstagramLink() Instagram 사용자 이름이 입력 되어 있지 않습니다.")
             }
         }
     }
@@ -138,6 +154,8 @@ class GoalsFragment : Fragment() {
             packageManager.getPackageInfo("com.instagram.android", PackageManager.GET_ACTIVITIES)
             true
         } catch (e: PackageManager.NameNotFoundException) {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "isInstagramAppInstalled() Instagram App을 찾을 수 없음.")
+
             false
         }
     }

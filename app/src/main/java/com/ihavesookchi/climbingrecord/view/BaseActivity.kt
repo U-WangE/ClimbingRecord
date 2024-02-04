@@ -35,15 +35,6 @@ open class BaseActivity : AppCompatActivity() {
         setNavigationBarSelectedListener()
     }
 
-    fun replaceFragment(fragment: Fragment, bundle: Bundle? = null) {
-        fragment.arguments = bundle
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction
-            .replace(R.id.fl_frame_layout, fragment)
-            .commit()
-    }
-
     private fun observingGoalsDataUiState() {
         sharedViewModel.userDataUiState.observe(this) {
             when (it) {
@@ -86,5 +77,34 @@ open class BaseActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener true
         }
+    }
+
+    fun replaceFragment(fragment: Fragment, bundle: Bundle? = null) {
+        fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction
+            .replace(R.id.fl_frame_layout, fragment)
+            .commit()
+    }
+
+    fun addFragment(fragment: Fragment, bundle: Bundle? = null) {
+        fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction
+            .add(R.id.fl_frame_layout, fragment)
+            .addToBackStack(null)
+            .commit()
+
+    }
+
+    fun removeFragment(fragment: Fragment, bundle: Bundle? = null) {
+        fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction
+            .remove(fragment)
+            .commit()
     }
 }

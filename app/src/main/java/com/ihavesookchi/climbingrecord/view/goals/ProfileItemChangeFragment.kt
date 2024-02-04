@@ -1,6 +1,7 @@
 package com.ihavesookchi.climbingrecord.view.goals
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,6 @@ class ProfileItemChangeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentProfileItemChangeBinding.inflate(inflater, container, false)
-
 
         return binding.root
     }
