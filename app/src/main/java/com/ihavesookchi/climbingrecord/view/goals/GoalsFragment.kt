@@ -1,4 +1,4 @@
-package com.ihavesookchi.climbingrecord.view
+package com.ihavesookchi.climbingrecord.view.goals
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -57,6 +57,8 @@ class GoalsFragment : Fragment() {
         setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
         setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorWhiteBlack, requireContext())
         setSVGColorFilter(binding.icProfile.ivModify, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
+
+        setProfile()
         intentInstagramSetting()
         intentGoalsAchievementSetting()
     }
@@ -66,7 +68,6 @@ class GoalsFragment : Fragment() {
 
             binding.icGoalsStatus.clGoalsStatusLayout.visibility = VISIBLE
 
-            setProfile()
             setClimbTracker()
             setGoalsAchievementGraph()
             setGoalsAchievement()
@@ -84,13 +85,21 @@ class GoalsFragment : Fragment() {
     }
 
     private fun setProfile() {
-//        viewModel.getProfileImage()
-        setInstagramLink()
-//        viewModel.setNm
+        setProfileImage()
+        setInstagramUserName()
+        setNickName()
     }
 
-    private fun setInstagramLink() {
-        //TODO:: 인스타그램 id 세팅
+    private fun setProfileImage() {
+        binding.icProfile.ivProfileImage
+    }
+
+    private fun setInstagramUserName() {
+        binding.icProfile.tvInstagramUserName.text = viewModel.getInstagramUserName()
+    }
+
+    private fun setNickName() {
+        binding.icProfile.tvNickname.text = viewModel.getNickName()
     }
 
 
@@ -102,7 +111,7 @@ class GoalsFragment : Fragment() {
             } else {
                 toast(requireContext(), getString(R.string.toast_input_instagram_user_name))
 
-                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setInstagramLink()   instagram 사용자 이름이 입력되지 않았습니다.")
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setInstagramLink()   instagram 사용자 이름이 입력 되어 있지 않습니다.")
             }
         }
     }

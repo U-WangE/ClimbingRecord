@@ -36,13 +36,12 @@
     </string>
     <string name="permission_notice_comment">권한 허용을 위해 설정화면으로 이동합니다.</string>
 
-    <string name="toast_input_instagram_user_name">인스타그램 사용자이름을 입력해주세요.</string>
+    <string name="toast_input_instagram_user_name">인스타그램 ID를 입력해주세요.</string>
 
     <string name="hint_search_keyword">장소, 주소 검색</string>
     <string name="hint_link_to_instagram" translatable="false">Link to Instagram</string>
 
     <string name="notice_no_search_result_for_keyword">\"%s\" 에 대한 검색 결과가 없습니다.</string>
-
 
 
     <!-- date -->
@@ -60,4 +59,6 @@
     <string name="default_hyphen" translatable="false">-</string>
     <string name="default_hyphen_out_of_hyphen" translatable="false">- / -</string>
     <string name="default_unknown" translatable="false">Unknown</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

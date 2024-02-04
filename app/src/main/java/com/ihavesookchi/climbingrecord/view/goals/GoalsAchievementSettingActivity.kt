@@ -1,4 +1,4 @@
-package com.ihavesookchi.climbingrecord.view
+package com.ihavesookchi.climbingrecord.view.goals
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -43,4 +43,6 @@ class UserDataRepositoryImpl @Inject constructor(
             .set(UserDataResponse(), SetOptions.merge())
             .await()
     }
+
+    override fun getUserData(): UserDataResponse = userDataResponse
 }

@@ -9,6 +9,7 @@ import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
 import com.ihavesookchi.climbingrecord.databinding.ActivityBaseBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
+import com.ihavesookchi.climbingrecord.view.goals.GoalsFragment
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
+import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
+import com.ihavesookchi.climbingrecord.data.response.UserDataResponse
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GoalsViewModel @Inject constructor(
-    private val goalsDataRepository: GoalsDataRepository
+    private val goalsDataRepository: GoalsDataRepository,
+    private val userDataRepository: UserDataRepository
 ): ViewModel() {
     private var _goalsDataUiState: SingleLiveEvent<GoalsDataUiState> = SingleLiveEvent()
     val goalsDataUiState: SingleLiveEvent<GoalsDataUiState> get() = _goalsDataUiState
@@ -73,4 +76,17 @@ class GoalsViewModel @Inject constructor(
     fun getGoalsDDay(): Long = TimeUnit.MILLISECONDS.toDays(goalsDataRepository.getEndDate() - System.currentTimeMillis())
 
     fun getGoalsAchievementStatus(): GoalsDataResponse.GoalsAchievementStatus = goalsDataRepository.getGoalsAchievementStatus()
+
+    /**
+     * Profile
+     **/
+    private fun getUserData(): UserDataResponse {
+        return userDataRepository.getUserData()
+    }
+
+    fun getInstagramUserName(): String = getUserData().instagramUserName
+    fun getNickName(): String = getUserData().nickname
+    fun getProfileImage() {
+
+    }
 }
