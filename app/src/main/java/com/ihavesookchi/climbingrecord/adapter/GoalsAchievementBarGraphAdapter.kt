@@ -55,12 +55,12 @@ class GoalsAchievementBarGraphAdapter(
             else // 기간 bar graph 표시용
                 holder.bind()
         } else {  // goal achievement data 가 없는 경우
-            holder.bind()
+            holder.bind(position = position)
         }
     }
 
     inner class ViewHolder(private val view: View, private val context: Context): RecyclerView.ViewHolder(view) {
-        fun bind(goalDetail: GoalsDataResponse.GoalsAchievementStatus.GoalDetail ?= null) {
+        fun bind(goalDetail: GoalsDataResponse.GoalsAchievementStatus.GoalDetail? = null, position: Int = 0) {
             with(ItemBarGraphBinding.bind(view)) {
                 val constraintSet = ConstraintSet()
 
@@ -70,6 +70,9 @@ class GoalsAchievementBarGraphAdapter(
                     // Actual Point 의 위치를 비율로 나타낸 값
                     val horizontalBias: Float =
                         if (goalDetail != null) {
+                            setSVGColorFilter(ivActualPointImage, R.color.svgFilterColorLightGrayishBlack, context)
+                            ivActualPointImage.setImageResource(R.drawable.ic_bot)
+
                             val color = Color.parseColor(goalDetail.goalColorRGB)
                             viHorizontalLine.setBackgroundColor(color)
                             viActualPointBar.setBackgroundColor(color)
@@ -82,6 +85,9 @@ class GoalsAchievementBarGraphAdapter(
                             // 반환값
                             goalDetail.goalActual.toFloat() / goalDetail.goal.toFloat()
                         } else {
+                            setSVGColorFilter(ivActualPointImage, R.color.svgFilterColorLightGrayishBlack, context)
+                            ivActualPointImage.setImageResource(R.drawable.ic_stopwatch)
+
                             tvEndingPointGoalText.text =
                                 context.getString(R.string.y_m_d, getGoalsAchievementStatus.endDate)
 
@@ -102,16 +108,11 @@ class GoalsAchievementBarGraphAdapter(
                                 ivActualPointImage.setImageResource(R.drawable.ic_crown)
                                 1f
                             } else {
-                                setSVGColorFilter(ivActualPointImage, R.color.svgFilterColorWhiteBlack, context)
-                                ivActualPointImage.setImageResource(R.drawable.ic_bot)
                                 this
                             }
                         }
 
-                    ClimbingRecordLogger.getInstance()?.saveLog(
-                        CLASS_NAME,
-                        "Actual Point layout_constraintHorizontal_bias   horizontalBias  :  $horizontalBias"
-                    )
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Actual Point layout_constraintHorizontal_bias   horizontalBias  :  $horizontalBias")
 
                     /*
                     비율(horizontalBias) 에 따른 layout_constraintHorizontal_bias 값 적용
@@ -130,8 +131,10 @@ class GoalsAchievementBarGraphAdapter(
                     valueAnimator.start()
                 } else {
                     // goal achievement data 가 없는 경우
-                    setSVGColorFilter(ivActualPointImage, R.color.svgFilterColorWhiteBlack, context)
-                    ivActualPointImage.setImageResource(R.drawable.ic_bot)
+                    setSVGColorFilter(ivActualPointImage, R.color.svgFilterColorLightGrayishBlack, context)
+                    ivActualPointImage.setImageResource(
+                        if (position == 0) R.drawable.ic_bot else R.drawable.ic_stopwatch
+                    )
 
                     constraintSet.setHorizontalBias(viActualPointBar.id, 0f)
                     constraintSet.applyTo(clBarGraphLayout)

@@ -1,7 +1,6 @@
 package com.ihavesookchi.climbingrecord.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -72,7 +71,7 @@ class ClimbTrackerAdapter(
                 tvAchievementTotalCount.text = trackingClimbingRecord.achievementTotalCount.toString()
                 tvExerciseTime.text = trackingClimbingRecord.exerciseTime.toString()
 
-                setSVGColorFilter(ivDateTypeSwitchButton, R.color.svgFilterColorWhiteBlack, context)
+                setSVGColorFilter(ivDateTypeSwitchButton, R.color.svgFilterColorLightGrayishBlack, context)
             }
         }
     }

@@ -9,7 +9,14 @@
     <string name="close">Close</string>
     <string name="setting">Setting</string>
     <string name="permission_re_request">Re-request</string>
+    <string name="edit_profile_picture">Edit Profile Picture</string>
+    <string name="edit">Edit</string>
 
+    <!-- date -->
+    <string name="y_m_d_tilde_y_m_d_slash">%1$tm/%1$td/%1$tY ~ %2$tm/%2$td/%2$tY</string>
+    <string name="y_m_d">%1$tm/%1$td/%1$tY</string>
+
+    <!--  Permission  -->
     <string name="permission_notice_title">Guide to granting required permissions</string>
     <string name="permission_notice_contents">
         Permission is required for the following reasons.\n
@@ -18,15 +25,21 @@
     </string>
     <string name="permission_notice_comment">Go to the Settings screen for permission.</string>
 
+    <!--  Hint  -->
+    <string name="hint_search_keyword">Search place or address</string>
+    <string name="hint_instagram_user_name">User names can only contain letters, numbers, underscores, and periods.</string>
+
+
     <string name="toast_input_instagram_user_name">Please enter your Instagram username.</string>
 
-    <string name="hint_search_keyword">Search place or address</string>
     <string name="notice_no_search_result_for_keyword">No search results for \\\"%s\\\".</string>
 
-    <!-- date -->
-    <string name="y_m_d_tilde_y_m_d_slash">%1$tm/%1$td/%1$tY ~ %2$tm/%2$td/%2$tY</string>
-    <string name="y_m_d">%1$tm/%1$td/%1$tY</string>
+    <!--  Title  -->
+    <string name="title_nickname">NickName</string>
+    <string name="title_instagram_user_name">Instagram User Name</string>
 
+
+    <!--  Content  -->
     <string name="this_date_type_record">This %s\'s record</string>
     <string name="exercise_time">Exercise_time</string>
     <string name="achievement_total_count">Achievement Total Count</string>

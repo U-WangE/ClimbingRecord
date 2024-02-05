@@ -54,10 +54,10 @@ class GoalsFragment : Fragment() {
     private fun setDefaultUISetting() {
         binding.icGoalsStatus.clGoalsStatusLayout.visibility = GONE
 
-        setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorWhiteBlack, requireContext())
-        setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
-        setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorWhiteBlack, requireContext())
-        setSVGColorFilter(binding.icProfile.ivProfileModify, R.color.svgFilterColorSteelGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorLightGrayishBlack, requireContext())
+        setSVGColorFilter(binding.icProfile.ivProfileModify, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
 
         setProfile()
         intentProfileItemSetting()
@@ -219,7 +219,7 @@ class GoalsFragment : Fragment() {
                 when {
                     dDay < 3L -> R.color.purple_700
                     dDay < 7L -> R.color.purple_200
-                    else -> R.color.white
+                    else -> R.color.light_grayish
                 }
             )
         )
@@ -245,7 +245,7 @@ class GoalsFragment : Fragment() {
                 getGoalDetails[i].run {
                     setSVGColorFilter(goalImageList[i], goalColorRGB)
                     goalStatusList[i].text = getString(R.string.number_out_of_number, goalActual, goal)
-                    goalStatusList[i].setTextColor(getColor(requireContext(), if (goalActual == goal) R.color.purple_200 else R.color.white))
+                    goalStatusList[i].setTextColor(getColor(requireContext(), if (goalActual == goal) R.color.purple_200 else R.color.light_grayish))
                 }
                 setSecondGoalVisibility(i > 0)
             }
