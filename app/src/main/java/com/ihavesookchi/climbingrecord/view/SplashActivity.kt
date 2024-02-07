@@ -80,7 +80,10 @@ class SplashActivity : AppCompatActivity() {
                         context = this@SplashActivity,
                         view = binding.root,
                         title = getString(R.string.permission_notice_title),
-                        contents = getString(R.string.permission_notice_contents),
+                        contents = listOf(
+                            getString(R.string.permission_notice_contents),
+                            getString(R.string.permission_notice_location)
+                        ),
                         leftButtonText = getString(R.string.close),
                         rightButtonText = getString(R.string.permission_re_request)
                     ) { clickEvent ->
@@ -107,7 +110,10 @@ class SplashActivity : AppCompatActivity() {
                         context = this@SplashActivity,
                         view = binding.root,
                         title = getString(R.string.permission_notice_title),
-                        contents = getString(R.string.permission_notice_contents),
+                        contents = listOf(
+                            getString(R.string.permission_notice_contents),
+                            getString(R.string.permission_notice_location)
+                        ),
                         comments = getString(R.string.permission_notice_comment),
                         leftButtonText = getString(R.string.close),
                         rightButtonText = getString(R.string.setting)

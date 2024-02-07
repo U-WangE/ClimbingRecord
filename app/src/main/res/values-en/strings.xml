@@ -18,8 +18,8 @@
 
     <!--  Permission  -->
     <string name="permission_notice_title">Guide to granting required permissions</string>
-    <string name="permission_notice_contents">
-        Permission is required for the following reasons.\n
+    <string name="permission_notice_contents">Permission is required for the following reasons.</string>
+    <string name="permission_notice_location">
         &#8226; Location\n
         &#160;&#160;This is a necessary permission for map and climbing location display.
     </string>

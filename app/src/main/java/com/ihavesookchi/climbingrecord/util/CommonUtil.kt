@@ -3,9 +3,13 @@ package com.ihavesookchi.climbingrecord.util
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -16,6 +20,7 @@ import com.ihavesookchi.climbingrecord.databinding.LayoutPopupYesNoBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 object CommonUtil {
     private val CLASS_NAME = this::class.java.simpleName
@@ -52,30 +57,39 @@ object CommonUtil {
         context: Context,
         view: View,
         title: String?,
-        contents: String?,
+        contents: List<String> = emptyList(),
         comments: String? = null,
         leftButtonText: String,
         rightButtonText: String,
-        selectedButton: (String) -> Unit
+        selectedButton: (String) -> Unit,
     ) {
         val popupBinding = LayoutPopupYesNoBinding.inflate(LayoutInflater.from(context))
         val popupView = popupBinding.root
         val popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
             false
         )
 
         with(popupBinding) {
             tvTitle.text = title
-            tvContents.text = contents
+
+            if (contents.isEmpty())
+                tvContents.visibility = GONE
+            else {
+                var contentText = contents[0]
+                for (i in 1 until contents.size)
+                    contentText += "\n${contents[i]}"
+
+                tvContents.text = contentText
+            }
 
             comments?.let {
-                tvComments.visibility = View.VISIBLE
+                tvComments.visibility = VISIBLE
                 tvComments.text = comments
             }?: run {
-                tvComments.visibility = View.GONE
+                tvComments.visibility = GONE
             }
 
             btLeft.text = leftButtonText
