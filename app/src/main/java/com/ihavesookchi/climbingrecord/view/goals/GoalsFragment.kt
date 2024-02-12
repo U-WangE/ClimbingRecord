@@ -51,6 +51,7 @@ class GoalsFragment : Fragment() {
 
         return binding.root
     }
+
     private fun setDefaultUISetting() {
         binding.icGoalsStatus.clGoalsStatusLayout.visibility = GONE
 
@@ -99,12 +100,12 @@ class GoalsFragment : Fragment() {
 
     private fun setInstagramUserName() {
         binding.icProfile.tvInstagramUserName.text =
-            viewModel.getInstagramUserName().ifEmpty { getString(R.string.hint_link_to_instagram) }
+            sharedViewModel.getInstagramUserName().ifEmpty { getString(R.string.hint_link_to_instagram) }
     }
 
     private fun setNickName() {
         binding.icProfile.tvNickname.text =
-            viewModel.getNickName().ifEmpty { getString(R.string.default_unknown) }
+            sharedViewModel.getNickName().ifEmpty { getString(R.string.default_unknown) }
     }
 
     private fun intentProfileItemSetting() {
@@ -118,7 +119,7 @@ class GoalsFragment : Fragment() {
 
     private fun intentInstagramSetting() {
         binding.icProfile.llInstagramLayout.setOnClickListener {
-            val instagramUserName = viewModel.getInstagramUserName()
+            val instagramUserName = sharedViewModel.getInstagramUserName()
 
             ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "intentInstagramSetting() Instagram 이동 버튼 Clicked   instagramUserName  :  $instagramUserName")
 

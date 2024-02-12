@@ -1,5 +1,6 @@
 package com.ihavesookchi.climbingrecord.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -43,7 +44,16 @@ open class BaseActivity : AppCompatActivity() {
                 }
                 is UserDataUiState.UserDataFailure -> {
                     toast(this, "UserDataUiState.UserDataFailure")
+
+                    startActivity(
+                        Intent(this, LoginActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                    Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                    )
                 }
+                else -> {}
             }
         }
     }

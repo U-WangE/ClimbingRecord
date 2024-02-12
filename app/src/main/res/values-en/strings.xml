@@ -23,6 +23,10 @@
         &#8226; Location\n
         &#160;&#160;This is a necessary permission for map and climbing location display.
     </string>
+    <string name="permission_notice_read_storage">
+        &#8226; Storage\n
+        &#160;&#160;These are the permissions required to set your profile image.
+    </string>
     <string name="permission_notice_comment">Go to the Settings screen for permission.</string>
 
     <!--  Hint  -->

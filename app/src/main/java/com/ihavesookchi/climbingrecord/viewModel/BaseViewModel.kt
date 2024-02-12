@@ -7,6 +7,7 @@ import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
+import com.ihavesookchi.climbingrecord.data.response.UserDataResponse
 import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
 import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +36,7 @@ class BaseViewModel @Inject constructor(
             userDataRepository.userDataApi().let {
                 launch(Dispatchers.Main) {
                     try {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseUserData() User Api Success    DocumentSnapshot : $it")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseUserData() get User Data Api Success    DocumentSnapshot : $it")
 
                         userDataRepository.setUserData(it!!)
 
@@ -45,7 +46,6 @@ class BaseViewModel @Inject constructor(
                         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseUserData() Unexpected null value    nullException : $nullPointerException")
 
                         setFirebaseUserData()
-
                     } catch (e: Exception) {
                         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseUserData() Other exception    exception : $e")
 
@@ -60,12 +60,10 @@ class BaseViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             userDataRepository.setFirebaseUserData().let {
                 launch(Dispatchers.Main) {
-                    Log.d(CLASS_NAME, it.toString())
                     try {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData() User Api Success    DocumentSnapshot : $it")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData() set User Data Api    DocumentSnapshot : $it")
 
-                        _userDataUiState.value = UserDataUiState.UserDataSuccess
-
+                        _userDataUiState.value = it
                     } catch (e: Exception) {
                         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData() Other exception    exception : $e")
 
@@ -82,5 +80,16 @@ class BaseViewModel @Inject constructor(
 
     fun getGoalsAchievementData(): GoalsDataResponse.GoalsAchievementStatus {
         return TODO("Provide the return value")
+    }
+
+    /**
+     * Profile
+     **/
+    private fun getUserData(): UserDataResponse = userDataRepository.getUserData()
+
+    fun getInstagramUserName(): String = getUserData().instagramUserName
+    fun getNickName(): String = getUserData().nickname
+    fun getProfileImage() {
+
     }
 }
