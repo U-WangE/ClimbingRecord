@@ -76,17 +76,4 @@ class GoalsViewModel @Inject constructor(
     fun getGoalsDDay(): Long = TimeUnit.MILLISECONDS.toDays(goalsDataRepository.getEndDate() - System.currentTimeMillis())
 
     fun getGoalsAchievementStatus(): GoalsDataResponse.GoalsAchievementStatus = goalsDataRepository.getGoalsAchievementStatus()
-
-    /**
-     * Profile
-     **/
-    private fun getUserData(): UserDataResponse {
-        return userDataRepository.getUserData()
-    }
-
-    fun getInstagramUserName(): String = getUserData().instagramUserName
-    fun getNickName(): String = getUserData().nickname
-    fun getProfileImage() {
-
-    }
 }

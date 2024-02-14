@@ -6,7 +6,7 @@
     <style name="style_kcc_chassam_medium_xxxx_small">
         <item name="android:fontFamily">@font/kcc_chassam</item>
         <item name="android:textSize">5sp</item>
-        <item name="android:textFontWeight">500</item>
+        <item name="android:textFontWeight">300</item>
     </style>
     <style name="style_kcc_chassam_bold_xxxx_small">
         <item name="android:fontFamily">@font/kcc_chassam</item>
@@ -18,7 +18,7 @@
     <style name="style_kcc_chassam_medium_xxx_small">
         <item name="android:fontFamily">@font/kcc_chassam</item>
         <item name="android:textSize">10sp</item>
-        <item name="android:textFontWeight">500</item>
+        <item name="android:textFontWeight">300</item>
     </style>
     <style name="style_kcc_chassam_bold_xxx_small">
         <item name="android:fontFamily">@font/kcc_chassam</item>
@@ -35,7 +35,7 @@
     <style name="style_kcc_chassam_bold_xx_small">
         <item name="android:fontFamily">@font/kcc_chassam</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textFontWeight">500</item>
+        <item name="android:textFontWeight">700</item>
     </style>
 
 <!-- X Small -->

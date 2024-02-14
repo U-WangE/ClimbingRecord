@@ -1,22 +1,60 @@
 package com.ihavesookchi.climbingrecord.view.goals
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.provider.Settings
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
+import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.FragmentProfileItemChangeBinding
+import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
+import com.ihavesookchi.climbingrecord.util.CommonUtil.twoButtonPopupWindow
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
+import com.ihavesookchi.climbingrecord.viewModel.ProfileItemChangeViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class ProfileItemChangeFragment : Fragment() {
     private var _binding: FragmentProfileItemChangeBinding? = null
     private val binding get() = _binding!!
 
+    companion object {
+        private const val READ_STORAGE_REQUEST_CODE = 1111
+    }
+
     private val CLASS_NAME = this::class.java.simpleName
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
-//    private val viewModel: ProfileItemChangeViewModel by viewModels()
+    private val viewModel: ProfileItemChangeViewModel by viewModels()
+
+    private val readStoragePermission = if (SDK_INT > VERSION_CODES.S_V2) READ_MEDIA_IMAGES else READ_EXTERNAL_STORAGE
+
+    private var resizeBitmapImage: Bitmap? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +62,207 @@ class ProfileItemChangeFragment : Fragment() {
     ): View? {
         _binding = FragmentProfileItemChangeBinding.inflate(inflater, container, false)
 
-
+        setDefaultUISetting()
+        //TODO::UserData Update 후 처리 없음 필요
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setEditProfileOnClickListener()
+    }
+
+    private fun setDefaultUISetting() {
+        setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.ivRemoveProfile, R.color.rosewood, requireContext())
+
+        setEditInstagramUserNameFilter()
+        setEditNickNameFilter()
+        binding.etInstagramUserNameContent.setText(sharedViewModel.getInstagramUserName())
+        binding.etNicknameContent.setText(sharedViewModel.getNickName())
+
+        // profile 수정 처리
+        binding.btEditButton.setOnClickListener {
+            //TODO::공백시 제안, 같은 값인 경우 제안 필요
+            viewModel.updateUserData(binding.etNicknameContent.text.toString(), binding.etInstagramUserNameContent.text.toString())
+        }
+    }
+
+    /*
+    * Emoji X
+    * a-z, A-Z, ㄱ-힣, . , _  만 허용
+    * Double-Space Full Stop X
+    * -> Space 연속 2번 입력시 ". " 자동 입력 및 변환 되는 현상 해결
+    * -> inputType="textVisiblePassword"
+    */
+    private fun setEditInstagramUserNameFilter() {
+        binding.etInstagramUserNameContent.filters =
+            arrayOf(InputFilter { charSequence, _, _, _, _, _ ->
+                val ps = Pattern.compile("^[^\\wㄱ-ㅎㅏ-ㅣ가-힣\\.]+\$")
+
+                return@InputFilter if (
+                    charSequence.any { char ->
+                        Character.getType(char) == Character.SURROGATE.toInt() ||
+                                Character.getType(char) == Character.OTHER_SYMBOL.toInt() ||
+                                ps.matcher(char.toString()).matches() })
+                    ""
+                else
+                    null
+            })
+    }
+
+    private fun setEditNickNameFilter() {
+        binding.etNicknameContent.filters =
+            arrayOf(InputFilter { charSequence, _, _, _, _, _ ->
+                return@InputFilter if (
+                    charSequence.any { char ->
+                        Character.getType(char) == Character.SURROGATE.toInt() ||
+                                Character.getType(char) == Character.OTHER_SYMBOL.toInt()})
+                    ""
+                else
+                    null
+            })
+    }
+
+    private fun setEditProfileOnClickListener() {
+        val editProfileClickListener = OnClickListener { readStoragePermission() }
+
+        binding.ivProfileImage.setOnClickListener(editProfileClickListener)
+        binding.tvEditProfilePicture.setOnClickListener(editProfileClickListener)
+
+        binding.ivRemoveProfile.setOnClickListener {
+            //TODO::profile image uri 가 null or empty인 경우 처리 필요
+            sharedViewModel.getProfileImage()
+            binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
+            setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+
+            viewModel.setSelectedImage(null)
+        }
+    }
+
+    private val storageIntentResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "storageIntentResultLauncher Selected Image URI   ${it.data?.data}")
+
+        it.data?.data?.let { uri ->
+            binding.ivProfileImage.clearColorFilter()
+
+            val bitmap = getBitmapFromUri(uri)
+            resizeBitmapImage = getCircularBitmap(bitmap)
+            binding.ivProfileImage.setImageBitmap(resizeBitmapImage)
+        }
+    }
+
+    private fun getBitmapFromUri(uri: Uri): Bitmap {
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        return BitmapFactory.decodeStream(inputStream)
+    }
+
+    // 원형 캠버스에 정사각형 비트맵 이미지 제작
+    private fun getCircularBitmap(bitmap: Bitmap): Bitmap {
+        val targetSize = 90f
+
+        // 비트맵의 가로세로 비율을 기반으로 너비와 높이 계산
+        val width = if (bitmap.width > bitmap.height) {
+            (targetSize * (bitmap.width.toFloat() / bitmap.height)).dpToPx()
+        } else {
+            targetSize.dpToPx()
+        }
+        val height = if (bitmap.width > bitmap.height) {
+            targetSize.dpToPx()
+        } else {
+            (targetSize / (bitmap.width.toFloat() / bitmap.height)).dpToPx()
+        }
+
+        return viewModel.changeCircularBitmap(bitmap, width, height)
+    }
+
+    private fun Float.dpToPx(): Int {
+        val scale = resources.displayMetrics.density
+        return (this * scale + 0.5f).toInt()
+    }
+
+    private fun intentStorage() {
+        storageIntentResultLauncher.launch(
+            Intent(Intent.ACTION_PICK).apply {
+                type = "image/*"
+            }
+        )
+    }
+
+    private val storagePermissionResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (it) {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "storagePermissionResultLauncher Storage Permission Granted")
+
+            intentStorage()
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    readStoragePermission
+                )
+            ) {
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "storagePermissionResultLauncher Storage Permission Denied 1 Time")
+
+                // 처음 권한 거부시 해당 PopupWindow 띄움
+                twoButtonPopupWindow(
+                    context = requireContext(),
+                    view = binding.root,
+                    title = getString(R.string.permission_notice_title),
+                    contents = listOf(
+                        getString(R.string.permission_notice_contents),
+                        getString(R.string.permission_notice_location)
+                    ),
+                    leftButtonText = getString(R.string.close),
+                    rightButtonText = getString(R.string.permission_re_request)
+                ) { clickEvent ->
+                    when (clickEvent) {
+                        "Left" -> {}
+                        "Right" -> readStoragePermission()
+                    }
+                }
+            } else {
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "storagePermissionResultLauncher Storage Permission Denied 2 Time Or More")
+
+                // 두 번 이상 권한 거부시 해당 PopupWindow 띄움
+                twoButtonPopupWindow(
+                    context = requireContext(),
+                    view = binding.root,
+                    title = getString(R.string.permission_notice_title),
+                    contents = listOf(
+                        getString(R.string.permission_notice_contents),
+                        getString(R.string.permission_notice_read_storage)
+                    ),
+                    comments = getString(R.string.permission_notice_comment),
+                    leftButtonText = getString(R.string.close),
+                    rightButtonText = getString(R.string.setting)
+                ) { clickEvent ->
+                    when (clickEvent) {
+                        "Left" -> {}
+                        "Right" -> intentSetting()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun readStoragePermission() {
+        storagePermissionResultLauncher.launch(readStoragePermission)
+    }
+
+    private val settingResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        readStoragePermission()
+    }
+
+    private fun intentSetting() {
+        settingResultLauncher.launch(
+            Intent().apply {
+                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                data = Uri.fromParts(
+                    "package",
+                    requireActivity().packageName,
+                    null
+                )
+            }
+        )
     }
 }

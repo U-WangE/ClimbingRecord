@@ -1,5 +1,6 @@
 package com.ihavesookchi.climbingrecord.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -35,15 +36,6 @@ open class BaseActivity : AppCompatActivity() {
         setNavigationBarSelectedListener()
     }
 
-    fun replaceFragment(fragment: Fragment, bundle: Bundle? = null) {
-        fragment.arguments = bundle
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction
-            .replace(R.id.fl_frame_layout, fragment)
-            .commit()
-    }
-
     private fun observingGoalsDataUiState() {
         sharedViewModel.userDataUiState.observe(this) {
             when (it) {
@@ -52,7 +44,16 @@ open class BaseActivity : AppCompatActivity() {
                 }
                 is UserDataUiState.UserDataFailure -> {
                     toast(this, "UserDataUiState.UserDataFailure")
+
+                    startActivity(
+                        Intent(this, LoginActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                    Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                    )
                 }
+                else -> {}
             }
         }
     }
@@ -86,5 +87,34 @@ open class BaseActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener true
         }
+    }
+
+    fun replaceFragment(fragment: Fragment, bundle: Bundle? = null) {
+        fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction
+            .replace(R.id.fl_frame_layout, fragment)
+            .commit()
+    }
+
+    fun addFragment(fragment: Fragment, bundle: Bundle? = null) {
+        fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction
+            .add(R.id.fl_frame_layout, fragment)
+            .addToBackStack(null)
+            .commit()
+
+    }
+
+    fun removeFragment(fragment: Fragment, bundle: Bundle? = null) {
+        fragment.arguments = bundle
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction
+            .remove(fragment)
+            .commit()
     }
 }

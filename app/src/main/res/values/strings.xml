@@ -21,6 +21,31 @@
     <string name="permission_re_request">권한재요청</string>
     <string name="start_en" translatable="false">Start</string>
     <string name="goal_en" translatable="false">Goal</string>
+    <string name="edit_profile_picture">프로필 사진 수정</string>
+    <string name="edit">수정하기</string>
+
+    <!-- date -->
+    <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
+    <string name="y_m_d">%1$tY/%1$tm/%1$td</string>
+
+    <!--  Permission  -->
+    <string name="permission_notice_title">필수 권한 허용 안내</string>
+    <string name="permission_notice_contents">아래와 같은 이유로 권한 허용이 필요합니다.</string>
+    <string name="permission_notice_location">
+        &#8226; 위치\n
+        &#160;&#160;지도 및 클라이밍장 위치 표시를 위해 반드시 필요한 권한입니다.
+    </string>
+    <string name="permission_notice_read_storage">
+        &#8226; 저장공간\n
+        &#160;&#160;프로필 이미지를 설정하기 위해 필요한 권한입니다.
+    </string>
+    <string name="permission_notice_comment">권한 허용을 위해 설정화면으로 이동합니다.</string>
+
+    <!--  Hint  -->
+    <string name="hint_search_keyword">장소, 주소 검색</string>
+    <string name="hint_link_to_instagram" translatable="false">Link to Instagram</string>
+    <string name="hint_instagram_user_name">사용자 이름에는 문자, 숫자, 밑줄 및 마침표만 입력할 수 있습니다.</string>
+
 
     <string name="d_of_d_day" translatable="false">D-</string>
 
@@ -28,37 +53,27 @@
     <string name="number_out_of_number" translatable="false">%1$d / %2$d</string>
 
 
-    <string name="permission_notice_title">필수 권한 허용 안내</string>
-    <string name="permission_notice_contents">
-        아래와 같은 이유로 권한 허용이 필요합니다.\n
-        &#8226; 위치\n
-        &#160;&#160;지도 및 클라이밍장 위치 표시를 위해 반드시 필요한 권한입니다.
-    </string>
-    <string name="permission_notice_comment">권한 허용을 위해 설정화면으로 이동합니다.</string>
-
     <string name="toast_input_instagram_user_name">인스타그램 ID를 입력해주세요.</string>
-
-    <string name="hint_search_keyword">장소, 주소 검색</string>
-    <string name="hint_link_to_instagram" translatable="false">Link to Instagram</string>
 
     <string name="notice_no_search_result_for_keyword">\"%s\" 에 대한 검색 결과가 없습니다.</string>
 
+    <!--  Title  -->
+    <string name="title_nickname">닉네임</string>
+    <string name="title_instagram_user_name">인스타그램 사용자 이름</string>
 
-    <!-- date -->
-    <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
-    <string name="y_m_d">%1$tY/%1$tm/%1$td</string>
 
 
+    <!--  Content  -->
     <string name="this_date_type_record">이번 %s 기록</string>
     <string name="exercise_time">운동 시간</string>
     <string name="achievement_total_count">완등 개수</string>
     <string name="exercise_count">운동 횟수</string>
 
-
     <!-- default -->
     <string name="default_hyphen" translatable="false">-</string>
     <string name="default_hyphen_out_of_hyphen" translatable="false">- / -</string>
     <string name="default_unknown" translatable="false">Unknown</string>
+
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>

@@ -168,7 +168,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             viewModel.removeSearchData()
         }
         
-        binding.sbSearchBar.setOnQueryTextFocusChangeListener { searchView, hasFocus ->
+        binding.sbSearchBar.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Focus removed from Search Bar")
 
@@ -189,7 +189,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 is SearchKeywordUiState.SearchKeywordFailure -> {
 
                 }
-
                 else -> {}
             }
         }
