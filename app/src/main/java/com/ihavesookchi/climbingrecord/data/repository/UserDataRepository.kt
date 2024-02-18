@@ -8,6 +8,7 @@ interface UserDataRepository {
     fun initUserData()
     suspend fun userDataApi(): DocumentSnapshot?
     fun setUserData(documentSnapshot: DocumentSnapshot)
+    fun setUserData(userDataResponse: UserDataResponse)
     suspend fun setFirebaseUserData(): UserDataUiState
     fun getUserData(): UserDataResponse
 }

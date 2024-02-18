@@ -10,6 +10,7 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.provider.Settings
+import android.service.autofill.UserData
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -30,8 +31,10 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
+import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentProfileItemChangeBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
+import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
 import com.ihavesookchi.climbingrecord.util.CommonUtil.twoButtonPopupWindow
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.ProfileItemChangeViewModel
@@ -63,7 +66,10 @@ class ProfileItemChangeFragment : Fragment() {
         _binding = FragmentProfileItemChangeBinding.inflate(inflater, container, false)
 
         setDefaultUISetting()
+
         //TODO::UserData Update 후 처리 없음 필요
+        observingUserDataUiState()
+
         return binding.root
     }
 
@@ -84,8 +90,52 @@ class ProfileItemChangeFragment : Fragment() {
 
         // profile 수정 처리
         binding.btEditButton.setOnClickListener {
-            //TODO::공백시 제안, 같은 값인 경우 제안 필요
-            viewModel.updateUserData(binding.etNicknameContent.text.toString(), binding.etInstagramUserNameContent.text.toString())
+            checkProfileDataIsWritten()
+
+            if (checkProfileDataIsChanged())
+                viewModel.updateUserData(binding.etInstagramUserNameContent.text.toString(), binding.etNicknameContent.text.toString())
+            else
+                toast(requireContext(), getString(R.string.toast_completed_revision))
+        }
+    }
+
+    // Profile 데이터 중 하나라도 수정 되었으면 true
+    private fun checkProfileDataIsChanged(): Boolean {
+        val instagramUserName = binding.etInstagramUserNameContent.text
+        val nickname = binding.etNicknameContent.text
+
+        return viewModel.getSelectedImage() != null ||
+                nickname.toString() != sharedViewModel.getNickName() ||
+                instagramUserName.toString() != sharedViewModel.getInstagramUserName()
+    }
+
+    // 입력란 중 빈값이 있는 경우, 기존 유저 데이터로 자동 세팅
+    private fun checkProfileDataIsWritten() {
+        val instagramUserName = binding.etInstagramUserNameContent.text
+        val nickname = binding.etNicknameContent.text
+
+        if (instagramUserName.isEmpty()) binding.etInstagramUserNameContent.setText(sharedViewModel.getInstagramUserName())
+        if (nickname.isEmpty()) binding.etNicknameContent.setText(sharedViewModel.getNickName())
+    }
+
+    private fun observingUserDataUiState() {
+        viewModel.userDataUiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UserDataUiState.UserDataSuccess -> {
+                    setDefaultUISetting()
+                    toast(requireContext(), getString(R.string.toast_completed_revision))
+                }
+                is UserDataUiState.UserDataUpdateSuccess -> {
+                    sharedViewModel.getFirebaseUserData()
+                }
+                is UserDataUiState.UserDataFailure -> {
+                    toast(requireContext(), getString(R.string.toast_please_try_again_later))
+                }
+                is UserDataUiState.AttemptLimitExceeded -> {
+                    toast(requireContext(), getString(R.string.toast_check_your_network_connection))
+                }
+                else -> {}
+            }
         }
     }
 
@@ -132,8 +182,6 @@ class ProfileItemChangeFragment : Fragment() {
         binding.tvEditProfilePicture.setOnClickListener(editProfileClickListener)
 
         binding.ivRemoveProfile.setOnClickListener {
-            //TODO::profile image uri 가 null or empty인 경우 처리 필요
-            sharedViewModel.getProfileImage()
             binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
             setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
 

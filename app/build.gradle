@@ -36,7 +36,7 @@ android {
     }
 
     signingConfigs {
-        release {
+        keystore {
             storeFile project.rootProject.file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
             keyAlias keystoreProperties['keyAlias']
@@ -46,11 +46,12 @@ android {
 
     buildTypes {
         debug {
+            signingConfig signingConfigs.keystore
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.keystore
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -109,9 +110,11 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
 
     // firebase
-    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation platform('com.google.firebase:firebase-bom:32.7.2')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-appcheck-playintegrity'
+    implementation 'com.google.firebase:firebase-appcheck-debug'
 }
