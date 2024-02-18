@@ -90,6 +90,9 @@ class BaseViewModel @Inject constructor(
     fun getInstagramUserName(): String = getUserData().instagramUserName
     fun getNickName(): String = getUserData().nickname
     fun getProfileImage() {
+    }
 
+    fun setUserData(userDataResponse: UserDataResponse) {
+        userDataRepository.setUserData(userDataResponse)
     }
 }

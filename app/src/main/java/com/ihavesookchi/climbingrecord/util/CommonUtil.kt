@@ -15,8 +15,11 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupYesNoBinding
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -51,6 +54,36 @@ object CommonUtil {
 
     fun setSVGColorFilter(appCompatImageView: AppCompatImageView, goalColorId: Int, context: Context) {
         appCompatImageView.setColorFilter(ContextCompat.getColor(context, goalColorId), PorterDuff.Mode.SRC_IN)
+    }
+
+    fun Any.toMap(): Map<String, Any?> {
+        val json = Gson().toJson(this)
+        val mapType = object : TypeToken<Map<String, Any>>() {}.type
+        return Gson().fromJson(json, mapType)
+    }
+
+    suspend fun <T> retry(
+        times: Int,
+        delayMillis: Long = 1000,
+        block: suspend () -> T
+    ): T? {
+        var lastException: Exception? = null
+
+        repeat(times) { attempt ->
+            try {
+                return block()
+            } catch (e: Exception) {
+                lastException = e
+
+                // 실패 시 재시도 대기
+                if (attempt < times - 1) {
+                    delay(delayMillis)
+                }
+            }
+        }
+
+        // 최대 재시도 횟수를 초과하면 마지막 예외를 던집니다.
+        throw lastException ?: IllegalStateException("Unexpected state in retry function.")
     }
 
     fun twoButtonPopupWindow(

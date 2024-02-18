@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
+import com.ihavesookchi.climbingrecord.data.dataState.UpdateDataState
 import com.ihavesookchi.climbingrecord.data.repository.ProfileItemChangeRepository
 import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.response.UserDataResponse
@@ -33,7 +34,8 @@ class ProfileItemChangeViewModel @Inject constructor(
 
     private val CLASS_NAME = this::class.java.simpleName
 
-    private var selectedImage: Bitmap? = null
+    private var userDataResponse = userDataRepository.getUserData()
+        private var selectedImage: Bitmap? = null
 
     fun changeCircularBitmap(bitmap: Bitmap, width: Int, height: Int): Bitmap {
         // 정사각형 비트맵 생성
@@ -64,8 +66,12 @@ class ProfileItemChangeViewModel @Inject constructor(
     }
 
     fun setSelectedImage(bitmap: Bitmap?) {
+        if (bitmap == null)
+            userDataResponse.apply { profileImage = "" }
         selectedImage = bitmap
     }
+
+    fun getSelectedImage(): Bitmap? = selectedImage
 
     fun bitmapToByteArray(): ByteArray? {
         return selectedImage?.let {
@@ -75,19 +81,21 @@ class ProfileItemChangeViewModel @Inject constructor(
         }
     }
 
-    fun updateUserData(nickname: String, instagramUserName: String) {
-        val userDataResponse = userDataRepository.getUserData().apply {
-            this.nickname = nickname
+    fun updateUserData(instagramUserName: String, nickname: String) {
+        userDataResponse = userDataResponse.apply {
             this.instagramUserName = instagramUserName
+            this.nickname = nickname
         }
         uploadBitmapToFirebaseStorage(userDataResponse)
     }
 
-    // firebase Storage에 저장 처리
+    // firebase Storage 에 저장 처리
     private fun uploadBitmapToFirebaseStorage(userData: UserDataResponse) {
         selectedImage?.let {
             bitmapToByteArray()?.let {
                 profileItemChangeRepository.uploadBitmapToFirebaseStorage(it) { uri ->
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "uploadBitmapToFirebaseStorage() Firebase Storage Api Success   image uri : $uri")
+
                     val userDataResponse = userData.apply {
                         profileImage = (uri?:profileImage).toString()
                     }
@@ -95,6 +103,8 @@ class ProfileItemChangeViewModel @Inject constructor(
                 }
             }
         }?: run {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "uploadBitmapToFirebaseStorage() image null   userData : $userData")
+
             updateUserDataToFirebaseDB(userData)
         }
     }
@@ -104,16 +114,13 @@ class ProfileItemChangeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             profileItemChangeRepository.updateUserData(userDataResponse).let {
                 launch(Dispatchers.Main) {
-                    Log.d(CLASS_NAME, it.toString())
-                    try {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData() User Api Success    DocumentSnapshot : $it")
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "updateUserDataToFirebaseDB() User data Update    Update Result : $it")
 
-                        _userDataUiState.value = UserDataUiState.UserDataUpdateSuccess
-
-                    } catch (e: Exception) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData() Other exception    exception : $e")
-
-                        _userDataUiState.value = UserDataUiState.UserDataFailure
+                    when (it) {
+                        UpdateDataState.UpdateSuccess -> _userDataUiState.value = UserDataUiState.UserDataUpdateSuccess
+                        UpdateDataState.AttemptLimitExceeded -> _userDataUiState.value = UserDataUiState.AttemptLimitExceeded
+                        UpdateDataState.UpdateFailure -> _userDataUiState.value = UserDataUiState.UserDataFailure
+                        else -> _userDataUiState.value = UserDataUiState.UserDataFailure
                     }
                 }
             }

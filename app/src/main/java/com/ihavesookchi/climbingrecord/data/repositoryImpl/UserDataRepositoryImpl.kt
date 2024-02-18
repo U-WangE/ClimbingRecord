@@ -32,7 +32,7 @@ class UserDataRepositoryImpl @Inject constructor(
                 .await()
         } catch (e: FirebaseFirestoreException) {
             // storage rule 위반
-            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "userDataApi()   Firebase FireStore Permission Denied  :  $e")
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "userDataApi()   Firebase Firestore Permission Denied  :  $e")
             null
         }
     }
@@ -40,7 +40,13 @@ class UserDataRepositoryImpl @Inject constructor(
     override fun setUserData(documentSnapshot: DocumentSnapshot) {
         userDataResponse = documentSnapshot.toObject(UserDataResponse::class.java)!!
 
-        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Set GoalsDataResponse Done    goalsDataResponse  :  $userDataResponse")
+        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setUserData(DocumentSnapshot) Set GoalsDataResponse Done    goalsDataResponse  :  $userDataResponse")
+    }
+
+    override fun setUserData(userDataResponse: UserDataResponse) {
+        this.userDataResponse = userDataResponse
+
+        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setUserData(DocumentSnapshot) Set GoalsDataResponse Done    goalsDataResponse  :  $userDataResponse")
     }
 
     override suspend fun setFirebaseUserData(): UserDataUiState {
@@ -53,10 +59,11 @@ class UserDataRepositoryImpl @Inject constructor(
             UserDataUiState.UserDataSuccess
         } catch (e: FirebaseFirestoreException) {
             // storage rule 위반
-            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData()   Firebase FireStore Permission Denied  :  $e")
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData()   Firebase Firestore Permission Denied  :  $e")
             UserDataUiState.UserDataFailure
         }
     }
 
     override fun getUserData(): UserDataResponse = userDataResponse
+
 }
