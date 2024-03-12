@@ -38,6 +38,7 @@
     <string name="toast_completed_revision">Completed the revision.</string>
     <string name="toast_please_try_again_later">Please try again later.</string>
     <string name="toast_check_your_network_connection">Check your network connection.</string>
+    <string name="toast_profile_image_reset_contents">프로필 이미지를 초기화 하겠습니까?</string>
 
     <string name="notice_no_search_result_for_keyword">No search results for \\\"%s\\\".</string>
 

@@ -28,7 +28,7 @@ open class BaseActivity : AppCompatActivity() {
         _binding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedViewModel.getFirebaseUserData()
+        sharedViewModel.getUserDataFromFirebaseDB()
         observingGoalsDataUiState()
 
         replaceFragment(MapFragment())
@@ -36,7 +36,7 @@ open class BaseActivity : AppCompatActivity() {
         setNavigationBarSelectedListener()
     }
 
-    private fun observingGoalsDataUiState() {
+    fun observingGoalsDataUiState() {
         sharedViewModel.userDataUiState.observe(this) {
             when (it) {
                 is UserDataUiState.UserDataSuccess -> {
@@ -52,6 +52,9 @@ open class BaseActivity : AppCompatActivity() {
                                     Intent.FLAG_ACTIVITY_NEW_TASK
                         }
                     )
+                }
+                is UserDataUiState.AttemptLimitExceeded -> {
+                    // 잠시 후 다시 시도 Message
                 }
                 else -> {}
             }

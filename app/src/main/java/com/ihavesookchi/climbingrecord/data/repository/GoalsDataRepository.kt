@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
 
 interface GoalsDataRepository {
-    suspend fun goalsDataApi(): DocumentSnapshot?
+    suspend fun getGoalsDataFromFirebaseDB(): Task<DocumentSnapshot>?
     fun setGoalsData(documentSnapshot: DocumentSnapshot)
     fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail>
     fun getStartDate(): Long

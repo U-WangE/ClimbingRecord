@@ -1,13 +1,16 @@
 package com.ihavesookchi.climbingrecord.data.repositoryImpl
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.firestore
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
+import com.ihavesookchi.climbingrecord.util.CommonUtil.retry
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -23,11 +26,16 @@ class GoalsDataRepositoryImpl @Inject constructor(
 
     override fun initResponse() { goalsDataResponse = GoalsDataResponse() }
 
-    override suspend fun goalsDataApi(): DocumentSnapshot? {
-        return db.collection("goals")
-            .document(firebaseAuth.currentUser?.uid ?: "anonymous")
-            .get()
-            .await()
+    override suspend fun getGoalsDataFromFirebaseDB(): Task<DocumentSnapshot>? {
+        return retry {
+            db.collection("goals")
+                .document(firebaseAuth.currentUser?.uid ?: "anonymous")
+                .get()
+                .run {
+                    await()
+                    this
+                }
+        }
     }
 
     override fun setGoalsData(documentSnapshot: DocumentSnapshot) {
