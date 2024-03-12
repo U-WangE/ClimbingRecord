@@ -10,25 +10,16 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.provider.Settings
-import android.service.autofill.UserData
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.firestore
-import com.google.firebase.storage.FirebaseStorage
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
@@ -36,6 +27,7 @@ import com.ihavesookchi.climbingrecord.databinding.FragmentProfileItemChangeBind
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
 import com.ihavesookchi.climbingrecord.util.CommonUtil.twoButtonPopupWindow
+import com.ihavesookchi.climbingrecord.util.ImageLoadTask
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.ProfileItemChangeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +61,7 @@ class ProfileItemChangeFragment : Fragment() {
 
         //TODO::UserData Update 후 처리 없음 필요
         observingUserDataUiState()
+        observingSharedUserDataUiState()
 
         return binding.root
     }
@@ -77,20 +70,58 @@ class ProfileItemChangeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setEditProfileOnClickListener()
+        setEditButtonOnClickListener()
     }
 
     private fun setDefaultUISetting() {
-        setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
         setSVGColorFilter(binding.ivRemoveProfile, R.color.rosewood, requireContext())
+
+        if (sharedViewModel.getProfileImage().isEmpty()) {
+            binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
+            setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        } else {
+            binding.ivProfileImage.clearColorFilter()
+            ImageLoadTask(binding.ivProfileImage).loadImage(sharedViewModel.getProfileImage())
+        }
 
         setEditInstagramUserNameFilter()
         setEditNickNameFilter()
         binding.etInstagramUserNameContent.setText(sharedViewModel.getInstagramUserName())
         binding.etNicknameContent.setText(sharedViewModel.getNickName())
+    }
 
+    private fun setEditProfileOnClickListener() {
+        val editProfileClickListener = OnClickListener { readStoragePermission() }
+
+        binding.ivProfileImage.setOnClickListener(editProfileClickListener)
+        binding.tvEditProfilePicture.setOnClickListener(editProfileClickListener)
+
+        binding.ivRemoveProfile.setOnClickListener {
+            twoButtonPopupWindow(
+                context = requireContext(),
+                view = binding.root,
+                title = null,
+                contents = listOf(getString(R.string.toast_profile_image_reset_contents)),
+                leftButtonText = getString(R.string.no),
+                rightButtonText = getString(R.string.yes)
+            ) { clickEvent ->
+                when (clickEvent) {
+                    "Left" -> {}
+                    "Right" -> {
+                        binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
+                        setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+
+                        viewModel.deleteBitmapToFirebaseStorage()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setEditButtonOnClickListener() {
         // profile 수정 처리
         binding.btEditButton.setOnClickListener {
-            checkProfileDataIsWritten()
+            checkProfileNameDataIsWritten()
 
             if (checkProfileDataIsChanged())
                 viewModel.updateUserData(binding.etInstagramUserNameContent.text.toString(), binding.etNicknameContent.text.toString())
@@ -110,7 +141,7 @@ class ProfileItemChangeFragment : Fragment() {
     }
 
     // 입력란 중 빈값이 있는 경우, 기존 유저 데이터로 자동 세팅
-    private fun checkProfileDataIsWritten() {
+    private fun checkProfileNameDataIsWritten() {
         val instagramUserName = binding.etInstagramUserNameContent.text
         val nickname = binding.etNicknameContent.text
 
@@ -121,18 +152,27 @@ class ProfileItemChangeFragment : Fragment() {
     private fun observingUserDataUiState() {
         viewModel.userDataUiState.observe(viewLifecycleOwner) {
             when (it) {
-                is UserDataUiState.UserDataSuccess -> {
-                    setDefaultUISetting()
-                    toast(requireContext(), getString(R.string.toast_completed_revision))
-                }
                 is UserDataUiState.UserDataUpdateSuccess -> {
-                    sharedViewModel.getFirebaseUserData()
+                    toast(requireContext(), getString(R.string.toast_completed_revision))
+
+                    sharedViewModel.getUserDataFromFirebaseDB()
                 }
                 is UserDataUiState.UserDataFailure -> {
                     toast(requireContext(), getString(R.string.toast_please_try_again_later))
                 }
                 is UserDataUiState.AttemptLimitExceeded -> {
                     toast(requireContext(), getString(R.string.toast_check_your_network_connection))
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun observingSharedUserDataUiState() {
+        sharedViewModel.userDataUiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UserDataUiState.UserDataSuccess -> {
+                    setDefaultUISetting()
                 }
                 else -> {}
             }
@@ -173,20 +213,6 @@ class ProfileItemChangeFragment : Fragment() {
                 else
                     null
             })
-    }
-
-    private fun setEditProfileOnClickListener() {
-        val editProfileClickListener = OnClickListener { readStoragePermission() }
-
-        binding.ivProfileImage.setOnClickListener(editProfileClickListener)
-        binding.tvEditProfilePicture.setOnClickListener(editProfileClickListener)
-
-        binding.ivRemoveProfile.setOnClickListener {
-            binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
-            setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
-
-            viewModel.setSelectedImage(null)
-        }
     }
 
     private val storageIntentResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

@@ -6,12 +6,12 @@ import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
 import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
-import com.ihavesookchi.climbingrecord.data.response.UserDataResponse
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -30,30 +30,37 @@ class GoalsViewModel @Inject constructor(
         goalsDataRepository.initResponse()
     }
 
+    private suspend fun handleGoalsDataError(logMessage: String, exception: Exception) {
+        withContext(Dispatchers.Main) {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "$logMessage    exception : $exception")
+            _goalsDataUiState.value = when (exception) {
+                is IllegalStateException -> GoalsDataUiState.AttemptLimitExceeded
+                else -> GoalsDataUiState.GoalsDataFailure
+            }
+        }
+    }
+
     fun getFirebaseGoalsData() {
         viewModelScope.launch(Dispatchers.IO) {
             initData()
 
-            goalsDataRepository.goalsDataApi().let {
-                launch(Dispatchers.Main) {
-                    try {
+            try {
+                goalsDataRepository.getGoalsDataFromFirebaseDB().let {
+                    launch(Dispatchers.Main) {
                         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Goals Api Success    DocumentSnapshot : $it")
 
-                        goalsDataRepository.setGoalsData(it!!)
-
-                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataSuccess
-
-                    } catch (nullPointerException: NullPointerException) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Unexpected null value    nullException : $nullPointerException")
-
-                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataIsNull
-
-                    } catch(e: Exception) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Other exception    exception : $e")
-
-                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataFailure
+                        if (it?.isSuccessful == true) {
+                            if (it.result.exists()) {
+                                goalsDataRepository.setGoalsData(it.result)
+                                _goalsDataUiState.value = GoalsDataUiState.GoalsDataSuccess
+                            } else
+                                _goalsDataUiState.value = GoalsDataUiState.GoalsDataIsNull
+                        } else
+                            _goalsDataUiState.value = GoalsDataUiState.GoalsDataFailure
                     }
                 }
+            } catch (e: Exception) {
+                handleGoalsDataError(::getFirebaseGoalsData.name, e)
             }
         }
     }

@@ -1,25 +1,31 @@
 package com.ihavesookchi.climbingrecord.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import com.ihavesookchi.climbingrecord.data.Const
 import com.ihavesookchi.climbingrecord.data.Const.KAKAO_URL
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
-import com.ihavesookchi.climbingrecord.data.repository.ProfileItemChangeRepository
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.GoalsDataRepositoryImpl
-import com.ihavesookchi.climbingrecord.data.repositoryImpl.ProfileItemChangeRepositoryImpl
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.SearchRepositoryImpl
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.UserDataRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -50,9 +56,23 @@ object AppModule {
             .create(KakaoApi::class.java)
     }
 
+    // 시범 사용
+    @Singleton
+    @Provides
+    @Named("db")
+    fun provideDB(): FirebaseFirestore = Firebase.firestore
+
+    @Singleton
+    @Provides
+    @Named("firebaseAuth")
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
     @Provides
     @Singleton
-    fun provideUserDataRepository(): UserDataRepository = UserDataRepositoryImpl()
+    fun provideUserDataRepository(
+        @Named("db") db: FirebaseFirestore,
+        @Named("firebaseAuth") firebaseAuth: FirebaseAuth
+    ): UserDataRepository = UserDataRepositoryImpl(db, firebaseAuth)
 
     @Provides
     @Singleton
@@ -61,9 +81,4 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGoalsDataRepository(kakaoRetrofit: KakaoApi): GoalsDataRepository = GoalsDataRepositoryImpl(kakaoRetrofit)
-
-    @Provides
-    @Singleton
-    fun provideProfileItemChangeRepository(): ProfileItemChangeRepository = ProfileItemChangeRepositoryImpl()
-
 }

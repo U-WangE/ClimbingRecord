@@ -1,6 +1,8 @@
 package com.ihavesookchi.climbingrecord.viewModel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
@@ -13,6 +15,7 @@ import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,8 +23,8 @@ class BaseViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     private val searchRepository: SearchRepository
 ) : ViewModel() {
-    private var _userDataUiState: SingleLiveEvent<UserDataUiState> = SingleLiveEvent()
-    val userDataUiState: SingleLiveEvent<UserDataUiState> get() = _userDataUiState
+    private var _userDataUiState: MutableLiveData<UserDataUiState> = MutableLiveData()
+    val userDataUiState: LiveData<UserDataUiState> get() = _userDataUiState
 
     private val CLASS_NAME = this::class.java.simpleName
 
@@ -29,47 +32,57 @@ class BaseViewModel @Inject constructor(
         userDataRepository.initUserData()
     }
 
-    fun getFirebaseUserData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            initUserData()
-
-            userDataRepository.userDataApi().let {
-                launch(Dispatchers.Main) {
-                    try {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseUserData() get User Data Api Success    DocumentSnapshot : $it")
-
-                        userDataRepository.setUserData(it!!)
-
-                        _userDataUiState.value = UserDataUiState.UserDataSuccess
-
-                    } catch (nullPointerException: NullPointerException) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseUserData() Unexpected null value    nullException : $nullPointerException")
-
-                        setFirebaseUserData()
-                    } catch (e: Exception) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseUserData() Other exception    exception : $e")
-
-                        _userDataUiState.value = UserDataUiState.UserDataFailure
-                    }
-                }
+    private suspend fun handleUserDataError(logMessage: String, exception: Exception) {
+        withContext(Dispatchers.Main) {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "$logMessage    exception : $exception")
+            _userDataUiState.value = when (exception) {
+                is IllegalStateException -> UserDataUiState.AttemptLimitExceeded
+                else -> UserDataUiState.UserDataFailure
             }
         }
     }
 
-    private fun setFirebaseUserData() {
+    fun getUserDataFromFirebaseDB() {
         viewModelScope.launch(Dispatchers.IO) {
-            userDataRepository.setFirebaseUserData().let {
-                launch(Dispatchers.Main) {
-                    try {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData() set User Data Api    DocumentSnapshot : $it")
+            initUserData()
 
-                        _userDataUiState.value = it
-                    } catch (e: Exception) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setFirebaseUserData() Other exception    exception : $e")
+            try {
+                userDataRepository.getUserDataFromFirebaseDB().let {
+                    launch(Dispatchers.Main) {
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseUserData() get User Data Api isSuccess    DocumentSnapshot : ${it?.result}")
 
-                        _userDataUiState.value = UserDataUiState.UserDataFailure
+                        if (it?.isSuccessful == true) {
+                            if (it.result.exists()) {
+                                userDataRepository.setUserData(it.result, null)
+                                _userDataUiState.value = UserDataUiState.UserDataSuccess
+                            } else
+                                initUserDataToFirebaseDB()
+                        } else
+                            _userDataUiState.value = UserDataUiState.UserDataUpdateFailure
                     }
                 }
+            } catch (e: Exception) {
+                handleUserDataError(::getUserDataFromFirebaseDB.name, e)
+            }
+        }
+    }
+
+    // 처음 앱을 사용한 경우 Firebase DB에 Default 사용자 데이터를 저장한다.
+    private fun initUserDataToFirebaseDB() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                userDataRepository.initUserDataToFirebaseDB().let {
+                    launch(Dispatchers.Main) {
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "initUserDataToFirebaseDB() set User Data Api    DocumentSnapshot : $it")
+
+                        if (it?.isSuccessful == true)
+                            getUserDataFromFirebaseDB()
+                        else
+                            _userDataUiState.value = UserDataUiState.UserDataFailure
+                    }
+                }
+            } catch (e: Exception) {
+                handleUserDataError(::initUserDataToFirebaseDB.name, e)
             }
         }
     }
@@ -89,10 +102,7 @@ class BaseViewModel @Inject constructor(
 
     fun getInstagramUserName(): String = getUserData().instagramUserName
     fun getNickName(): String = getUserData().nickname
-    fun getProfileImage() {
-    }
-
-    fun setUserData(userDataResponse: UserDataResponse) {
-        userDataRepository.setUserData(userDataResponse)
+    fun getProfileImage(): String {
+        return getUserData().profileImage
     }
 }

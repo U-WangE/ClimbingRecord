@@ -52,8 +52,12 @@ object CommonUtil {
         appCompatImageView.setColorFilter(Color.parseColor(goalColorRGB), PorterDuff.Mode.SRC_IN)
     }
 
-    fun setSVGColorFilter(appCompatImageView: AppCompatImageView, goalColorId: Int, context: Context) {
-        appCompatImageView.setColorFilter(ContextCompat.getColor(context, goalColorId), PorterDuff.Mode.SRC_IN)
+    fun setSVGColorFilter(appCompatImageView: AppCompatImageView, goalColorId: Int?, context: Context) {
+        if (goalColorId != null) {
+            appCompatImageView.setColorFilter(ContextCompat.getColor(context, goalColorId), PorterDuff.Mode.SRC_IN)
+        } else {
+            appCompatImageView.colorFilter = null
+        }
     }
 
     fun Any.toMap(): Map<String, Any?> {
@@ -63,7 +67,7 @@ object CommonUtil {
     }
 
     suspend fun <T> retry(
-        times: Int,
+        times: Int = 3,
         delayMillis: Long = 1000,
         block: suspend () -> T
     ): T? {
@@ -75,7 +79,7 @@ object CommonUtil {
             } catch (e: Exception) {
                 lastException = e
 
-                // 실패 시 재시도 대기
+                // 실패 시 재시도 대기 (마지막 대기 x)
                 if (attempt < times - 1) {
                     delay(delayMillis)
                 }
@@ -106,7 +110,9 @@ object CommonUtil {
         )
 
         with(popupBinding) {
-            tvTitle.text = title
+            title?.let {
+                tvTitle.text = it
+            }?: run { tvTitle.visibility = GONE }
 
             if (contents.isEmpty())
                 tvContents.visibility = GONE

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "513550835823-8mhdij3e2a1efpg2c9omspsv6sj7qvgf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ihavesookchi.climbingrecord",
+            "certificate_hash": "39025e6b151099c18d765ee4281a992b3e0d511e"
+          }
+        },
+        {
           "client_id": "513550835823-aat7e46a9vqrbosafl5bb3u19ucrg0qf.apps.googleusercontent.com",
           "client_type": 3
         }

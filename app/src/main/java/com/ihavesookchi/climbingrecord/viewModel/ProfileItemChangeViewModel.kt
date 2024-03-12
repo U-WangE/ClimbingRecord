@@ -7,12 +7,10 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
-import android.util.Log
+import android.service.autofill.UserData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
-import com.ihavesookchi.climbingrecord.data.dataState.UpdateDataState
-import com.ihavesookchi.climbingrecord.data.repository.ProfileItemChangeRepository
 import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.response.UserDataResponse
 import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
@@ -20,13 +18,13 @@ import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 import kotlin.math.min
 
 @HiltViewModel
 class ProfileItemChangeViewModel @Inject constructor(
-    private val profileItemChangeRepository: ProfileItemChangeRepository,
     private val userDataRepository: UserDataRepository
 ): ViewModel() {
     private var _userDataUiState: SingleLiveEvent<UserDataUiState> = SingleLiveEvent()
@@ -35,7 +33,7 @@ class ProfileItemChangeViewModel @Inject constructor(
     private val CLASS_NAME = this::class.java.simpleName
 
     private var userDataResponse = userDataRepository.getUserData()
-        private var selectedImage: Bitmap? = null
+    private var selectedImage: Bitmap? = null
 
     fun changeCircularBitmap(bitmap: Bitmap, width: Int, height: Int): Bitmap {
         // 정사각형 비트맵 생성
@@ -65,9 +63,7 @@ class ProfileItemChangeViewModel @Inject constructor(
         return dstBitmap
     }
 
-    fun setSelectedImage(bitmap: Bitmap?) {
-        if (bitmap == null)
-            userDataResponse.apply { profileImage = "" }
+    private fun setSelectedImage(bitmap: Bitmap) {
         selectedImage = bitmap
     }
 
@@ -91,38 +87,84 @@ class ProfileItemChangeViewModel @Inject constructor(
 
     // firebase Storage 에 저장 처리
     private fun uploadBitmapToFirebaseStorage(userData: UserDataResponse) {
-        selectedImage?.let {
-            bitmapToByteArray()?.let {
-                profileItemChangeRepository.uploadBitmapToFirebaseStorage(it) { uri ->
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "uploadBitmapToFirebaseStorage() Firebase Storage Api Success   image uri : $uri")
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    bitmapToByteArray()?.let {
+                        // Profile Image Firebase Storage 에 저장
+                        userDataRepository.uploadProfileImageBitmapToFirebaseStorage(it).let {
+                            launch(Dispatchers.Main) {
+                                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "uploadBitmapToFirebaseStorage() Firebase Storage Api Success   image uri : ${it?.result}")
 
-                    val userDataResponse = userData.apply {
-                        profileImage = (uri?:profileImage).toString()
+                                if (it?.isSuccessful == true) {
+                                    userDataResponse = userData.apply {
+                                        profileImage = it.result.toString()
+
+                                        updateUserDataToFirebaseDB(userDataResponse)
+                                    }
+                                } else
+                                    _userDataUiState.value = UserDataUiState.UserDataFailure
+
+                            }
+                        }
+                    }?: run {
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "uploadBitmapToFirebaseStorage() image null   userData : $userData")
+
+                        updateUserDataToFirebaseDB(userData)
                     }
-                    updateUserDataToFirebaseDB(userDataResponse)
+                } catch (e: Exception) {
+                    handleUserDataError(::uploadBitmapToFirebaseStorage.name, e)
                 }
             }
-        }?: run {
-            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "uploadBitmapToFirebaseStorage() image null   userData : $userData")
-
-            updateUserDataToFirebaseDB(userData)
-        }
     }
 
     // firebase db에 저장 처리
     private fun updateUserDataToFirebaseDB(userDataResponse: UserDataResponse) {
         viewModelScope.launch(Dispatchers.IO) {
-            profileItemChangeRepository.updateUserData(userDataResponse).let {
-                launch(Dispatchers.Main) {
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "updateUserDataToFirebaseDB() User data Update    Update Result : $it")
+            try {
+                userDataRepository.updateUserData(userDataResponse).let {
+                    launch(Dispatchers.Main) {
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "updateUserDataToFirebaseDB() User data Update    Update Result : ${it?.isSuccessful}")
 
-                    when (it) {
-                        UpdateDataState.UpdateSuccess -> _userDataUiState.value = UserDataUiState.UserDataUpdateSuccess
-                        UpdateDataState.AttemptLimitExceeded -> _userDataUiState.value = UserDataUiState.AttemptLimitExceeded
-                        UpdateDataState.UpdateFailure -> _userDataUiState.value = UserDataUiState.UserDataFailure
-                        else -> _userDataUiState.value = UserDataUiState.UserDataFailure
+                        if (it?.isSuccessful == true)
+                            _userDataUiState.value = UserDataUiState.UserDataUpdateSuccess
+                        else
+                            _userDataUiState.value = UserDataUiState.UserDataFailure
                     }
                 }
+            } catch (e: Exception) {
+                handleUserDataError(::updateUserDataToFirebaseDB.name, e)
+            }
+        }
+    }
+
+    fun deleteBitmapToFirebaseStorage() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                userDataRepository.deleteProfileImageBitmapToFirebaseStorage().let {
+                    launch(Dispatchers.Main) {
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "deleteBitmapToFirebaseStorage() Firebase Storage Api Success   image uri : ${it?.result}")
+
+                        if (it?.isSuccessful == true) {
+                            userDataResponse = userDataResponse.apply {
+                                profileImage = ""
+                            }
+                            updateUserDataToFirebaseDB(userDataResponse)
+                        } else
+                            _userDataUiState.value = UserDataUiState.UserDataFailure
+                    }
+                }
+            } catch (e: Exception) {
+                handleUserDataError(::deleteBitmapToFirebaseStorage.name, e)
+            }
+        }
+    }
+
+    private suspend fun handleUserDataError(logMessage: String, exception: Exception) {
+        withContext(Dispatchers.Main) {
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "$logMessage    exception : $exception")
+            _userDataUiState.value = when (exception) {
+                is IllegalStateException -> UserDataUiState.AttemptLimitExceeded
+                else -> UserDataUiState.UserDataFailure
             }
         }
     }
