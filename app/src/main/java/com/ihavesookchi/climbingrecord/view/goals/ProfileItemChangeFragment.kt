@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentProfileItemChangeBinding
+import com.ihavesookchi.climbingrecord.util.CommonUtil.hideSoftKeyboard
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
 import com.ihavesookchi.climbingrecord.util.CommonUtil.twoButtonPopupWindow
@@ -59,7 +61,6 @@ class ProfileItemChangeFragment : Fragment() {
 
         setDefaultUISetting()
 
-        //TODO::UserData Update 후 처리 없음 필요
         observingUserDataUiState()
         observingSharedUserDataUiState()
 
@@ -69,7 +70,7 @@ class ProfileItemChangeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setEditProfileOnClickListener()
+        setEditProfileOnImageClickListener()
         setEditButtonOnClickListener()
     }
 
@@ -90,7 +91,7 @@ class ProfileItemChangeFragment : Fragment() {
         binding.etNicknameContent.setText(sharedViewModel.getNickName())
     }
 
-    private fun setEditProfileOnClickListener() {
+    private fun setEditProfileOnImageClickListener() {
         val editProfileClickListener = OnClickListener { readStoragePermission() }
 
         binding.ivProfileImage.setOnClickListener(editProfileClickListener)
@@ -118,16 +119,32 @@ class ProfileItemChangeFragment : Fragment() {
         }
     }
 
+    /*
+    * focus & keyboard 제거
+    * 빈값 -> 기존 데이터로 자동 세팅
+    * 수정 값 Firebase에 Update
+    */
     private fun setEditButtonOnClickListener() {
         // profile 수정 처리
         binding.btEditButton.setOnClickListener {
+            val currentFocus = requireActivity().currentFocus
+            if (currentFocus is EditText)
+                hideSoftKeyboard(currentFocus)
+
             checkProfileNameDataIsWritten()
 
             if (checkProfileDataIsChanged())
                 viewModel.updateUserData(binding.etInstagramUserNameContent.text.toString(), binding.etNicknameContent.text.toString())
-            else
-                toast(requireContext(), getString(R.string.toast_completed_revision))
         }
+    }
+
+    // 입력란 중 빈값이 있는 경우, 기존 유저 데이터로 자동 세팅
+    private fun checkProfileNameDataIsWritten() {
+        val instagramUserName = binding.etInstagramUserNameContent.text
+        val nickname = binding.etNicknameContent.text
+
+        if (instagramUserName.isEmpty()) binding.etInstagramUserNameContent.setText(sharedViewModel.getInstagramUserName())
+        if (nickname.isEmpty()) binding.etNicknameContent.setText(sharedViewModel.getNickName())
     }
 
     // Profile 데이터 중 하나라도 수정 되었으면 true
@@ -138,15 +155,6 @@ class ProfileItemChangeFragment : Fragment() {
         return viewModel.getSelectedImage() != null ||
                 nickname.toString() != sharedViewModel.getNickName() ||
                 instagramUserName.toString() != sharedViewModel.getInstagramUserName()
-    }
-
-    // 입력란 중 빈값이 있는 경우, 기존 유저 데이터로 자동 세팅
-    private fun checkProfileNameDataIsWritten() {
-        val instagramUserName = binding.etInstagramUserNameContent.text
-        val nickname = binding.etNicknameContent.text
-
-        if (instagramUserName.isEmpty()) binding.etInstagramUserNameContent.setText(sharedViewModel.getInstagramUserName())
-        if (nickname.isEmpty()) binding.etNicknameContent.setText(sharedViewModel.getNickName())
     }
 
     private fun observingUserDataUiState() {

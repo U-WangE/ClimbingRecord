@@ -3,14 +3,14 @@ package com.ihavesookchi.climbingrecord.util
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
@@ -32,7 +32,7 @@ object CommonUtil {
 
     fun toast(context: Context, message: String) {
         toast?.cancel()
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
         toast?.show()
     }
 
@@ -69,7 +69,7 @@ object CommonUtil {
     suspend fun <T> retry(
         times: Int = 3,
         delayMillis: Long = 1000,
-        block: suspend () -> T
+        block: suspend () -> T,
     ): T? {
         var lastException: Exception? = null
 
@@ -146,5 +146,13 @@ object CommonUtil {
         }
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+    }
+
+    // 자동 soft keyboard 없애기
+    fun hideSoftKeyboard(editText: EditText) {
+        val inputMethodManager = editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(editText.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+
+        editText.clearFocus()
     }
 }
