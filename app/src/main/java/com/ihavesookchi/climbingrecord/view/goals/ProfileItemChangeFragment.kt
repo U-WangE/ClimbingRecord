@@ -59,10 +59,13 @@ class ProfileItemChangeFragment : Fragment() {
     ): View? {
         _binding = FragmentProfileItemChangeBinding.inflate(inflater, container, false)
 
-        setDefaultUISetting()
+        // Image, EditText Setting
+        setProfileImageSetting()
+        setProfileNameDataIsWritten()
 
-        observingUserDataUiState()
-        observingSharedUserDataUiState()
+        // EditText Filter
+        setEditInstagramUserNameFilter()
+        setEditNickNameFilter()
 
         return binding.root
     }
@@ -70,13 +73,18 @@ class ProfileItemChangeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setEditProfileOnImageClickListener()
+        // OnClickListener Setting
+        setBackButtonOnClickListener()
+        setProfileImageOnClickListener()
         setEditButtonOnClickListener()
+
+        // Observer Setting
+        observingUserDataUiState()
+        observingSharedUserDataUiState()
     }
 
-    private fun setDefaultUISetting() {
-        setSVGColorFilter(binding.ivRemoveProfile, R.color.rosewood, requireContext())
 
+    private fun setProfileImageSetting() {
         if (sharedViewModel.getProfileImage().isEmpty()) {
             binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
             setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
@@ -84,18 +92,29 @@ class ProfileItemChangeFragment : Fragment() {
             binding.ivProfileImage.clearColorFilter()
             ImageLoadTask(binding.ivProfileImage).loadImage(sharedViewModel.getProfileImage())
         }
-
-        setEditInstagramUserNameFilter()
-        setEditNickNameFilter()
-        binding.etInstagramUserNameContent.setText(sharedViewModel.getInstagramUserName())
-        binding.etNicknameContent.setText(sharedViewModel.getNickName())
     }
 
-    private fun setEditProfileOnImageClickListener() {
+    // 입력란 중 빈값이 있는 경우, 기존 유저 데이터로 자동 세팅
+    private fun setProfileNameDataIsWritten() {
+        val instagramUserName = binding.etInstagramUserNameContent.text
+        val nickname = binding.etNicknameContent.text
+
+        if (instagramUserName.isEmpty()) binding.etInstagramUserNameContent.setText(sharedViewModel.getInstagramUserName())
+        if (nickname.isEmpty()) binding.etNicknameContent.setText(sharedViewModel.getNickName())
+    }
+
+
+    private fun setBackButtonOnClickListener() {
+        setSVGColorFilter(binding.btBackButton, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+    }
+
+    private fun setProfileImageOnClickListener() {
         val editProfileClickListener = OnClickListener { readStoragePermission() }
 
         binding.ivProfileImage.setOnClickListener(editProfileClickListener)
         binding.tvEditProfilePicture.setOnClickListener(editProfileClickListener)
+
+        setSVGColorFilter(binding.ivRemoveProfile, R.color.rosewood, requireContext())
 
         binding.ivRemoveProfile.setOnClickListener {
             twoButtonPopupWindow(
@@ -131,20 +150,11 @@ class ProfileItemChangeFragment : Fragment() {
             if (currentFocus is EditText)
                 hideSoftKeyboard(currentFocus)
 
-            checkProfileNameDataIsWritten()
+            setProfileNameDataIsWritten()
 
             if (checkProfileDataIsChanged())
                 viewModel.updateUserData(binding.etInstagramUserNameContent.text.toString(), binding.etNicknameContent.text.toString())
         }
-    }
-
-    // 입력란 중 빈값이 있는 경우, 기존 유저 데이터로 자동 세팅
-    private fun checkProfileNameDataIsWritten() {
-        val instagramUserName = binding.etInstagramUserNameContent.text
-        val nickname = binding.etNicknameContent.text
-
-        if (instagramUserName.isEmpty()) binding.etInstagramUserNameContent.setText(sharedViewModel.getInstagramUserName())
-        if (nickname.isEmpty()) binding.etNicknameContent.setText(sharedViewModel.getNickName())
     }
 
     // Profile 데이터 중 하나라도 수정 되었으면 true
@@ -180,7 +190,8 @@ class ProfileItemChangeFragment : Fragment() {
         sharedViewModel.userDataUiState.observe(viewLifecycleOwner) {
             when (it) {
                 is UserDataUiState.UserDataSuccess -> {
-                    setDefaultUISetting()
+                    setProfileImageSetting()
+                    setProfileNameDataIsWritten()
                 }
                 else -> {}
             }
@@ -222,6 +233,12 @@ class ProfileItemChangeFragment : Fragment() {
                     null
             })
     }
+
+
+    /**
+     * Storage Permission
+     * Gallery Selector Setting
+     **/
 
     private val storageIntentResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "storageIntentResultLauncher Selected Image URI   ${it.data?.data}")
