@@ -22,6 +22,7 @@ import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
+import com.ihavesookchi.climbingrecord.util.ImageLoadTask
 import com.ihavesookchi.climbingrecord.view.BaseActivity
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsViewModel
@@ -94,8 +95,13 @@ class GoalsFragment : Fragment() {
     }
 
     private fun setProfileImage() {
-        //TODO:: 이미지
-        binding.icProfile.ivProfileImage
+        if (sharedViewModel.getProfileImage().isEmpty()) {
+            binding.icProfile.ivProfileImage.setImageResource(R.drawable.ic_bot)
+            setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        } else {
+            binding.icProfile.ivProfileImage.clearColorFilter()
+            ImageLoadTask(binding.icProfile.ivProfileImage).loadImage(sharedViewModel.getProfileImage())
+        }
     }
 
     private fun setInstagramUserName() {

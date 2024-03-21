@@ -30,6 +30,7 @@ import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
 import com.ihavesookchi.climbingrecord.util.CommonUtil.twoButtonPopupWindow
 import com.ihavesookchi.climbingrecord.util.ImageLoadTask
+import com.ihavesookchi.climbingrecord.view.BaseActivity
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.ProfileItemChangeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -106,6 +107,11 @@ class ProfileItemChangeFragment : Fragment() {
 
     private fun setBackButtonOnClickListener() {
         setSVGColorFilter(binding.btBackButton, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+
+        binding.btBackButton.setOnClickListener {
+            (activity as BaseActivity).replaceFragment(GoalsFragment())
+            (activity as BaseActivity).removeFragment(this)
+        }
     }
 
     private fun setProfileImageOnClickListener() {
