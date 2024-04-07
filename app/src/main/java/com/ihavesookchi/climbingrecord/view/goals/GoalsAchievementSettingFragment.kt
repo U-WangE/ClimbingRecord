@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -55,7 +56,7 @@ class GoalsAchievementSettingFragment : Fragment() {
         }
     }
 
-    private fun setGoalAchievementOnClickListener(tvGoalAchievement: TextView) {
+    private fun setGoalAchievementOnClickListener(tvGoalAchievement: EditText) {
         //TODO::EditText 로 변경하고 Focus 관리 해야함
     }
 
