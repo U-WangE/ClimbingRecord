@@ -8,6 +8,7 @@
 
     <color name="rosewood">#FFCA4E57</color>
 
+
     <color name="black">#FF000000</color>
     <color name="black_alpha_30">#4D000000</color>
     <color name="light_black">#FF1A1A1A</color>
@@ -35,4 +36,13 @@
     <color name="svgFilterColorDarkGrayMediumGray">@color/dark_gray</color>
 
     <color name="yellow">#FFF200</color>
+
+    <color name="theclimb_yellow">#FFDAC821</color>
+    <color name="theclimb_orange">#FFD29830</color>
+    <color name="theclimb_green">#FF638B54</color>
+    <color name="theclimb_blue">#FF5C9ED5</color>
+    <color name="theclimb_red">#FFB83D34</color>
+    <color name="theclimb_purple">#FF7C3F80</color>
+    <color name="theclimb_gray">#FFBABBC3</color>
+    <color name="theclimb_brown">#FF85562A</color>
 </resources>

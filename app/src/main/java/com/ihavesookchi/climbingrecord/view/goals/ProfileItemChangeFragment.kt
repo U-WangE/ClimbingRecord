@@ -312,9 +312,9 @@ class ProfileItemChangeFragment : Fragment() {
                 twoButtonPopupWindow(
                     context = requireContext(),
                     view = binding.root,
-                    title = getString(R.string.permission_notice_title),
+                    title = getString(R.string.title_permission_notice),
                     contents = listOf(
-                        getString(R.string.permission_notice_contents),
+                        getString(R.string.contents_permission_notice),
                         getString(R.string.permission_notice_location)
                     ),
                     leftButtonText = getString(R.string.close),
@@ -332,9 +332,9 @@ class ProfileItemChangeFragment : Fragment() {
                 twoButtonPopupWindow(
                     context = requireContext(),
                     view = binding.root,
-                    title = getString(R.string.permission_notice_title),
+                    title = getString(R.string.title_permission_notice),
                     contents = listOf(
-                        getString(R.string.permission_notice_contents),
+                        getString(R.string.contents_permission_notice),
                         getString(R.string.permission_notice_read_storage)
                     ),
                     comments = getString(R.string.permission_notice_comment),

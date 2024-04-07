@@ -276,7 +276,7 @@ class GoalsFragment : Fragment() {
     // Goals Setting Activity 로 이동
     private fun intentGoalsAchievementSetting() {
         binding.icGoalsStatus.ivGoalsModify.setOnClickListener {
-            startActivity(Intent(requireContext(), GoalsAchievementSettingActivity::class.java))
+            (activity as BaseActivity).addFragment(GoalsAchievementSettingFragment())
         }
     }
 
