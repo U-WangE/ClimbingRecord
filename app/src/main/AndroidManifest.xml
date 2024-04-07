@@ -33,9 +33,6 @@
             android:name=".view.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".view.goals.GoalsAchievementSettingActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.BaseActivity"
             android:exported="false" />
 
