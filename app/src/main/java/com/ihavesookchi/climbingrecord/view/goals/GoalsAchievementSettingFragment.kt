@@ -31,8 +31,6 @@ class GoalsAchievementSettingFragment : Fragment() {
     ): View? {
         _binding = FragmentGoalsAchievementSettingBinding.inflate(inflater, container, false)
 
-        setDefaultUISetting()
-
         return binding.root
     }
 
@@ -40,9 +38,15 @@ class GoalsAchievementSettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setBackButtonOnClickListener()
-        setGoalColorOnClickListener(binding.icGoalSettingOne.tvGoalColorSetting)
-        setGoalColorOnClickListener(binding.icGoalSettingTwo.tvGoalColorSetting)
+        setDefaultGoalsUISetting(binding.icGoalSettingOne)
+        setDefaultGoalsUISetting(binding.icGoalSettingTwo)
 
+    }
+
+    private fun setDefaultGoalsUISetting(includeGoalsSettingBinding: IncludeGoalsSettingBinding) {
+        setGoalColorOnClickListener(includeGoalsSettingBinding.tvGoalColorSetting)
+        setGoalAchievementOnClickListener(includeGoalsSettingBinding.tvGoalAchievement)
+        setGoalAchievementPeriodOnClickListener(includeGoalsSettingBinding.tvGoalAchievementPeriod)
     }
 
     private fun setGoalColorOnClickListener(tvGoalColorSetting: TextView) {
@@ -51,16 +55,12 @@ class GoalsAchievementSettingFragment : Fragment() {
         }
     }
 
+    private fun setGoalAchievementOnClickListener(tvGoalAchievement: TextView) {
+        //TODO::EditText 로 변경하고 Focus 관리 해야함
+    }
 
-
-    //todo::
-    private fun setDefaultUISetting() {
-        if (goalsViewModel.getGoalDetails().isNotEmpty()) {
-            setGoalSettingUI(binding.icGoalSettingOne)
-            setGoalSettingUI(binding.icGoalSettingTwo)
-        } else {
-
-        }
+    private fun setGoalAchievementPeriodOnClickListener(tvGoalAchievementPeriod: TextView) {
+        //TODO:: 달력 or 날짜 입력 or 00 스크롤 ui
     }
 
     private fun setGoalSettingUI(icGoalSetting: IncludeGoalsSettingBinding) {
