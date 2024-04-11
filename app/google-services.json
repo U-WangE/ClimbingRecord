@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "513550835823",
-    "project_id": "coffeeapp-392110",
-    "storage_bucket": "coffeeapp-392110.appspot.com"
+    "project_number": "114307178868",
+    "project_id": "climbingrecord",
+    "storage_bucket": "climbingrecord.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:513550835823:android:ec070266061aa452586d9a",
+        "mobilesdk_app_id": "1:114307178868:android:f6e71c0bba7251ad988c21",
         "android_client_info": {
           "package_name": "com.ihavesookchi.climbingrecord"
         }
       },
       "oauth_client": [
         {
-          "client_id": "513550835823-8mhdij3e2a1efpg2c9omspsv6sj7qvgf.apps.googleusercontent.com",
+          "client_id": "114307178868-p7r31h1fntc2s62t200pq4tovka0makl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ihavesookchi.climbingrecord",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "513550835823-aat7e46a9vqrbosafl5bb3u19ucrg0qf.apps.googleusercontent.com",
+          "client_id": "114307178868-pk65mfrkdkphv3dvcsma949lb2u54695.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAjg-g5kDl5w2lBZ3XIhRmzzt6RaWU3T6s"
+          "current_key": "AIzaSyC7V57wJIHorHPQAoTWHKL24EJi6Mq-GzQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "513550835823-aat7e46a9vqrbosafl5bb3u19ucrg0qf.apps.googleusercontent.com",
+              "client_id": "114307178868-pk65mfrkdkphv3dvcsma949lb2u54695.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

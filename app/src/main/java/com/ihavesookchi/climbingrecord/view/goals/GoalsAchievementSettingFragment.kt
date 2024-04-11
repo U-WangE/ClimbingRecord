@@ -1,18 +1,21 @@
 package com.ihavesookchi.climbingrecord.view.goals
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsAchievementSettingBinding
 import com.ihavesookchi.climbingrecord.databinding.IncludeGoalsSettingBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil
+import com.ihavesookchi.climbingrecord.util.CommonUtil.hideSoftKeyboard
 import com.ihavesookchi.climbingrecord.view.BaseActivity
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsViewModel
@@ -25,6 +28,12 @@ class GoalsAchievementSettingFragment : Fragment() {
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
     private val goalsViewModel: GoalsViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +66,13 @@ class GoalsAchievementSettingFragment : Fragment() {
     }
 
     private fun setGoalAchievementOnClickListener(tvGoalAchievement: EditText) {
-        //TODO::EditText 로 변경하고 Focus 관리 해야함
+        tvGoalAchievement.setOnEditorActionListener { view, keyCode, keyEvent ->
+            if (keyCode == EditorInfo.IME_ACTION_DONE) {
+                hideSoftKeyboard(tvGoalAchievement)
+                view.clearFocus()
+                true
+            } else false
+        }
     }
 
     private fun setGoalAchievementPeriodOnClickListener(tvGoalAchievementPeriod: TextView) {

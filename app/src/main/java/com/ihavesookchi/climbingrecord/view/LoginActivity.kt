@@ -48,7 +48,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-
     private fun googleLoginResult() {
         googleLoginLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
