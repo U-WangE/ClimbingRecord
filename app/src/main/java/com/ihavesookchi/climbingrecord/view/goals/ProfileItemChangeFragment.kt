@@ -15,7 +15,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -152,9 +151,7 @@ class ProfileItemChangeFragment : Fragment() {
     private fun setEditButtonOnClickListener() {
         // profile 수정 처리
         binding.btEditButton.setOnClickListener {
-            val currentFocus = requireActivity().currentFocus
-            if (currentFocus is EditText)
-                hideSoftKeyboard(currentFocus)
+            requireActivity().hideSoftKeyboard()
 
             setProfileNameDataIsWritten()
 

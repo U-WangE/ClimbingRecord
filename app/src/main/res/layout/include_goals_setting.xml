@@ -37,19 +37,19 @@
         app:layout_constraintStart_toEndOf="@id/tv_goal_color_setting"
         />
 
-    <EditText
+    <com.ihavesookchi.climbingrecord.util.ClearFocusEditText
         android:id="@+id/tv_goal_achievement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/style_kcc_chassam_medium_large"
-        android:hint="@string/default_hyphen"
         android:textColorHint="@color/medium_gray"
+        android:hint="@string/default_hyphen"
         android:maxLength="6"
         android:inputType="number"
         android:imeOptions="actionDone"
         android:autofillHints="no"
         android:gravity="center"
-        android:paddingBottom="8dp"
+        android:paddingBottom="6dp"
         android:layout_marginStart="16dp"
         app:layout_constraintTop_toTopOf="@id/tv_goal_achievement_title"
         app:layout_constraintBottom_toBottomOf="@id/tv_goal_achievement_title"
@@ -60,13 +60,15 @@
         android:id="@+id/tv_goal_achievement_period"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/style_kcc_chassam_medium_x_small"
+        style="@style/style_kcc_chassam_medium_xx_small"
         android:text="@string/default_y_m_d_tilde_y_m_d_slash"
         android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintTop_toBottomOf="@id/tv_goal_achievement_title"
         app:layout_constraintBottom_toBottomOf="@id/tv_goal_color_setting"
         app:layout_constraintStart_toEndOf="@id/tv_goal_color_setting"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

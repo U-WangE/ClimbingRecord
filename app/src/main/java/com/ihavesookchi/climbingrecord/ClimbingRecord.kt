@@ -2,7 +2,6 @@ package com.ihavesookchi.climbingrecord
 
 import android.app.Application
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.appCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
@@ -16,9 +15,7 @@ class ClimbingRecord: Application() {
         super.onCreate()
 
         ClimbingRecordLogger.initInstance(this)
-
-//        Firebase.initialize(context = this)
-        FirebaseApp.initializeApp(this)
+        Firebase.initialize(context = this)
         Firebase.appCheck.installAppCheckProviderFactory(
             if (BuildConfig.DEBUG)
                 DebugAppCheckProviderFactory.getInstance()

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +15,7 @@ import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsAchievementSetti
 import com.ihavesookchi.climbingrecord.databinding.IncludeGoalsSettingBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil
 import com.ihavesookchi.climbingrecord.util.CommonUtil.hideSoftKeyboard
+import com.ihavesookchi.climbingrecord.util.ClearFocusEditText
 import com.ihavesookchi.climbingrecord.view.BaseActivity
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsViewModel
@@ -28,6 +28,18 @@ class GoalsAchievementSettingFragment : Fragment() {
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
     private val goalsViewModel: GoalsViewModel by viewModels()
+
+//    override fun onStart() {
+//        super.onStart()
+//        setBackPressedCallback {
+//            Log.d("여기",requireActivity().isSoftKeyboardShow().toString())
+//            if (requireActivity().isSoftKeyboardShow()) {
+//                requireActivity().hideSoftKeyboard()
+//            } else {
+//                requireActivity().supportFragmentManager.popBackStack()
+//            }
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,29 +65,27 @@ class GoalsAchievementSettingFragment : Fragment() {
 
     }
 
-    private fun setDefaultGoalsUISetting(includeGoalsSettingBinding: IncludeGoalsSettingBinding) {
-        setGoalColorOnClickListener(includeGoalsSettingBinding.tvGoalColorSetting)
-        setGoalAchievementOnClickListener(includeGoalsSettingBinding.tvGoalAchievement)
-        setGoalAchievementPeriodOnClickListener(includeGoalsSettingBinding.tvGoalAchievementPeriod)
+    private fun setDefaultGoalsUISetting(includeGoalsSetting: IncludeGoalsSettingBinding) {
+        setGoalColorOnClickListener(includeGoalsSetting.tvGoalColorSetting)
+        setGoalAchievementOnClickListener(includeGoalsSetting.tvGoalAchievement)
+        setGoalAchievementPeriodOnClickListener(includeGoalsSetting.tvGoalAchievementPeriod)
     }
 
-    private fun setGoalColorOnClickListener(tvGoalColorSetting: TextView) {
-        tvGoalColorSetting.setOnClickListener {
+    private fun setGoalColorOnClickListener(textView: TextView) {
+        textView.setOnClickListener {
             //TODO::색 고를 수 있는 Dialog Popup 나와야 함
         }
     }
 
-    private fun setGoalAchievementOnClickListener(tvGoalAchievement: EditText) {
-        tvGoalAchievement.setOnEditorActionListener { view, keyCode, keyEvent ->
+    private fun setGoalAchievementOnClickListener(clearFocusEditText: ClearFocusEditText) {
+        clearFocusEditText.setOnEditorActionListener { view, keyCode, _ ->
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                hideSoftKeyboard(tvGoalAchievement)
-                view.clearFocus()
+                view.hideSoftKeyboard()
                 true
             } else false
         }
     }
-
-    private fun setGoalAchievementPeriodOnClickListener(tvGoalAchievementPeriod: TextView) {
+    private fun setGoalAchievementPeriodOnClickListener(textView: TextView) {
         //TODO:: 달력 or 날짜 입력 or 00 스크롤 ui
     }
 

@@ -1,8 +1,12 @@
 package com.ihavesookchi.climbingrecord.util
 
+import android.app.Activity
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +17,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
@@ -148,11 +155,38 @@ object CommonUtil {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
     }
 
-    // 자동 soft keyboard 없애기
-    fun hideSoftKeyboard(editText: EditText) {
-        val inputMethodManager = editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(editText.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-
-        editText.clearFocus()
+    fun Activity.isSoftKeyboardShow(): Boolean {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        return inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
+
+    // soft keyboard 숨기기 Activity 전체
+    fun Activity.hideSoftKeyboard() {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        currentFocus?.clearFocus()
+    }
+
+    // soft keyboard 숨기기 특정 View
+    fun View.hideSoftKeyboard() {
+        if (hasFocus()) {
+            val inputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            clearFocus()
+        }
+    }
+
+    fun Fragment.setBackPressedCallback(setHandleOnBackPressed: () -> Unit) {
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(
+                this,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        setHandleOnBackPressed()
+                    }
+                }
+            )
+    }
+
 }
