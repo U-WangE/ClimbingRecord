@@ -34,7 +34,6 @@
             android:exported="false" />
         <activity
             android:name=".view.BaseActivity"
-            android:windowSoftInputMode="adjustUnspecified"
             android:exported="false" />
 
         <meta-data

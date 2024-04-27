@@ -4,8 +4,10 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="ok">OK</string>
+    <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="prev">Prev</string>
+    <string name="next">Next</string>
     <string name="close">Close</string>
     <string name="setting">Setting</string>
     <string name="permission_re_request">Re-request</string>

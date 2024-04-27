@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.DatePicker" parent="Theme.ClimbingRecord">
+        <item name="colorAccent">@color/medium_gray</item>
+        <item name="colorControlHighlight">@color/theclimb_green</item>
+        <item name="colorControlActivated">#50966432</item>
+        <item name="android:textColorPrimary">@color/light_grayish</item>
+        <item name="android:textColorSecondary">@color/gray</item>
+    </style>
+</resources>
