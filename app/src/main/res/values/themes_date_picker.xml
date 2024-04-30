@@ -2,10 +2,17 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Theme.DatePicker" parent="Theme.ClimbingRecord">
-        <item name="colorAccent">@color/medium_gray</item>
-        <item name="colorControlHighlight">@color/theclimb_green</item>
-        <item name="colorControlActivated">#50966432</item>
+        <!-- 상단 Title 배경색 -->
+        <item name="colorAccent">@color/shadow_black</item>
+        <!-- Highlight Item Click Color -->
+        <item name="colorControlHighlight">@color/light_gray</item>
+        <!-- 선택한 날짜 배경색 -->
+        <item name="colorControlActivated">@color/theclimb_brown</item>
+        <!-- Calendar Number Color -->
         <item name="android:textColorPrimary">@color/light_grayish</item>
+        <!-- 요일 Color -->
         <item name="android:textColorSecondary">@color/gray</item>
+        <!-- fontFamily -->
+        <item name="fontFamily">@font/kcc_chassam</item>"
     </style>
 </resources>

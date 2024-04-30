@@ -1,7 +1,7 @@
 package com.ihavesookchi.climbingrecord.view.goals
 
-import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -17,15 +17,13 @@ import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsAchievementSettingBinding
 import com.ihavesookchi.climbingrecord.databinding.IncludeGoalsSettingBinding
-import com.ihavesookchi.climbingrecord.util.CalenderDialog
+import com.ihavesookchi.climbingrecord.util.CalendarDialog
 import com.ihavesookchi.climbingrecord.util.ClearFocusEditText
 import com.ihavesookchi.climbingrecord.util.CommonUtil.hideSoftKeyboard
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
-import com.ihavesookchi.climbingrecord.util.PeriodDatePicker
 import com.ihavesookchi.climbingrecord.view.BaseActivity
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsAchievementSettingViewModel
-import java.util.Calendar
 
 class GoalsAchievementSettingFragment : Fragment() {
     private var _binding: FragmentGoalsAchievementSettingBinding? = null
@@ -35,6 +33,8 @@ class GoalsAchievementSettingFragment : Fragment() {
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
     private val goalsAchievementSettingViewModel: GoalsAchievementSettingViewModel by viewModels()
+
+    private lateinit var calendarDialog: CalendarDialog
 
 //    override fun onStart() {
 //        super.onStart()
@@ -106,8 +106,13 @@ class GoalsAchievementSettingFragment : Fragment() {
     private fun setGoalAchievementPeriodOnClickListener(linearLayout: LinearLayout, clearFocusEditText: ClearFocusEditText) {
 
         //TODO:: 다른 방식으로 변경
+        calendarDialog = CalendarDialog(requireContext())
+
         linearLayout.setOnClickListener {
-            //todo::CalenderDialog
+            calendarDialog.show(it) { startDate, endDate ->
+                clearFocusEditText.setText(getString(R.string.y_m_d_tilde_y_m_d_slash,))
+                Log.d("여기", "$startDate, $endDate")
+            }
         }
     }
 

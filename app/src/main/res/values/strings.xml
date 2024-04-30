@@ -29,7 +29,6 @@
 
     <!--  Date  -->
     <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
-    <string name="y_m_d_tilde_y_m_d_slash_string" translatable="false">%1$d/%2$d/%3$d ~ %4$d/%5$d/%6$d</string>
     <string name="y_m_d">%1$tY/%1$tm/%1$td</string>
 
     <!--  Permission  -->
