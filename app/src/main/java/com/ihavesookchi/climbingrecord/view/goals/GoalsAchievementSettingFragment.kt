@@ -1,30 +1,32 @@
 package com.ihavesookchi.climbingrecord.view.goals
 
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsAchievementSettingBinding
 import com.ihavesookchi.climbingrecord.databinding.IncludeGoalsSettingBinding
 import com.ihavesookchi.climbingrecord.util.CalendarDialog
 import com.ihavesookchi.climbingrecord.util.ClearFocusEditText
-import com.ihavesookchi.climbingrecord.util.CommonUtil.hideSoftKeyboard
+import com.ihavesookchi.climbingrecord.util.CommonUtil.convertTimeMillisToCalendar
+import com.ihavesookchi.climbingrecord.util.CommonUtil.getDDay
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.view.BaseActivity
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsAchievementSettingViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class GoalsAchievementSettingFragment : Fragment() {
     private var _binding: FragmentGoalsAchievementSettingBinding? = null
     private val binding get() = _binding!!
@@ -32,7 +34,7 @@ class GoalsAchievementSettingFragment : Fragment() {
     private val CLASS_NAME = this::class.java.simpleName
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
-    private val goalsAchievementSettingViewModel: GoalsAchievementSettingViewModel by viewModels()
+    private val viewModel: GoalsAchievementSettingViewModel by viewModels()
 
     private lateinit var calendarDialog: CalendarDialog
 
@@ -60,13 +62,12 @@ class GoalsAchievementSettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setDefaultUISetting()
+        setUI()
     }
 
-    private fun setDefaultUISetting() {
+    private fun setUI() {
         setSVGColorFilter(binding.btBackButton, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
-        setSVGColorFilter(binding.icGoalSettingOne.ivCalendarImage, R.color.svgFilterColorLightGrayishBlack, requireContext())
-        setSVGColorFilter(binding.icGoalSettingTwo.ivCalendarImage, R.color.svgFilterColorLightGrayishBlack, requireContext())
+        setSVGColorFilter(binding.ivCalendarImage, R.color.svgFilterColorLightGrayishBlack, requireContext())
 
         // Back Button
         setBackButtonOnClickListener()
@@ -74,13 +75,23 @@ class GoalsAchievementSettingFragment : Fragment() {
         // Goal Click Listener Setting
         setGoalsSettingClickListener(binding.icGoalSettingOne)
         setGoalsSettingClickListener(binding.icGoalSettingTwo)
+
+        // Goal Period Setting
+        setGoalPeriodSetting()
     }
+
+    private fun setBackButtonOnClickListener() {
+        binding.btBackButton.setOnClickListener {
+            (activity as BaseActivity).replaceFragment(GoalsFragment())
+            (activity as BaseActivity).removeFragment(this)
+        }
+    }
+
     // Goal 설정 하는 UI Click Listener
     private fun setGoalsSettingClickListener(includeGoalsSetting: IncludeGoalsSettingBinding) {
         includeGoalsSetting.apply {
             setGoalColorOnClickListener(tvGoalColorSetting)
-            setGoalAchievementOnClickListener(etGoalAchievement)
-            setGoalAchievementPeriodOnClickListener(llGoalAchievementPeriodLayout, etGoalAchievementPeriod)
+            setOnFocusChangeListener(etGoalAchievement)
         }
     }
 
@@ -90,36 +101,77 @@ class GoalsAchievementSettingFragment : Fragment() {
         }
     }
 
-    // Soft Keyboard 에 Done 버튼 클릭시, Soft Keyboard 숨기기
-    private fun setGoalAchievementOnClickListener(clearFocusEditText: ClearFocusEditText) {
-        clearFocusEditText.setOnEditorActionListener { view, keyCode, _ ->
-            if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setGoalAchievementOnClickListener(ClearFocusEditText) EditText Done Button Click   EditText.Text  :  ${view.text}")
-                view.hideSoftKeyboard()
-                true
-            } else false
-        }
-        clearFocusEditText.setOnFocusChangeListener { _, boolean ->
-            binding.btEditButton.visibility = if (boolean) GONE else VISIBLE
+    // Edit Text 에 Focusing 돼있을 경우 Edit Button 숨기기
+    private fun setOnFocusChangeListener(clearFocusEditText: ClearFocusEditText) {
+        clearFocusEditText.setOnFocusChangeListener { _, hasFocus ->
+            binding.btEditButton.visibility = if (hasFocus) GONE else VISIBLE
         }
     }
-    private fun setGoalAchievementPeriodOnClickListener(linearLayout: LinearLayout, clearFocusEditText: ClearFocusEditText) {
 
-        //TODO:: 다른 방식으로 변경
+    // Goal Period Setting
+    private fun setGoalPeriodSetting() {
+        viewModel.initStartAndEndDate()
+        setCalendarDialog()
+    }
+
+    private fun setCalendarDialog() {
         calendarDialog = CalendarDialog(requireContext())
 
-        linearLayout.setOnClickListener {
-            calendarDialog.show(it) { startDate, endDate ->
-                clearFocusEditText.setText(getString(R.string.y_m_d_tilde_y_m_d_slash,))
-                Log.d("여기", "$startDate, $endDate")
+        binding.ivCalendarImage.setOnClickListener {
+            showCalendarDialog()
+        }
+
+        setupDayOfDDayTextChangeListener()
+        setupDayOfDDayFocusChangeListener()
+    }
+
+    private fun showCalendarDialog() {
+        calendarDialog.show(binding.ivCalendarImage, viewModel.getStartDate(), viewModel.getEndDate()) { startDate, endDate ->
+            if (startDate != null && endDate != null) {
+                viewModel.setStartDate(startDate)
+                viewModel.setEndDate(endDate)
+
+                updateGoalPeriodText(startDate, endDate)
+                binding.etDayOfDDay.setText(getDDay(startDate, endDate).toString())
             }
         }
     }
 
-    private fun setBackButtonOnClickListener() {
-        binding.btBackButton.setOnClickListener {
-            (activity as BaseActivity).replaceFragment(GoalsFragment())
-            (activity as BaseActivity).removeFragment(this)
+    private fun setupDayOfDDayTextChangeListener() {
+        binding.etDayOfDDay.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(charSequence: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(editable: Editable?) {
+                updateEndDateFromDayCount(editable)
+            }
+        })
+    }
+
+    // Day Of DDay EditText 포커스 리스너 설정
+    private fun setupDayOfDDayFocusChangeListener() {
+        binding.etDayOfDDay.setOnFocusChangeListener { _, hasFocus ->
+            binding.btEditButton.visibility = if (hasFocus) View.GONE else View.VISIBLE
+
+            binding.etDayOfDDay.let {
+                if (it.text.isNullOrBlank()) it.setText("0")
+            }
         }
+    }
+
+    // Day Of DDay에 입력된 날짜로 기간 업데이트
+    private fun updateEndDateFromDayCount(editable: Editable?) {
+        val input = editable?.toString() ?: return
+        val days = input.toLongOrNull() ?: return
+
+        val startDate = viewModel.getStartDate()
+        if (startDate != null && startDate != 0L) {
+            val daysInMillis = TimeUnit.DAYS.toMillis(days)
+            viewModel.setEndDate(startDate + daysInMillis)
+            updateGoalPeriodText(startDate, startDate + daysInMillis)
+        }
+    }
+
+    private fun updateGoalPeriodText(startDate: Long, endDate: Long) {
+        binding.tvGoalAchievementPeriod.text = getString(R.string.y_m_d_tilde_y_m_d_slash, convertTimeMillisToCalendar(startDate), convertTimeMillisToCalendar(endDate))
     }
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupSetPeriodBinding
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -28,12 +29,20 @@ class CalendarDialog(context: Context) {
     }
 
     fun show(view: View, startDate: Long? = null, endDate: Long? = null, periodCallback: (Long?, Long?) -> Unit) {
-        popupWindow = PopupWindow(
-            binding.root,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            false
-        )
+        //TODO::EndDate가 StartDate보다 작으면, 설정 안 되게 또는 Error, 경고 표시
+        if (binding.root.parent != null)
+            (binding.root.parent as? ViewGroup)?.removeView(binding.root)
+
+        if (!::popupWindow.isInitialized)
+            popupWindow = PopupWindow(
+                binding.root,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                false)
+
+        if (::popupWindow.isInitialized && popupWindow.isShowing)
+            popupWindow.dismiss()
+
         pageCounter = 0
         updateStartDate = startDate
         updateEndDate = endDate
@@ -68,7 +77,7 @@ class CalendarDialog(context: Context) {
                 pageCounter++
                 updatePageUI(periodCallback)
             } else {
-                periodCallback(updateStartDate?:(System.currentTimeMillis()/1000L), updateEndDate?:(System.currentTimeMillis()/1000L))
+                periodCallback(updateStartDate?:System.currentTimeMillis(), updateEndDate?:System.currentTimeMillis())
                 popupWindow.dismiss()
             }
         }
@@ -88,14 +97,20 @@ class CalendarDialog(context: Context) {
 
     // 이전에 설정 or 선택한 날짜 또는 현재 날짜를 Date Picker 의 초기 Date로 설정
     private fun setDateForDatePicker() {
-        val updateDate = if (pageCounter % 2 == 0) updateStartDate else updateEndDate
-        val localDateTime = LocalDateTime.ofEpochSecond(updateDate ?: (System.currentTimeMillis() / 1000L), 0, ZoneOffset.UTC)
+//        val updateDate = if (pageCounter % 2 == 0) updateStartDate else updateEndDate
+//        val localDateTime = LocalDateTime.ofEpochSecond(updateDate ?: (System.currentTimeMillis() / 1000L), 0, ZoneOffset.UTC)
+//        binding.dpDatePicker.updateDate(localDateTime.year, localDateTime.monthValue - 1, localDateTime.dayOfMonth)
+
+        val updateDateMillis = if (pageCounter % 2 == 0) updateStartDate else updateEndDate
+        val updateInstant = Instant.ofEpochMilli(updateDateMillis?:System.currentTimeMillis())
+        val localDateTime = LocalDateTime.ofInstant(updateInstant, ZoneOffset.UTC)
         binding.dpDatePicker.updateDate(localDateTime.year, localDateTime.monthValue - 1, localDateTime.dayOfMonth)
     }
 
     private fun convertDateToUnixTime(year: Int, month: Int, day: Int): Long {
         val selectedDate = LocalDate.of(year, month + 1, day)
-        val selectedDateTime = selectedDate.atStartOfDay()
-        return selectedDateTime.toEpochSecond(ZoneOffset.UTC)
+        val selectedDateTime = selectedDate.atStartOfDay().toInstant(ZoneOffset.UTC)
+        return selectedDateTime.toEpochMilli()
+//        return selectedDateTime.toEpochSecond(ZoneOffset.UTC)
     }
 }

@@ -8,8 +8,8 @@ interface GoalsDataRepository {
     suspend fun getGoalsDataFromFirebaseDB(): Task<DocumentSnapshot>?
     fun setGoalsData(documentSnapshot: DocumentSnapshot)
     fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail>
-    fun getStartDate(): Long
-    fun getEndDate(): Long
+    fun getStartDate(): Long?
+    fun getEndDate(): Long?
     fun getTrackingClimbingRecords(): List<GoalsDataResponse.TrackingClimbingRecord>
     fun getGoalsAchievementStatus(): GoalsDataResponse.GoalsAchievementStatus
     fun initResponse()

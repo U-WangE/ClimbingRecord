@@ -29,6 +29,7 @@
 
     <!--  Date  -->
     <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
+    <string name="y_m_d_tilde_y_m_d_dotted">%1$tY.%1$tm.%1$td ~ %2$tY.%2$tm.%2$td</string>
     <string name="y_m_d">%1$tY/%1$tm/%1$td</string>
 
     <!--  Permission  -->
@@ -80,9 +81,11 @@
     <string name="exercise_count">운동 횟수</string>
 
     <!--  Default  -->
+    <string name="default_zero" translatable="false">0</string>
     <string name="default_hyphen" translatable="false">-</string>
     <string name="default_hyphen_out_of_hyphen" translatable="false">- / -</string>
     <string name="default_y_m_d_tilde_y_m_d_slash" translatable="false">0000/00/00 ~ 0000/00/00</string>
+    <string name="default_y_m_d_tilde_y_m_d_dotted" translatable="false">0000.00.00 ~ 0000.00.00</string>
     <string name="default_unknown" translatable="false">Unknown</string>
     <string name="default_question_mark" translatable="false">\?</string>
 

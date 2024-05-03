@@ -17,6 +17,7 @@
 
     <!-- date -->
     <string name="y_m_d_tilde_y_m_d_slash">%1$tm/%1$td/%1$tY ~ %2$tm/%2$td/%2$tY</string>
+    <string name="y_m_d_tilde_y_m_d_dotted">%1$tm.%1$td.%1$tY ~ %2$tm.%2$td.%2$tY</string>
     <string name="y_m_d">%1$tm/%1$td/%1$tY</string>
 
     <!--  Permission  -->

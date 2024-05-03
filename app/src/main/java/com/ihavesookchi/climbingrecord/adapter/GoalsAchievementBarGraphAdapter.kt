@@ -94,10 +94,10 @@ class GoalsAchievementBarGraphAdapter(
                             val currentTimeDays =
                                 TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()).toFloat()
                             val startDateDays =
-                                TimeUnit.MILLISECONDS.toDays(getGoalsAchievementStatus.startDate)
+                                TimeUnit.MILLISECONDS.toDays(getGoalsAchievementStatus.startDate?:0)
                                     .toFloat()
                             val endDateDays =
-                                TimeUnit.MILLISECONDS.toDays(getGoalsAchievementStatus.endDate)
+                                TimeUnit.MILLISECONDS.toDays(getGoalsAchievementStatus.endDate?:0)
                                     .toFloat()
 
                             // 반환값

@@ -7,6 +7,8 @@ import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
 import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
+import com.ihavesookchi.climbingrecord.util.CommonUtil.convertTimeMillisToCalendar
+import com.ihavesookchi.climbingrecord.util.CommonUtil.getDDay
 import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -69,18 +71,14 @@ class GoalsViewModel @Inject constructor(
 
     fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail> = goalsDataRepository.getGoalDetails()
     fun getStartDate(): Calendar {
-        return Calendar.getInstance().apply {
-            timeInMillis = goalsDataRepository.getStartDate()
-        }
+        return convertTimeMillisToCalendar(goalsDataRepository.getStartDate()?:System.currentTimeMillis())
     }
 
     fun getEndDate(): Calendar {
-        return Calendar.getInstance().apply {
-            timeInMillis = goalsDataRepository.getEndDate()
-        }
+        return convertTimeMillisToCalendar(goalsDataRepository.getEndDate()?:System.currentTimeMillis())
     }
 
-    fun getGoalsDDay(): Long = TimeUnit.MILLISECONDS.toDays(goalsDataRepository.getEndDate() - System.currentTimeMillis())
+    fun getGoalsDDay(): Long = getDDay(goalsDataRepository.getEndDate()?:System.currentTimeMillis(), System.currentTimeMillis())
 
     fun getGoalsAchievementStatus(): GoalsDataResponse.GoalsAchievementStatus = goalsDataRepository.getGoalsAchievementStatus()
 }

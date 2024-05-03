@@ -24,8 +24,11 @@ import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupYesNoBinding
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 
 object CommonUtil {
@@ -183,5 +186,18 @@ object CommonUtil {
                     }
                 }
             )
+    }
+
+    fun convertTimeMillisToCalendar(timeMillis: Long): Calendar {
+        return Calendar.getInstance().apply {
+            this.
+            timeInMillis = timeMillis
+        }
+    }
+
+    fun getDDay(startDate: Long, endDate: Long): Long {
+        val differenceMillis = abs(endDate - startDate)
+
+        return TimeUnit.MILLISECONDS.toDays(differenceMillis)
     }
 }

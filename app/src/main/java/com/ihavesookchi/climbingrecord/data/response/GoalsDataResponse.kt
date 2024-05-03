@@ -13,16 +13,16 @@ data class GoalsDataResponse(
 ): Parcelable {
 
     constructor() : this(
-        goalsAchievementStatus = GoalsAchievementStatus(0L, 0L, emptyList()),
+        goalsAchievementStatus = GoalsAchievementStatus(null, null, emptyList()),
         trackingClimbingRecords = emptyList()
     )
 
     @Parcelize
     data class GoalsAchievementStatus(
         @SerializedName("startDate")
-        val startDate: Long = 0,
+        val startDate: Long? = null,
         @SerializedName("endDate")
-        val endDate: Long = 0,
+        val endDate: Long? = null,
         @SerializedName("goalDetails")
         val goalDetails: List<GoalDetail> = emptyList()
     ): Parcelable {
