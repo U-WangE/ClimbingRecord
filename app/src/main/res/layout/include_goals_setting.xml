@@ -23,6 +23,20 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
+    <View
+        android:id="@+id/vi_selected_level"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:adjustViewBounds="true"
+        android:elevation="1dp"
+        app:layout_constraintHeight_min="64dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
     <TextView
         android:id="@+id/tv_goal_achievement_title"
         android:layout_width="wrap_content"
