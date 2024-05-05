@@ -26,11 +26,17 @@ class GoalLevelDialog(context: Context) {
 
     init {
         _binding = LayoutPopupSetGoalColorBinding.inflate(LayoutInflater.from(context))
-
         setSVGColorFilter(binding.ivClose, R.color.svgFilterColorMediumGrayDarkGray, context)
     }
 
+    private fun init() {
+        selectedColorId = null
+        binding.viSelectedImpact.visibility = GONE
+    }
+
     fun show(view: View, colorCallBack: (Int?) -> Unit) {
+        init()
+
         if (binding.root.parent != null)
             (binding.root.parent as? ViewGroup)?.removeView(binding.root)
 
@@ -41,8 +47,8 @@ class GoalLevelDialog(context: Context) {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 false)
 
-        if (::popupWindow.isInitialized && popupWindow.isShowing)
-            popupWindow.dismiss()
+        if (isShowing())
+            dismiss()
 
         setButtonClickListener(colorCallBack)
         setColorClickListener()
@@ -83,13 +89,18 @@ class GoalLevelDialog(context: Context) {
         binding.ivClose.setOnClickListener {
             binding.viSelectedImpact.visibility = GONE
             colorCallBack(null)
-            popupWindow.dismiss()
+            dismiss()
         }
 
         binding.btAccept.setOnClickListener {
             binding.viSelectedImpact.visibility = GONE
             colorCallBack(selectedColorId)
-            popupWindow.dismiss()
+            dismiss()
         }
+    }
+
+    fun isShowing() = ::popupWindow.isInitialized && popupWindow.isShowing
+    fun dismiss() {
+        popupWindow.dismiss()
     }
 }

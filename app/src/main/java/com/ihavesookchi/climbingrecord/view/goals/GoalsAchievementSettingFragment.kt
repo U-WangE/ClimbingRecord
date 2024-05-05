@@ -21,6 +21,8 @@ import com.ihavesookchi.climbingrecord.util.ClearFocusEditText
 import com.ihavesookchi.climbingrecord.util.CommonUtil.convertTimeMillisToCalendar
 import com.ihavesookchi.climbingrecord.util.CommonUtil.getDDay
 import com.ihavesookchi.climbingrecord.util.CommonUtil.hideSoftKeyboard
+import com.ihavesookchi.climbingrecord.util.CommonUtil.isSoftKeyboardShow
+import com.ihavesookchi.climbingrecord.util.CommonUtil.setBackPressedCallback
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.util.GoalLevelDialog
 import com.ihavesookchi.climbingrecord.view.BaseActivity
@@ -39,18 +41,24 @@ class GoalsAchievementSettingFragment : Fragment() {
     private val sharedViewModel: BaseViewModel by activityViewModels()
     private val viewModel: GoalsAchievementSettingViewModel by viewModels()
 
+    private lateinit var calendarDialog: CalendarDialog
+    private lateinit var goalLevelDialog: GoalLevelDialog
 
-//    override fun onStart() {
-//        super.onStart()
-//        setBackPressedCallback {
-//            Log.d("여기",requireActivity().isSoftKeyboardShow().toString())
-//            if (requireActivity().isSoftKeyboardShow()) {
-//                requireActivity().hideSoftKeyboard()
-//            } else {
-//                requireActivity().supportFragmentManager.popBackStack()
-//            }
-//        }
-//    }
+
+    override fun onStart() {
+        super.onStart()
+        setBackPressedCallback {
+            if (calendarDialog.isShowing())
+                calendarDialog.dismiss()
+            else if (goalLevelDialog.isShowing())
+                goalLevelDialog.dismiss()
+            else if (requireActivity().isSoftKeyboardShow()) {
+                requireActivity().hideSoftKeyboard()
+            } else {
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +81,10 @@ class GoalsAchievementSettingFragment : Fragment() {
 
         // Back Button
         setBackButtonOnClickListener()
+
+        // DialogInit
+        calendarDialog = CalendarDialog(requireContext())
+        goalLevelDialog = GoalLevelDialog(requireContext())
 
         // Goal Click Listener Setting
         setGoalsSettingClickListener(binding.icGoalSettingOne)
@@ -97,12 +109,13 @@ class GoalsAchievementSettingFragment : Fragment() {
         }
     }
 
+    // Goal 의 Color 를 정하는 Dialog 띄우고, 선택한 Color 를 적용하는 코드
     private fun setGoalColorOnClickListener(includeGoalsSetting: IncludeGoalsSettingBinding) {
         with (includeGoalsSetting) {
             val clickListener = OnClickListener {
                 binding.root.hideSoftKeyboard()
 
-                GoalLevelDialog(requireContext()).show(tvGoalColorSetting) {
+                goalLevelDialog.show(tvGoalColorSetting) {
                     if (it != null) {
                         tvGoalColorSetting.visibility = INVISIBLE
                         viSelectedLevel.visibility = VISIBLE
@@ -144,7 +157,7 @@ class GoalsAchievementSettingFragment : Fragment() {
     private fun showCalendarDialog() {
         binding.root.hideSoftKeyboard()
 
-        CalendarDialog(requireContext()).show(binding.ivCalendarImage, viewModel.getStartDate(), viewModel.getEndDate()) { startDate, endDate ->
+        calendarDialog.show(binding.ivCalendarImage, viewModel.getStartDate(), viewModel.getEndDate()) { startDate, endDate ->
             if (startDate != null && endDate != null) {
                 viewModel.setStartDate(startDate)
                 viewModel.setEndDate(endDate)

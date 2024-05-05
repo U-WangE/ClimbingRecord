@@ -25,11 +25,19 @@ class CalendarDialog(context: Context) {
 
     init {
         _binding = LayoutPopupSetPeriodBinding.inflate(LayoutInflater.from(context))
+
+    }
+
+    private fun init() {
         pageCounter = 0
+        updateStartDate = null
+        updateEndDate = null
     }
 
     fun show(view: View, startDate: Long? = null, endDate: Long? = null, periodCallback: (Long?, Long?) -> Unit) {
         //TODO::EndDate가 StartDate보다 작으면, 설정 안 되게 또는 Error, 경고 표시
+        init()
+
         if (binding.root.parent != null)
             (binding.root.parent as? ViewGroup)?.removeView(binding.root)
 
@@ -40,8 +48,8 @@ class CalendarDialog(context: Context) {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 false)
 
-        if (::popupWindow.isInitialized && popupWindow.isShowing)
-            popupWindow.dismiss()
+        if (isShowing())
+            dismiss()
 
         pageCounter = 0
         updateStartDate = startDate
@@ -65,7 +73,7 @@ class CalendarDialog(context: Context) {
         binding.btLeft.setOnClickListener {
             if (pageCounter % 2 == 0) {
                 periodCallback(null, null)
-                popupWindow.dismiss()
+                dismiss()
             } else {
                 pageCounter--
                 updatePageUI(periodCallback)
@@ -78,7 +86,7 @@ class CalendarDialog(context: Context) {
                 updatePageUI(periodCallback)
             } else {
                 periodCallback(updateStartDate?:System.currentTimeMillis(), updateEndDate?:System.currentTimeMillis())
-                popupWindow.dismiss()
+                dismiss()
             }
         }
     }
@@ -113,4 +121,7 @@ class CalendarDialog(context: Context) {
         return selectedDateTime.toEpochMilli()
 //        return selectedDateTime.toEpochSecond(ZoneOffset.UTC)
     }
+
+    fun isShowing() = ::popupWindow.isInitialized && popupWindow.isShowing
+    fun dismiss() = popupWindow.dismiss()
 }
