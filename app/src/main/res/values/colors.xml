@@ -31,8 +31,10 @@
     <color name="nav_icon_state_checked_color">@color/black</color>
     <color name="nav_icon_state_unchecked_color">@color/dark_gray</color>
 
+    <!-- name rule : night - not night -->
     <color name="svgFilterColorLightGrayishBlack">@color/black</color>
-    <color name="svgFilterColorDarkGrayMediumGray">@color/dark_gray</color>
+    <color name="svgFilterColorMediumGrayDarkGray">@color/dark_gray</color>
+    <color name="svgFilterColorLightBlackLightGrayish">@color/light_grayish</color>
 
     <color name="yellow">#FFF200</color>
 

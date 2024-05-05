@@ -70,6 +70,7 @@
     <string name="title_nickname">닉네임</string>
     <string name="title_instagram_user_name">인스타그램 사용자 이름</string>
     <string name="title_goal_setting" translatable="false">Goal-Setting</string>
+    <string name="title_set_goal_color" translatable="false">Set Color</string>
     <string name="title_goals" translatable="false">Goal</string>
     <string name="title_start_date" translatable="false">Start Date</string>
     <string name="title_end_date" translatable="false">End Date</string>

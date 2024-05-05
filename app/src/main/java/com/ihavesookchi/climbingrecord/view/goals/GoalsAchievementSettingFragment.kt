@@ -20,6 +20,7 @@ import com.ihavesookchi.climbingrecord.util.ClearFocusEditText
 import com.ihavesookchi.climbingrecord.util.CommonUtil.convertTimeMillisToCalendar
 import com.ihavesookchi.climbingrecord.util.CommonUtil.getDDay
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
+import com.ihavesookchi.climbingrecord.util.GoalLevelDialog
 import com.ihavesookchi.climbingrecord.view.BaseActivity
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.GoalsAchievementSettingViewModel
@@ -66,7 +67,7 @@ class GoalsAchievementSettingFragment : Fragment() {
     }
 
     private fun setUI() {
-        setSVGColorFilter(binding.btBackButton, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.btBackButton, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
         setSVGColorFilter(binding.ivCalendarImage, R.color.svgFilterColorLightGrayishBlack, requireContext())
 
         // Back Button
@@ -97,7 +98,9 @@ class GoalsAchievementSettingFragment : Fragment() {
 
     private fun setGoalColorOnClickListener(textView: TextView) {
         textView.setOnClickListener {
+            GoalLevelDialog(requireContext()).show(textView) {
 
+            }
         }
     }
 

@@ -87,7 +87,7 @@ class ProfileItemChangeFragment : Fragment() {
     private fun setProfileImageSetting() {
         if (sharedViewModel.getProfileImage().isEmpty()) {
             binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
-            setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+            setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
         } else {
             binding.ivProfileImage.clearColorFilter()
             ImageLoadTask(binding.ivProfileImage).loadImage(sharedViewModel.getProfileImage())
@@ -105,7 +105,7 @@ class ProfileItemChangeFragment : Fragment() {
 
 
     private fun setBackButtonOnClickListener() {
-        setSVGColorFilter(binding.btBackButton, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.btBackButton, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
 
         binding.btBackButton.setOnClickListener {
             (activity as BaseActivity).replaceFragment(GoalsFragment())
@@ -134,7 +134,7 @@ class ProfileItemChangeFragment : Fragment() {
                     "Left" -> {}
                     "Right" -> {
                         binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
-                        setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+                        setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
 
                         viewModel.deleteBitmapToFirebaseStorage()
                     }

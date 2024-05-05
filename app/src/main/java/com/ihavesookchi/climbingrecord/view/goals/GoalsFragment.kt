@@ -56,10 +56,10 @@ class GoalsFragment : Fragment() {
     private fun setDefaultUISetting() {
         binding.icGoalsStatus.clGoalsStatusLayout.visibility = GONE
 
-        setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
-        setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.icGoalsStatus.ivGoalsModify, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
+        setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
         setSVGColorFilter(binding.icProfile.ivInstagramSetButton, R.color.svgFilterColorLightGrayishBlack, requireContext())
-        setSVGColorFilter(binding.icProfile.ivProfileModify, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+        setSVGColorFilter(binding.icProfile.ivProfileModify, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
 
         setProfile()
         intentProfileItemSetting()
@@ -97,7 +97,7 @@ class GoalsFragment : Fragment() {
     private fun setProfileImage() {
         if (sharedViewModel.getProfileImage().isEmpty()) {
             binding.icProfile.ivProfileImage.setImageResource(R.drawable.ic_bot)
-            setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorDarkGrayMediumGray, requireContext())
+            setSVGColorFilter(binding.icProfile.ivProfileImage, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
         } else {
             binding.icProfile.ivProfileImage.clearColorFilter()
             ImageLoadTask(binding.icProfile.ivProfileImage).loadImage(sharedViewModel.getProfileImage())

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_popup_set_goal_color_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_radius_8_stroke"
+        android:backgroundTint="@color/svgFilterColorLightBlackLightGrayish"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_close"
+            android:adjustViewBounds="true"
+            android:padding="8dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintWidth_max="32dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_level_none"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            style="@style/style_kcc_chassam_medium_large"
+            android:text="@string/default_question_mark"
+            android:textColor="@color/light_gray"
+            android:gravity="center"
+            android:background="@drawable/bg_round_width_2_radius_4_stroke_dotted_4"
+            android:layout_margin="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/vi_level_white"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tv_set_goal_color_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/style_kcc_chassam_bold_x_large"
+            android:text="@string/title_set_goal_color"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toTopOf="@id/tv_level_none"
+            app:layout_constraintBottom_toBottomOf="@id/tv_level_none"
+            app:layout_constraintStart_toEndOf="@id/tv_level_none"
+            />
+
+        <View
+            android:id="@+id/vi_selected_impact"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:visibility="gone"
+            android:background="@drawable/bg_round_width_4_radius_4_stroke_dotted_4_light_teal"
+            android:adjustViewBounds="true"
+            android:elevation="1dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <View
+            android:id="@+id/vi_level_white"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/tv_level_none"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <View
+            android:id="@+id/vi_level_yellow"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/theclimb_yellow"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/tv_level_none"
+            app:layout_constraintStart_toEndOf="@id/vi_level_white"
+            />
+
+        <View
+            android:id="@+id/vi_level_orange"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/theclimb_orange"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/tv_level_none"
+            app:layout_constraintStart_toEndOf="@id/vi_level_yellow"
+            />
+
+        <View
+            android:id="@+id/vi_level_green"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/theclimb_green"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/tv_level_none"
+            app:layout_constraintStart_toEndOf="@id/vi_level_orange"
+            />
+
+        <View
+            android:id="@+id/vi_level_blue"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/theclimb_blue"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/tv_level_none"
+            app:layout_constraintStart_toEndOf="@id/vi_level_green"
+            />
+
+        <View
+            android:id="@+id/vi_level_red"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/theclimb_red"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/vi_level_white"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <View
+            android:id="@+id/vi_level_purple"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/theclimb_purple"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/vi_level_yellow"
+            app:layout_constraintStart_toEndOf="@id/vi_level_red"
+            />
+
+        <View
+            android:id="@+id/vi_level_gray"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/theclimb_gray"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/vi_level_orange"
+            app:layout_constraintStart_toEndOf="@id/vi_level_purple"
+            />
+
+        <View
+            android:id="@+id/vi_level_brown"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/theclimb_brown"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/vi_level_green"
+            app:layout_constraintStart_toEndOf="@id/vi_level_gray"
+            />
+
+        <View
+            android:id="@+id/vi_level_black"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@color/black"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@id/vi_level_blue"
+            app:layout_constraintStart_toEndOf="@id/vi_level_brown"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_accept"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            style="@style/style_kcc_chassam_medium_small"
+            android:text="@string/accept"
+            android:background="@drawable/bg_button_round_empty_stroke"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/vi_level_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
