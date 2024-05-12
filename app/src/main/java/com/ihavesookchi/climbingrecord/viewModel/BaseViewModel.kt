@@ -73,7 +73,7 @@ class BaseViewModel @Inject constructor(
             try {
                 userDataRepository.initUserDataToFirebaseDB().let {
                     launch(Dispatchers.Main) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "initUserDataToFirebaseDB() set User Data Api    DocumentSnapshot : $it")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "initUserDataToFirebaseDB() set User Data Api    DocumentSnapshot : ${it?.result}")
 
                         if (it?.isSuccessful == true)
                             getUserDataFromFirebaseDB()

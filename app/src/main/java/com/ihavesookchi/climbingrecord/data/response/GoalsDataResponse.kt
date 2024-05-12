@@ -7,33 +7,33 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class GoalsDataResponse(
     @SerializedName("goalsAchievementStatus")
-    val goalsAchievementStatus: GoalsAchievementStatus,
+    var goalsAchievementStatus: GoalsAchievementStatus,
     @SerializedName("trackingClimbingRecords")
-    val trackingClimbingRecords: List<TrackingClimbingRecord>
+    val trackingClimbingRecords: ArrayList<TrackingClimbingRecord>
 ): Parcelable {
 
     constructor() : this(
-        goalsAchievementStatus = GoalsAchievementStatus(null, null, emptyList()),
-        trackingClimbingRecords = emptyList()
+        goalsAchievementStatus = GoalsAchievementStatus(null, null, arrayListOf()),
+        trackingClimbingRecords = arrayListOf()
     )
 
     @Parcelize
     data class GoalsAchievementStatus(
         @SerializedName("startDate")
-        val startDate: Long? = null,
+        var startDate: Long? = null,
         @SerializedName("endDate")
-        val endDate: Long? = null,
+        var endDate: Long? = null,
         @SerializedName("goalDetails")
-        val goalDetails: List<GoalDetail> = emptyList()
+        var goalDetails: ArrayList<GoalDetail> = arrayListOf()
     ): Parcelable {
         @Parcelize
         data class GoalDetail(
             @SerializedName("goal")
-            val goal: Int = 0,
+            var goal: Int = 0,
             @SerializedName("goalActual")
-            val goalActual: Int = 0,
+            var goalActual: Int = 0,
             @SerializedName("goalColorRGB")
-            val goalColorRGB: String = "#ffffff"
+            var goalColorRGB: String = ""
         ): Parcelable
     }
 

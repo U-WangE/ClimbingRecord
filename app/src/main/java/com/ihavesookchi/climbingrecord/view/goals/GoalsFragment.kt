@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -18,6 +19,7 @@ import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.adapter.ClimbTrackerAdapter
 import com.ihavesookchi.climbingrecord.adapter.GoalsAchievementBarGraphAdapter
+import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentGoalsBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
@@ -74,14 +76,10 @@ class GoalsFragment : Fragment() {
 
             setClimbTracker()
             setGoalsAchievementGraph()
-            setGoalsAchievement()
 
             when(it) {
                 is GoalsDataUiState.GoalsDataSuccess -> {
-                    setVisibilityOfGoalAchievement(VISIBLE)
-                }
-                is GoalsDataUiState.GoalsDataIsNull -> {
-                    setVisibilityOfGoalAchievement(GONE)
+                    setVisibilityOfGoalAchievement(viewModel.getGoalsData())
                 }
                 else -> {}
             }
@@ -188,34 +186,20 @@ class GoalsFragment : Fragment() {
      * D-Day Layout
      **/
     // DB에 데이터가 없는 경우 Default 문구 보여줌
-    private fun setVisibilityOfGoalAchievement(visibility: Int) {
-        with(binding) {
-            when (visibility) {
-                VISIBLE -> {
-                    icGoalsStatus.clGoalsAchievementLayout.visibility = VISIBLE
-                    icGoalsStatus.tvAdviseSettingGoal.visibility = GONE
-                }
-                GONE -> {
-                    icGoalsStatus.clGoalsAchievementLayout.visibility = GONE
-                    icGoalsStatus.tvAdviseSettingGoal.visibility = VISIBLE
-                }
-
-                else -> {}
-            }
-        }
-    }
-
-    private fun setGoalsAchievement() {
-        // 목표 및 달성율 Ui에 해당 하는 기능
-        if (viewModel.getGoalDetails().isNotEmpty()) {
+    private fun setVisibilityOfGoalAchievement(goalsData: GoalsDataResponse) {
+        if (goalsData.goalsAchievementStatus.goalDetails.isEmpty()) {
+            // goal achievement data 가 없는 경우
+            binding.icGoalsStatus.clGoalsAchievementLayout.visibility = GONE
+            binding.icGoalsStatus.tvAdviseSettingGoal.visibility = VISIBLE
+        } else {
+            // 목표 및 달성율 Ui에 해당 하는 기능
+            binding.icGoalsStatus.clGoalsAchievementLayout.visibility = VISIBLE
+            binding.icGoalsStatus.tvAdviseSettingGoal.visibility = GONE
             setDDay()
             setGoalsAchievementDetail()
             setGoalsAchievementPeriod()
-        } else {  // goal achievement data 가 없는 경우
-            setVisibilityOfGoalAchievement(GONE)
         }
     }
-
     // D-Day Setting || 3, 7일 마다 색 변경 적용
     private fun setDDay() {
         val dDay = viewModel.getGoalsDDay()
@@ -258,6 +242,7 @@ class GoalsFragment : Fragment() {
             }
         }
     }
+
     private fun setSecondGoalVisibility(isVisible : Boolean) {
         with(binding.icGoalsStatus) {
             listOf(tvCommas, ivSecondGoalAchievementImage, tvSecondGoalAchievementStatus).forEach {

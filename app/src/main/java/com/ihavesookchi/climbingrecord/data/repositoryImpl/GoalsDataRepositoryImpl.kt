@@ -1,16 +1,19 @@
 package com.ihavesookchi.climbingrecord.data.repositoryImpl
 
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
 import com.ihavesookchi.climbingrecord.util.CommonUtil.retry
+import com.ihavesookchi.climbingrecord.util.CommonUtil.toMap
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -26,6 +29,17 @@ class GoalsDataRepositoryImpl @Inject constructor(
 
     override fun initResponse() { goalsDataResponse = GoalsDataResponse() }
 
+    override suspend fun initGoalsDataFromFirebaseDB(): Task<Void>? {
+        return retry {
+            db.collection("goals")
+                .document(firebaseAuth.currentUser?.uid ?: "anonymous")
+                .set(GoalsDataResponse())
+                .run {
+                    await()
+                    this
+                }
+        }
+    }
     override suspend fun getGoalsDataFromFirebaseDB(): Task<DocumentSnapshot>? {
         return retry {
             db.collection("goals")
@@ -38,10 +52,26 @@ class GoalsDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun setGoalsData(documentSnapshot: DocumentSnapshot) {
-        goalsDataResponse = documentSnapshot.toObject(GoalsDataResponse::class.java)!!
+    override suspend fun uploadGoalAchievementDataToFirebaseDB(goalsAchievementStatus: GoalsDataResponse.GoalsAchievementStatus): Task<Void>? {
+        return retry {
+            db.collection("goals")
+                .document(firebaseAuth.currentUser?.uid ?: "anonymous")
+                .set(mapOf("goalsAchievementStatus" to goalsAchievementStatus))
+                .run {
+                    await()
+                    this
+                }
+        }
+    }
 
-        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Set GoalsDataResponse Done    goalsDataResponse  :  $goalsDataResponse")
+    override fun setGoalsData(documentSnapshot: DocumentSnapshot?) {
+        goalsDataResponse = documentSnapshot?.toObject(GoalsDataResponse::class.java)?:GoalsDataResponse()
+
+        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setGoalsData Set GoalsDataResponse Done    goalsDataResponse  :  $goalsDataResponse")
+    }
+
+    override fun getGoalsData(): GoalsDataResponse {
+        return goalsDataResponse
     }
 
     override fun getGoalDetails(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail> = goalsDataResponse.goalsAchievementStatus.goalDetails

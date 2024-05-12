@@ -60,9 +60,14 @@
 
     <string name="toast_input_instagram_user_name">인스타그램 ID를 입력해주세요.</string>
     <string name="toast_completed_revision">수정 완료~!</string>
+    <string name="toast_completed_goals_update">목표 설정 완료~!</string>
     <string name="toast_please_try_again_later">잠시후 다시 시도해 주세요.</string>
     <string name="toast_check_your_network_connection">네트워크 상태를 확인해 주세요.</string>
     <string name="toast_profile_image_reset_contents">프로필 이미지를 초기화 하겠습니까?</string>
+    <string name="toast_not_goal_setting">목표를 설정해 주세요.</string>
+    <string name="toast_unusual_goal_setting">목표 값이 올바른지 확인해 주세요.</string>
+    <string name="toast_not_goal_period_setting">목표 기간을 설졍해 주세요.</string>
+    <string name="toast_unusual_goal_period">목표 기간이 올바른지 확인해 주세요.</string>
 
     <string name="notice_no_search_result_for_keyword">\"%s\" 에 대한 검색 결과가 없습니다.</string>
 

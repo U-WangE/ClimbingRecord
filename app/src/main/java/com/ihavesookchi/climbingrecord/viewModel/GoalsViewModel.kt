@@ -1,5 +1,6 @@
 package com.ihavesookchi.climbingrecord.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
@@ -44,19 +45,19 @@ class GoalsViewModel @Inject constructor(
 
     fun getFirebaseGoalsData() {
         viewModelScope.launch(Dispatchers.IO) {
-            initData()
-
             try {
                 goalsDataRepository.getGoalsDataFromFirebaseDB().let {
                     launch(Dispatchers.Main) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Goals Api Success    DocumentSnapshot : $it")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Goals Api Success    DocumentSnapshot : ${it?.result}")
 
                         if (it?.isSuccessful == true) {
                             if (it.result.exists()) {
                                 goalsDataRepository.setGoalsData(it.result)
                                 _goalsDataUiState.value = GoalsDataUiState.GoalsDataSuccess
-                            } else
-                                _goalsDataUiState.value = GoalsDataUiState.GoalsDataIsNull
+                            } else {
+                                // db 에 값이 없는 경우 init 초기화 해주는 코드
+                                initGoalsDataFromFirebaseDB()
+                            }
                         } else
                             _goalsDataUiState.value = GoalsDataUiState.GoalsDataFailure
                     }
@@ -65,6 +66,25 @@ class GoalsViewModel @Inject constructor(
                 handleGoalsDataError(::getFirebaseGoalsData.name, e)
             }
         }
+    }
+
+    private fun initGoalsDataFromFirebaseDB() {
+        viewModelScope.launch(Dispatchers.IO) {
+            goalsDataRepository.initGoalsDataFromFirebaseDB().let {
+                launch(Dispatchers.Main) {
+                    if (it?.isSuccessful == true) {
+                        goalsDataRepository.setGoalsData()
+                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataSuccess
+                    } else {
+                        _goalsDataUiState.value = GoalsDataUiState.GoalsDataFailure
+                    }
+                }
+            }
+        }
+    }
+
+    fun getGoalsData(): GoalsDataResponse {
+        return goalsDataRepository.getGoalsData()
     }
 
     fun getTrackingClimbingRecords(): List<GoalsDataResponse.TrackingClimbingRecord> = goalsDataRepository.getTrackingClimbingRecords()
