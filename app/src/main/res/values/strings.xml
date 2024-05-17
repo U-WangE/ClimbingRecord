@@ -12,6 +12,7 @@
     <string name="zero" translatable="false">0</string>
     <string name="commas" translatable="false">,</string>
 
+    <string name="reset_upper_case" translatable="false">RESET</string>
     <string name="yes">예</string>
     <string name="no">아니요</string>
     <string name="accept">확인</string>

@@ -136,4 +136,9 @@ class GoalsAchievementSettingViewModel @Inject constructor(
     fun getEndDate(): Long? {
         return goalsAchievementStatus.endDate
     }
+
+    fun resetData() {
+        goalsAchievementStatus = GoalsDataResponse.GoalsAchievementStatus()
+        linkedHashMap = LinkedHashMap<Int, GoalsDataResponse.GoalsAchievementStatus.GoalDetail>()
+    }
 }

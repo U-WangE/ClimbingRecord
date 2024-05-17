@@ -1,5 +1,6 @@
 package com.ihavesookchi.climbingrecord.view.goals
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -66,8 +67,7 @@ class GoalsAchievementSettingFragment : Fragment() {
     ): View {
         _binding = FragmentGoalsAchievementSettingBinding.inflate(inflater, container, false)
 
-        // 초기 값은 DB 에 저장되어 있는 값으로 처리하고,
-        // init 버튼 추가해서 초기화 가능하게 하고,
+        //TODO::
         // 기간의 start 가 미래인 경우에 대한 bar graph 수정해야하고,
         // 색, 숫자 에 대한 예외 처리 했으나 refactoring 필요
         // goals view 부터 goalsAchievementSetting view 까지 refactoring 필요
@@ -91,11 +91,59 @@ class GoalsAchievementSettingFragment : Fragment() {
         setSVGColorFilter(binding.ivCalendarImage, R.color.svgFilterColorLightGrayishBlack, requireContext())
 
         viewModel.initLinkedHashMap()
+
+        initGoalUi()
+        initGoalPeriodUi()
+    }
+
+    // 이전에 설정 했던 목표 설정
+    private fun initGoalUi() {
+        with(viewModel.getLinkedHashMap()) {
+            if (size > 0) {
+                when {
+                    containsKey(0) -> {
+                        binding.icGoalSettingOne.tvGoalColorSetting.visibility = INVISIBLE
+                        binding.icGoalSettingOne.viSelectedLevel.visibility = VISIBLE
+                        binding.icGoalSettingOne.viSelectedLevel.setBackgroundColor(Color.parseColor(this[0]?.goalColorRGB))
+                        binding.icGoalSettingOne.etGoalAchievement.setText(this[0]?.goal.toString())
+                    }
+                    containsKey(1) -> {
+                        binding.icGoalSettingTwo.tvGoalColorSetting.visibility = INVISIBLE
+                        binding.icGoalSettingTwo.viSelectedLevel.visibility = VISIBLE
+                        binding.icGoalSettingTwo.viSelectedLevel.setBackgroundColor(Color.parseColor(this[1]?.goalColorRGB))
+                        binding.icGoalSettingTwo.etGoalAchievement.setText(this[0]?.goal.toString())
+                    }
+                }
+            } else {
+                binding.icGoalSettingOne.tvGoalColorSetting.visibility = VISIBLE
+                binding.icGoalSettingOne.viSelectedLevel.visibility = GONE
+                binding.icGoalSettingOne.etGoalAchievement.setText("")
+                binding.icGoalSettingTwo.tvGoalColorSetting.visibility = VISIBLE
+                binding.icGoalSettingTwo.viSelectedLevel.visibility = GONE
+                binding.icGoalSettingTwo.etGoalAchievement.setText("")
+            }
+        }
+    }
+
+    private fun initGoalPeriodUi() {
+        val startDate = viewModel.getStartDate()
+        val endDate = viewModel.getEndDate()
+
+        if (startDate != null && startDate != 0L && endDate != null && endDate != 0L) {
+            updateGoalPeriodText(startDate, endDate)
+            binding.etDayOfDDay.setText(getDDay(startDate, endDate).toString())
+        } else {
+            binding.etDayOfDDay.setText("")
+            binding.tvGoalAchievementPeriod.text = getString(R.string.default_y_m_d_tilde_y_m_d_dotted)
+        }
     }
 
     private fun setUiClickListener() {
         // Back Button
         setBackButtonOnClickListener()
+
+        // Reset Button
+        setResetButtonOnClickListener()
 
         // Edit Button Click Listener
         setEditButtonOnClickListener()
@@ -111,6 +159,23 @@ class GoalsAchievementSettingFragment : Fragment() {
         binding.btBackButton.setOnClickListener {
             (activity as BaseActivity).replaceFragment(GoalsFragment())
             (activity as BaseActivity).removeFragment(this)
+        }
+    }
+
+    private fun setResetButtonOnClickListener() {
+        binding.btResetButton.setOnClickListener {
+            viewModel.resetData()
+            initGoalUi()
+            initGoalPeriodUi()
+        }
+    }
+
+    private fun setEditButtonOnClickListener() {
+        binding.btEditButton.setOnClickListener {
+            viewModel.isValueEntered(
+                binding.icGoalSettingOne.etGoalAchievement.text.toString(),
+                binding.icGoalSettingTwo.etGoalAchievement.text.toString()
+            )
         }
     }
 
@@ -212,16 +277,7 @@ class GoalsAchievementSettingFragment : Fragment() {
 
     private fun updateGoalPeriodText(startDate: Long, endDate: Long) {
         binding.tvGoalAchievementPeriod.text =
-            getString(R.string.y_m_d_tilde_y_m_d_slash, convertTimeMillisToCalendar(startDate), convertTimeMillisToCalendar(endDate))
-    }
-
-    private fun setEditButtonOnClickListener() {
-        binding.btEditButton.setOnClickListener {
-            viewModel.isValueEntered(
-                binding.icGoalSettingOne.etGoalAchievement.text.toString(),
-                binding.icGoalSettingTwo.etGoalAchievement.text.toString()
-            )
-        }
+            getString(R.string.y_m_d_tilde_y_m_d_dotted, convertTimeMillisToCalendar(startDate), convertTimeMillisToCalendar(endDate))
     }
 
     private fun observingGoalsAchievementUiState() {
