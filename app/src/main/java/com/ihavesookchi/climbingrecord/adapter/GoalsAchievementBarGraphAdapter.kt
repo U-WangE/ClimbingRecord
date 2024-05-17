@@ -101,7 +101,9 @@ class GoalsAchievementBarGraphAdapter(
                                     .toFloat()
 
                             // 반환값
-                            (currentTimeDays - startDateDays) / (endDateDays - startDateDays)
+                            if (startDateDays <= currentTimeDays)
+                                (currentTimeDays - startDateDays) / (endDateDays - startDateDays)
+                            else 0f
                         }.run {
                             // this == 반환값
                             if (this >= 1f) {

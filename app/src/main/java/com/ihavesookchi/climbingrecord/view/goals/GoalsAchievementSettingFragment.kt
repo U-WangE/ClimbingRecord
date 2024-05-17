@@ -68,7 +68,6 @@ class GoalsAchievementSettingFragment : Fragment() {
         _binding = FragmentGoalsAchievementSettingBinding.inflate(inflater, container, false)
 
         //TODO::
-        // 기간의 start 가 미래인 경우에 대한 bar graph 수정해야하고,
         // 색, 숫자 에 대한 예외 처리 했으나 refactoring 필요
         // goals view 부터 goalsAchievementSetting view 까지 refactoring 필요
         setUi()
