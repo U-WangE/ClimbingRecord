@@ -1,5 +1,6 @@
 package com.ihavesookchi.climbingrecord.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,7 +19,7 @@ import com.ihavesookchi.climbingrecord.util.CommonUtil.hideSoftKeyboard
 import com.ihavesookchi.climbingrecord.util.GoalLevelDialog
 
 class GoalsAchievementSettingAdapter(
-    private val goalDetailList: List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail>,
+    private var goalDetailList: List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail>,
     private val goalLevelDialog: GoalLevelDialog,
     private val focusChangeCallback: (Boolean) -> Unit
 ): RecyclerView.Adapter<GoalsAchievementSettingAdapter.ViewHolder>() {
@@ -130,5 +131,11 @@ class GoalsAchievementSettingAdapter(
     fun getItems(): List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail> {
         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Adapter getItems() return   Result  :  $modifyGoalDetailList")
         return modifyGoalDetailList
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(newGoalDetailList: List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail>) {
+        goalDetailList = newGoalDetailList
+        notifyDataSetChanged()
     }
 }

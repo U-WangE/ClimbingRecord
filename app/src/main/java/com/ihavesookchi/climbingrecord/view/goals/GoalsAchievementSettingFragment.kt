@@ -200,8 +200,7 @@ class GoalsAchievementSettingFragment : Fragment() {
     private fun setResetButtonOnClickListener() {
         binding.btResetButton.setOnClickListener {
             viewModel.resetData()
-//            initGoalUi() //TODO:: Adapter Refresh 하는 코드 적용 해야함
-            //TODO::Reset 시 Period 적용 안 됨  // calendar 에서 startDate가 0으로 고정 되어 있음 해당 값 수정 필요
+            adapter.updateData(viewModel.getGoalDetails())
             initGoalPeriodUi()
         }
     }
