@@ -1,13 +1,21 @@
 package com.ihavesookchi.climbingrecord.util
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.core.content.ContextCompat.getColor
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupSetPeriodBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -20,24 +28,25 @@ class CalendarDialog(context: Context) {
     private lateinit var popupWindow: PopupWindow
     private var pageCounter = 0
 
-    private var updateStartDate: Long? = null
-    private var updateEndDate: Long? = null
+    private var defaultStartDate: Long = 0L
+    private var defaultEndDate: Long = 0L
+    private var updateStartDate: Long = 0L
+    private var updateEndDate: Long = 0L
 
     init {
         _binding = LayoutPopupSetPeriodBinding.inflate(LayoutInflater.from(context))
 
     }
 
-    private fun init() {
+    private fun init(startDate: Long, endDate: Long) {
         pageCounter = 0
-        updateStartDate = null
-        updateEndDate = null
+        defaultStartDate = startDate
+        defaultEndDate = endDate
+        updateStartDate = if (startDate != 0L) startDate else System.currentTimeMillis()
+        updateEndDate = if (endDate != 0L) endDate else System.currentTimeMillis()
     }
 
-    fun show(view: View, startDate: Long? = null, endDate: Long? = null, periodCallback: (Long?, Long?) -> Unit) {
-        //TODO::EndDate가 StartDate보다 작으면, 설정 안 되게 또는 Error, 경고 표시
-        init()
-
+    fun show(view: View, startDate: Long, endDate: Long, periodCallback: (Long, Long) -> Unit) {
         if (binding.root.parent != null)
             (binding.root.parent as? ViewGroup)?.removeView(binding.root)
 
@@ -51,15 +60,13 @@ class CalendarDialog(context: Context) {
         if (isShowing())
             dismiss()
 
-        pageCounter = 0
-        updateStartDate = startDate
-        updateEndDate = endDate
+        init(startDate, endDate)
 
         updatePageUI(periodCallback)
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
     }
 
-    private fun updatePageUI(periodCallback: (Long?, Long?) -> Unit) {
+    private fun updatePageUI(periodCallback: (Long, Long) -> Unit) {
         updateTextWithPageCounter()
         setDateForDatePicker()
 
@@ -72,7 +79,7 @@ class CalendarDialog(context: Context) {
 
         binding.btLeft.setOnClickListener {
             if (pageCounter % 2 == 0) {
-                periodCallback(null, null)
+                periodCallback(defaultStartDate, defaultEndDate)
                 dismiss()
             } else {
                 pageCounter--
@@ -84,8 +91,21 @@ class CalendarDialog(context: Context) {
             if (pageCounter % 2 == 0) {
                 pageCounter++
                 updatePageUI(periodCallback)
+            } else if (updateStartDate >= updateEndDate) {
+                // 시작 날짜와 종료 날짜가 같거나 시작 날짜가 더 미래인 경우
+                CoroutineScope(Dispatchers.Main).launch {
+                    //3초 Error 문구 & Color Red
+                    binding.tvErrorMessage.visibility = VISIBLE
+                    binding.tvErrorMessage.text = binding.root.context.getString(R.string.notice_please_check_the_period_again)
+                    binding.btRight.backgroundTintList = ColorStateList.valueOf(getColor(binding.root.context, R.color.theclimb_red))
+
+                    delay(3000L)
+
+                    binding.tvErrorMessage.visibility = GONE
+                    binding.btRight.backgroundTintList = ColorStateList.valueOf(getColor(binding.root.context, R.color.white))
+                }
             } else {
-                periodCallback(updateStartDate?:System.currentTimeMillis(), updateEndDate?:System.currentTimeMillis())
+                periodCallback(updateStartDate, updateEndDate)
                 dismiss()
             }
         }
@@ -100,17 +120,14 @@ class CalendarDialog(context: Context) {
             binding.tvDatePickerTitle.text = getString(titleResId)
             binding.btLeft.text = getString(leftButtonResId)
             binding.btRight.text = getString(rightButtonResId)
+            binding.tvErrorMessage.visibility = GONE
         }
     }
 
     // 이전에 설정 or 선택한 날짜 또는 현재 날짜를 Date Picker 의 초기 Date로 설정
     private fun setDateForDatePicker() {
-//        val updateDate = if (pageCounter % 2 == 0) updateStartDate else updateEndDate
-//        val localDateTime = LocalDateTime.ofEpochSecond(updateDate ?: (System.currentTimeMillis() / 1000L), 0, ZoneOffset.UTC)
-//        binding.dpDatePicker.updateDate(localDateTime.year, localDateTime.monthValue - 1, localDateTime.dayOfMonth)
-
         val updateDateMillis = if (pageCounter % 2 == 0) updateStartDate else updateEndDate
-        val updateInstant = Instant.ofEpochMilli(updateDateMillis?:System.currentTimeMillis())
+        val updateInstant = Instant.ofEpochMilli(updateDateMillis)
         val localDateTime = LocalDateTime.ofInstant(updateInstant, ZoneOffset.UTC)
         binding.dpDatePicker.updateDate(localDateTime.year, localDateTime.monthValue - 1, localDateTime.dayOfMonth)
     }
@@ -119,7 +136,6 @@ class CalendarDialog(context: Context) {
         val selectedDate = LocalDate.of(year, month + 1, day)
         val selectedDateTime = selectedDate.atStartOfDay().toInstant(ZoneOffset.UTC)
         return selectedDateTime.toEpochMilli()
-//        return selectedDateTime.toEpochSecond(ZoneOffset.UTC)
     }
 
     fun isShowing() = ::popupWindow.isInitialized && popupWindow.isShowing

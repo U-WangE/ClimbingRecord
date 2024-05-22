@@ -1,8 +1,6 @@
 package com.ihavesookchi.climbingrecord.util
 
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +10,21 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.constraintlayout.widget.ConstraintSet
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupSetGoalColorBinding
+import com.ihavesookchi.climbingrecord.util.CommonUtil.getDrawableColorHex
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 
 class GoalLevelDialog(context: Context) {
+    private val CLASS_NAME = this::class.java.simpleName
+
     private var _binding: LayoutPopupSetGoalColorBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var popupWindow: PopupWindow
 
-    private var selectedColorId: Int? = null
+    private var selectedColorId: String? = null
 
     init {
         _binding = LayoutPopupSetGoalColorBinding.inflate(LayoutInflater.from(context))
@@ -34,7 +36,7 @@ class GoalLevelDialog(context: Context) {
         binding.viSelectedImpact.visibility = GONE
     }
 
-    fun show(view: View, colorCallBack: (Int?) -> Unit) {
+    fun show(view: View, colorCallBack: (String?) -> Unit) {
         init()
 
         if (binding.root.parent != null)
@@ -64,7 +66,7 @@ class GoalLevelDialog(context: Context) {
                 selectedColorId = if (it == tvLevelNone)
                     null
                 else
-                    (it.background as ColorDrawable).color
+                    getDrawableColorHex(it.background)
             }
             val colorIds = arrayListOf(tvLevelNone, viLevelWhite, viLevelYellow, viLevelOrange, viLevelGreen, viLevelBlue,viLevelRed,viLevelPurple,viLevelGray,viLevelBrown,viLevelBlack)
             colorIds.forEach {
@@ -85,15 +87,19 @@ class GoalLevelDialog(context: Context) {
         constraintSet.applyTo(binding.clPopupSetGoalColorLayout)
     }
 
-    private fun setButtonClickListener(colorCallBack: (Int?) -> Unit) {
+    private fun setButtonClickListener(colorCallBack: (String?) -> Unit) {
         binding.ivClose.setOnClickListener {
             binding.viSelectedImpact.visibility = GONE
+
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setButtonClickListener(colorCallBack)   colorCallBack  :  null")
             colorCallBack(null)
             dismiss()
         }
 
         binding.btAccept.setOnClickListener {
             binding.viSelectedImpact.visibility = GONE
+
+            ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setButtonClickListener(colorCallBack)   colorCallBack  :  $selectedColorId")
             colorCallBack(selectedColorId)
             dismiss()
         }

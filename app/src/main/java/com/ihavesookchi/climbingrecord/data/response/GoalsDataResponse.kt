@@ -13,16 +13,16 @@ data class GoalsDataResponse(
 ): Parcelable {
 
     constructor() : this(
-        goalsAchievementStatus = GoalsAchievementStatus(null, null, arrayListOf()),
+        goalsAchievementStatus = GoalsAchievementStatus(0L, 0L, arrayListOf()),
         trackingClimbingRecords = arrayListOf()
     )
 
     @Parcelize
     data class GoalsAchievementStatus(
         @SerializedName("startDate")
-        var startDate: Long? = null,
+        var startDate: Long = 0L,
         @SerializedName("endDate")
-        var endDate: Long? = null,
+        var endDate: Long = 0L,
         @SerializedName("goalDetails")
         var goalDetails: ArrayList<GoalDetail> = arrayListOf()
     ): Parcelable {

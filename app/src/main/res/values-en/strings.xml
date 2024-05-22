@@ -51,6 +51,7 @@
     <string name="toast_unusual_goal_period">Please check if the goal period is correct.</string>
 
     <string name="notice_no_search_result_for_keyword">No search results for \\\"%s\\\".</string>
+    <string name="notice_please_check_the_period_again">Please check the period again.</string>
 
     <!--  Title  -->
     <string name="title_nickname">NickName</string>

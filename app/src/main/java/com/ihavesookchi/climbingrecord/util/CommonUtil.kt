@@ -3,25 +3,31 @@ package com.ihavesookchi.climbingrecord.util
 import android.app.Activity
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
+import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.LayoutPopupYesNoBinding
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
@@ -65,6 +71,32 @@ object CommonUtil {
         } else {
             appCompatImageView.colorFilter = null
         }
+    }
+
+    fun getDrawableColorHex(drawable: Drawable?): String? {
+        if (drawable == null) {
+            return null // or handle this case as needed
+        }
+
+        val colorInt = when (drawable) {
+            is ColorDrawable -> {
+                drawable.color
+            }
+            is BitmapDrawable -> {
+                extractDominantColor(drawable.bitmap)
+            }
+            else -> {
+                val bitmap = drawable.toBitmap()
+                extractDominantColor(bitmap)
+            }
+        }
+        return String.format("#%08X",  colorInt)
+    }
+
+    private fun extractDominantColor(bitmap: Bitmap): Int {
+        // Extract the dominant color using a simple method
+        // Here, we'll use the center pixel as an example
+        return bitmap.getPixel(bitmap.width / 2, bitmap.height / 2)
     }
 
     fun Any.toMap(): Map<String, Any?> {
@@ -197,8 +229,17 @@ object CommonUtil {
     }
 
     fun getDDay(startDate: Long, endDate: Long): Long {
-        val differenceMillis = abs(endDate - startDate)
+        return if (startDate != 0L && endDate != 0L) {
+            val differenceMillis = abs(endDate - startDate)
 
-        return TimeUnit.MILLISECONDS.toDays(differenceMillis)
+            TimeUnit.MILLISECONDS.toDays(differenceMillis)
+        } else 0L
+    }
+
+    fun TextView.setGoalPeriod(startDate: Long = 0L, endDate: Long = 0L) {
+        this.text = if (startDate != 0L && endDate != 0L)
+            context.getString(R.string.y_m_d_tilde_y_m_d_dotted, convertTimeMillisToCalendar(startDate), convertTimeMillisToCalendar(endDate))
+        else
+            context.getString(R.string.default_y_m_d_tilde_y_m_d_dotted)
     }
 }

@@ -71,6 +71,7 @@
     <string name="toast_unusual_goal_period">목표 기간이 올바른지 확인해 주세요.</string>
 
     <string name="notice_no_search_result_for_keyword">\"%s\" 에 대한 검색 결과가 없습니다.</string>
+    <string name="notice_please_check_the_period_again">선택 하신 기간을 다시 확인해 주세요.</string>
 
     <!--  Title  -->
     <string name="title_nickname">닉네임</string>
