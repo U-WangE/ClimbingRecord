@@ -3,7 +3,6 @@ package com.ihavesookchi.climbingrecord.view.goals
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -200,7 +199,7 @@ class GoalsAchievementSettingFragment : Fragment() {
     private fun setResetButtonOnClickListener() {
         binding.btResetButton.setOnClickListener {
             viewModel.resetData()
-            adapter.updateData(viewModel.getGoalDetails())
+            adapter.refreshData(viewModel.getGoalDetails())
             initGoalPeriodUi()
         }
     }

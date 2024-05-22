@@ -2,6 +2,7 @@ package com.ihavesookchi.climbingrecord.viewModel
 
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
@@ -61,7 +62,7 @@ class GoalsAchievementSettingViewModel @Inject constructor(
         _goalsAchievementDataUiState.value =
             when {
                 goalsAchievementStatus.startDate == null || goalsAchievementStatus.endDate == null -> GoalsAchievementUiState.NotGoalPeriodSetting
-                ((goalsAchievementStatus.endDate?:0) - (goalsAchievementStatus.startDate?:0)) < 0 -> GoalsAchievementUiState.UnusualGoalPeriod
+                ((goalsAchievementStatus.endDate) - (goalsAchievementStatus.startDate)) < 0 -> GoalsAchievementUiState.UnusualGoalPeriod
                 goalsAchievementStatus.goalDetails.size == 0 -> GoalsAchievementUiState.NotGoalSetting
                 else -> {
                     GoalsAchievementUiState.GoalSettingSuccess
@@ -72,17 +73,8 @@ class GoalsAchievementSettingViewModel @Inject constructor(
     fun setGoal(goalDetailList: List<GoalsDataResponse.GoalsAchievementStatus.GoalDetail>) {
         val goalDetailList = goalDetailList as ArrayList
 
-        goalDetailList.forEachIndexed { index, goalDetail ->
-            with(goalDetail) {
-                if ((goal == 0 || goalColorRGB.isBlank()) && index in goalsAchievementStatus.goalDetails.indices) {
-                    goalsAchievementStatus.goalDetails.removeAt(index)
-                } else if (index in goalsAchievementStatus.goalDetails.indices) {
-                    goalsAchievementStatus.goalDetails[index] = goalDetail
-                } else {
-                    goalsAchievementStatus.goalDetails.add(index, goalDetail)
-                }
-            }
-        }
+        goalDetailList.removeAll { it.goal == 0 || it.goalColorRGB.isBlank() }
+        goalsAchievementStatus.goalDetails = goalDetailList
     }
 
     fun setStartDate(startDate: Long) {
