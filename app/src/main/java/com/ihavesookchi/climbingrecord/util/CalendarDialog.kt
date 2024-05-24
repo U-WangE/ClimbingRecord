@@ -2,6 +2,7 @@ package com.ihavesookchi.climbingrecord.util
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -91,8 +92,10 @@ class CalendarDialog(context: Context) {
             if (pageCounter % 2 == 0) {
                 pageCounter++
                 updatePageUI(periodCallback)
-            } else if (updateStartDate >= updateEndDate) {
+            } else if (updateStartDate >= updateEndDate || System.currentTimeMillis() > updateEndDate) {
                 // 시작 날짜와 종료 날짜가 같거나 시작 날짜가 더 미래인 경우
+                // 종료 날짜가 과거나 당일인 경우
+
                 CoroutineScope(Dispatchers.Main).launch {
                     //3초 Error 문구 & Color Red
                     binding.tvErrorMessage.visibility = VISIBLE
