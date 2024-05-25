@@ -1,21 +1,16 @@
 package com.ihavesookchi.climbingrecord.viewModel
 
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsAchievementUiState
-import com.ihavesookchi.climbingrecord.util.CommonUtil.getDrawableColorHex
 import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.NumberFormatException
 import javax.inject.Inject
 
 @HiltViewModel

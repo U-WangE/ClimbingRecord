@@ -5,6 +5,8 @@ import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
@@ -237,27 +239,46 @@ class ProfileItemChangeFragment : Fragment() {
             })
     }
 
-
     /**
      * Storage Permission
      * Gallery Selector Setting
      **/
+    private val storageIntentResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "storageIntentResultLauncher Selected Image URI ${result.data?.data}")
 
-    private val storageIntentResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "storageIntentResultLauncher Selected Image URI   ${it.data?.data}")
-
-        it.data?.data?.let { uri ->
+        result.data?.data?.let { uri ->
             binding.ivProfileImage.clearColorFilter()
 
-            val bitmap = getBitmapFromUri(uri)
-            resizeBitmapImage = getCircularBitmap(bitmap)
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+
+            // Exif 정보를 고려하여 이미지 회전
+            val rotatedBitmap = rotateImageIfRequired(bitmap, uri)
+
+            // 회전된 이미지를 원형 캔버스에 적용
+            resizeBitmapImage = getCircularBitmap(rotatedBitmap)
             binding.ivProfileImage.setImageBitmap(resizeBitmapImage)
         }
     }
 
-    private fun getBitmapFromUri(uri: Uri): Bitmap {
+    private fun rotateImageIfRequired(bitmap: Bitmap, uri: Uri): Bitmap {
         val inputStream = requireContext().contentResolver.openInputStream(uri)
-        return BitmapFactory.decodeStream(inputStream)
+        val ei = ExifInterface(inputStream!!)
+
+        val orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+        return when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90)
+            ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180)
+            ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270)
+            else -> bitmap
+        }
+    }
+
+    private fun rotateImage(source: Bitmap, angle: Int): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle.toFloat())
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
 
     // 원형 캠버스에 정사각형 비트맵 이미지 제작

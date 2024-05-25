@@ -1,6 +1,5 @@
 package com.ihavesookchi.climbingrecord.view
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -112,12 +111,12 @@ open class BaseActivity : AppCompatActivity() {
             .commit()
     }
 
-        fun removeFragment(fragment: Fragment, bundle: Bundle? = null) {
-            fragment.arguments = bundle
+    fun removeFragment(fragment: Fragment, bundle: Bundle? = null) {
+        fragment.arguments = bundle
 
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction
-                .remove(fragment)
-                .commit()
-        }
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction
+            .remove(fragment)
+            .commit()
+    }
 }

@@ -37,15 +37,15 @@ class ProfileItemChangeViewModel @Inject constructor(
 
     fun changeCircularBitmap(bitmap: Bitmap, width: Int, height: Int): Bitmap {
         // 정사각형 비트맵 생성
-        val squareBitmapWidth = min(width, height)
-        val dstBitmap = Bitmap.createBitmap(squareBitmapWidth, squareBitmapWidth, Bitmap.Config.ARGB_8888)
+        val diameter  = min(width, height)
+        val dstBitmap = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888)
 
         // 정사각형 비트맵에 대한 캔버스 생성
         val canvas = Canvas(dstBitmap)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)  // 안티 에일리어싱 플래그 적용
 
         // 캔버스에 원 그리기
-        val rect = Rect(0, 0, squareBitmapWidth, squareBitmapWidth)
+        val rect = Rect(0, 0, diameter, diameter)
         val rectF = RectF(rect)
         canvas.drawOval(rectF, paint)
 
@@ -53,8 +53,8 @@ class ProfileItemChangeViewModel @Inject constructor(
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
 
         // 리사이징된 비트맵을 중앙에 위치시키기 위한 좌표 계산
-        val left = ((squareBitmapWidth - width) / 2).toFloat()
-        val top = ((squareBitmapWidth - height) / 2).toFloat()
+        val left = ((diameter - width) / 2).toFloat()
+        val top = ((diameter - height) / 2).toFloat()
 
         canvas.drawBitmap(Bitmap.createScaledBitmap(bitmap, width, height, false), left, top, paint)
 
