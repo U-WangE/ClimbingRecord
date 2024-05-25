@@ -54,7 +54,7 @@ class GoalsAchievementSettingFragment : Fragment() {
             else if (requireActivity().isSoftKeyboardShow()) {
                 requireActivity().hideSoftKeyboard()
             } else {
-                requireActivity().supportFragmentManager.popBackStack()
+                (requireActivity() as BaseActivity).removeFragment(this)
             }
         }
     }
@@ -95,8 +95,12 @@ class GoalsAchievementSettingFragment : Fragment() {
     private fun observingGoalsAchievementUiState() {
         viewModel.goalsAchievementDataUiState.observe(viewLifecycleOwner) {
             when(it) {
-                GoalsAchievementUiState.GoalsAchievementSuccess ->
+                GoalsAchievementUiState.GoalsAchievementSuccess -> {
                     toast(requireContext(), getString(R.string.toast_completed_goals_update))
+
+                    (requireActivity() as BaseActivity).removeFragment(this)
+                    (requireActivity() as BaseActivity).replaceFragment(GoalsFragment())
+                }
                 GoalsAchievementUiState.GoalSettingSuccess ->
                     viewModel.uploadGoalAchievementDataToFirebaseDB()
                 GoalsAchievementUiState.NotGoalSetting ->
