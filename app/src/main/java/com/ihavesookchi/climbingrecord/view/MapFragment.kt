@@ -30,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
@@ -59,6 +60,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     // map
     private lateinit var googleMap: GoogleMap
+    private var marker: Marker? = null
 
     // location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -196,7 +198,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun setSearchListAdapter(keyword: String, climbingCenters: List<SearchKeywordResponse.Document>) {
         binding.rvSearchList.visibility = VISIBLE
-        binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.light_gray))
+        binding.clSearchLayout.backgroundTintList = ColorStateList.valueOf(getColor(requireContext(), R.color.dark_gray))
         binding.clSearchLayout.invalidate()
 
         binding.rvSearchList.adapter = SearchListAdapter(keyword, climbingCenters) { center ->
@@ -207,7 +209,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val latLng = LatLng(center.latitude.toDouble(),center.longitude.toDouble())
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f))
 
-            googleMap.addMarker(
+            marker?.remove()
+            marker = googleMap.addMarker(
                 MarkerOptions()
                     .position(latLng)
                     .title(center.placeName)

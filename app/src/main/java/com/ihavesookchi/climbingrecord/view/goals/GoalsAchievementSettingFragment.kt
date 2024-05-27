@@ -122,7 +122,7 @@ class GoalsAchievementSettingFragment : Fragment() {
         goalLevelDialog = GoalLevelDialog(requireContext())
 
         adapter = GoalsAchievementSettingAdapter(viewModel.getGoalDetails(), goalLevelDialog) { hasFocus ->
-            binding.btEditButton.visibility = if (hasFocus) GONE else VISIBLE
+            binding.btSaveButton.visibility = if (hasFocus) GONE else VISIBLE
         }
         binding.rvGoalsAchievementLayout.adapter = adapter
     }
@@ -176,7 +176,7 @@ class GoalsAchievementSettingFragment : Fragment() {
     // Day Of DDay EditText 포커스 리스너 설정
     private fun setupDayOfDDayFocusChangeListener() {
         binding.etDayOfDDay.setOnFocusChangeListener { view, hasFocus ->
-            binding.btEditButton.visibility = if (hasFocus) GONE else VISIBLE
+            binding.btSaveButton.visibility = if (hasFocus) GONE else VISIBLE
 
             (view as EditText).let {
                 if (it.text.isNullOrBlank()) it.setText("0")
@@ -209,7 +209,7 @@ class GoalsAchievementSettingFragment : Fragment() {
     }
 
     private fun setEditButtonOnClickListener() {
-        binding.btEditButton.setOnClickListener {
+        binding.btSaveButton.setOnClickListener {
             // setGoal 함수의 모든 기능을 수행 하면, isValueEntered 로 모든 값이 적합 한지 판단
             viewModel.setGoal(adapter.getItems()).run {
                 viewModel.isValueEntered()

@@ -10,6 +10,7 @@ import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
 import com.ihavesookchi.climbingrecord.databinding.ItemSearchListBinding
 import com.ihavesookchi.climbingrecord.databinding.ItemSearchListEmptyBinding
+import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import kotlin.math.min
 
 class SearchListAdapter(
@@ -56,6 +57,9 @@ class SearchListAdapter(
         fun bind(climbingCenter: SearchKeywordResponse.Document) {
             with (ItemSearchListBinding.bind(view)) {
                 climbingCenter.let { center ->
+                    setSVGColorFilter(ivClimbingCenterIcon, R.color.svgFilterColorLightGrayishBlack, context)
+                    setSVGColorFilter(ivSelectClimbingCenter, R.color.svgFilterColorLightGrayishBlack, context)
+
                     tvClimbingCenterName.text = center.placeName
                     tvAddress.text = center.roadAddressName.ifEmpty { center.addressName }
 

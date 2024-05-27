@@ -138,6 +138,9 @@ class ProfileItemChangeFragment : Fragment() {
                         binding.ivProfileImage.setImageResource(R.drawable.ic_bot)
                         setSVGColorFilter(binding.ivProfileImage, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
 
+                        //TODO::
+                        // 프로필 이미지 삭제 버튼 클릭시 Storage에 저장되는 형상은 적합하지 않은 것으로 판단
+                        // 수정 버튼을 누른 경우에만 이미지 삭제가 Storage에 저장되야 한다 해당 부분 수정 해야함
                         viewModel.deleteBitmapToFirebaseStorage()
                     }
                 }
