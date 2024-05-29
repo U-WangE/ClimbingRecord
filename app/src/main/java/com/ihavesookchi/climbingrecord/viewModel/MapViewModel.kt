@@ -5,7 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
-import com.ihavesookchi.climbingrecord.data.uistate.SearchKeywordUiState
+import com.ihavesookchi.climbingrecord.data.uistate.ClimbingCenterRecordUiState
+import com.ihavesookchi.climbingrecord.data.uistate.SearchUiState
 import com.ihavesookchi.climbingrecord.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,8 +18,11 @@ import javax.inject.Inject
 class MapViewModel @Inject constructor(
     private val searchRepository: SearchRepository
 ): ViewModel() {
-    private var _searchKeywordUiState: SingleLiveEvent<SearchKeywordUiState> = SingleLiveEvent()
-    val searchKeywordUiState: SingleLiveEvent<SearchKeywordUiState> get() = _searchKeywordUiState
+    private var _searchUiState: SingleLiveEvent<SearchUiState> = SingleLiveEvent()
+    val searchUiState: SingleLiveEvent<SearchUiState> get() = _searchUiState
+
+    private var _climbingCenterRecordUiState: SingleLiveEvent<ClimbingCenterRecordUiState> = SingleLiveEvent()
+    val climbingCenterRecordUiState: SingleLiveEvent<ClimbingCenterRecordUiState> get() = _climbingCenterRecordUiState
 
     private val CLASS_NAME = this::class.java.simpleName
 
@@ -33,12 +37,12 @@ class MapViewModel @Inject constructor(
                             searchRepository.setSearchKeywordResponse(it.body())
                         }
 
-                        _searchKeywordUiState.value = SearchKeywordUiState.SearchKeywordSuccess
+                        _searchUiState.value = SearchUiState.SearchSuccess
                     }
                     else {
                         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "Search Keyword Api failure    response  :  ${it.body()}")
 
-                        _searchKeywordUiState.value = SearchKeywordUiState.SearchKeywordFailure
+                        _searchUiState.value = SearchUiState.SearchFailure
                     }
                 }
             }
@@ -53,7 +57,16 @@ class MapViewModel @Inject constructor(
         searchRepository.removeSearchData()
     }
 
-    fun setSelectedClimbingCenter(selectedClimbingCenter: SearchKeywordResponse.Document) {
-        searchRepository.setSelectedClimbingCenter(selectedClimbingCenter)
+    fun getClimbingCenterRecord(climbingCenter: SearchKeywordResponse.Document) {
+        viewModelScope.launch(Dispatchers.IO) {
+            searchRepository.getClimbingCenterRecord(climbingCenter).let {
+                launch(Dispatchers.Main) {
+                    if (it.isSuccessful) {
+
+                        _climbingCenterRecordUiState
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,19 +1,15 @@
 package com.ihavesookchi.climbingrecord.data.repositoryImpl
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
 import com.ihavesookchi.climbingrecord.data.response.GoalsDataResponse
 import com.ihavesookchi.climbingrecord.util.CommonUtil.retry
-import com.ihavesookchi.climbingrecord.util.CommonUtil.toMap
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 

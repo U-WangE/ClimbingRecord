@@ -7,7 +7,6 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -37,7 +36,7 @@ import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.adapter.SearchListAdapter
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
-import com.ihavesookchi.climbingrecord.data.uistate.SearchKeywordUiState
+import com.ihavesookchi.climbingrecord.data.uistate.SearchUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentMapBinding
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.MapViewModel
@@ -182,14 +181,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun observingSearchKeywordUiState() {
-        viewModel.searchKeywordUiState.observe(viewLifecycleOwner) {
+        viewModel.searchUiState.observe(viewLifecycleOwner) {
             when (it) {
-                is SearchKeywordUiState.SearchKeywordSuccess -> {
+                is SearchUiState.SearchSuccess -> {
                     setSearchListAdapter(binding.sbSearchBar.query.toString(), viewModel.getSearchData())
                 }
 
-                is SearchKeywordUiState.SearchKeywordFailure -> {
-
+                is SearchUiState.SearchFailure -> {
+                    //TODO:: 어떻게 처리할지 정하지 않음
                 }
                 else -> {}
             }
@@ -206,23 +205,31 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             binding.sbSearchBar.clearFocus()
 
-            val latLng = LatLng(center.latitude.toDouble(),center.longitude.toDouble())
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f))
+            setMarker(center)
 
-            marker?.remove()
-            marker = googleMap.addMarker(
-                MarkerOptions()
-                    .position(latLng)
-                    .title(center.placeName)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-            )
+            //TODO::record 를 암장에 따라 최신 순으로 가져오는 Firebase Function 추가해야함
+            // 추후 Map 에서 암장 기록 추가 시 사용할 함수
+            //TODO:: viewModel.setSelectedClimbingCenter(center)
+            viewModel.getClimbingCenterRecord(center)
 
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-
-            binding.rvSearchList.adapter = SearchListAdapter(center.placeName, listOf(center)) {}
         }
     }
 
-    // 추후 Map 에서 암장 기록 추가 시 사용할 함수
-    //TODO:: viewModel.setSelectedClimbingCenter(center)
+    private fun setMarker(center: SearchKeywordResponse.Document) {
+        val latLng = LatLng(center.latitude.toDouble(),center.longitude.toDouble())
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f))
+
+        marker?.remove()
+        marker = googleMap.addMarker(
+            MarkerOptions()
+                .position(latLng)
+                .title(center.placeName)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+        )
+        marker?.showInfoWindow()
+    }
+
+    private fun observingClimbingCenterRecord() {
+
+    }
 }

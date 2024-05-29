@@ -170,6 +170,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:paddingBottom="20dp"
                 android:background="@drawable/bg_round_radius_8_stroke"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toBottomOf="@id/bt_reset_button"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout

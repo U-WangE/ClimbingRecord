@@ -1,9 +1,16 @@
 package com.ihavesookchi.climbingrecord.data.repositoryImpl
 
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks.await
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.firestore
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
+import com.ihavesookchi.climbingrecord.util.CommonUtil.retry
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -12,12 +19,17 @@ class SearchRepositoryImpl @Inject constructor(
 ): SearchRepository {
     private var searchKeywordResponse: SearchKeywordResponse? = null
 
-    private var selectedClimbingCenter: SearchKeywordResponse.Document? = null
-
     private val CLASS_NAME = this::class.java.simpleName
+
+    private val db = Firebase.firestore
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
     override suspend fun searchKeywordApi(keyword: String): Response<SearchKeywordResponse> {
         return kakaoRetrofit.searchKeywordApi(keyword = keyword)
+    }
+
+    override suspend fun getClimbingCenterRecord(center: SearchKeywordResponse.Document): Task<DocumentSnapshot>? {
+        return null //TODO::차후 수정
     }
 
     override fun setSearchKeywordResponse(searchKeywordResponse: SearchKeywordResponse?) {
@@ -31,13 +43,5 @@ class SearchRepositoryImpl @Inject constructor(
 
     override fun removeSearchData() {
         searchKeywordResponse = null
-    }
-
-    override fun setSelectedClimbingCenter(selectedClimbingCenter: SearchKeywordResponse.Document) {
-        this.selectedClimbingCenter = selectedClimbingCenter
-    }
-
-    override fun getSelectedClimbingCenter(): SearchKeywordResponse.Document? {
-        return this.selectedClimbingCenter
     }
 }

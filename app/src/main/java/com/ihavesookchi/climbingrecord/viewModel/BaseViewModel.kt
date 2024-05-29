@@ -20,8 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BaseViewModel @Inject constructor(
-    private val userDataRepository: UserDataRepository,
-    private val searchRepository: SearchRepository
+    private val userDataRepository: UserDataRepository
 ) : ViewModel() {
     private var _userDataUiState: MutableLiveData<UserDataUiState> = MutableLiveData()
     val userDataUiState: LiveData<UserDataUiState> get() = _userDataUiState
@@ -85,14 +84,6 @@ class BaseViewModel @Inject constructor(
                 handleUserDataError(::initUserDataToFirebaseDB.name, e)
             }
         }
-    }
-
-    fun getSelectedClimbingCenter() {
-        searchRepository.getSelectedClimbingCenter()
-    }
-
-    fun getGoalsAchievementData(): GoalsDataResponse.GoalsAchievementStatus {
-        return TODO("Provide the return value")
     }
 
     /**
