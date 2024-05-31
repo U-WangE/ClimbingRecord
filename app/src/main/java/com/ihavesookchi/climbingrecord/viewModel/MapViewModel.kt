@@ -61,8 +61,8 @@ class MapViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             searchRepository.getClimbingCenterRecord(climbingCenter).let {
                 launch(Dispatchers.Main) {
-                    if (it.isSuccessful) {
-
+                    if (it?.isSuccessful == true) {
+                        //TODO::Firebase Function 추가 완료 후 개발할 기능
                         _climbingCenterRecordUiState
                     }
                 }
