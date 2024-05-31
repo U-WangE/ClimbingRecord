@@ -1,6 +1,5 @@
 package com.ihavesookchi.climbingrecord.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
@@ -16,13 +15,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class GoalsViewModel @Inject constructor(
     private val goalsDataRepository: GoalsDataRepository,
-    private val userDataRepository: UserDataRepository
 ): ViewModel() {
     private var _goalsDataUiState: SingleLiveEvent<GoalsDataUiState> = SingleLiveEvent()
     val goalsDataUiState: SingleLiveEvent<GoalsDataUiState> get() = _goalsDataUiState
