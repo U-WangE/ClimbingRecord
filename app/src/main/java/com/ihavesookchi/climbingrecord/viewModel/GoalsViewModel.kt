@@ -45,7 +45,7 @@ class GoalsViewModel @Inject constructor(
             try {
                 goalsDataRepository.getGoalsDataFromFirebaseDB().let {
                     launch(Dispatchers.Main) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseGoalsData() Goals Api Success    DocumentSnapshot : ${it?.result}")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,     "getFirebaseGoalsData() Goals Api Success    DocumentSnapshot : ${it?.result}")
 
                         if (it?.isSuccessful == true) {
                             if (it.result.exists()) {

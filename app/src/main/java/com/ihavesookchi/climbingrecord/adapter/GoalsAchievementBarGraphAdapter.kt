@@ -89,7 +89,7 @@ class GoalsAchievementBarGraphAdapter(
                             ivActualPointImage.setImageResource(R.drawable.ic_stopwatch)
 
                             tvEndingPointGoalText.text =
-                                context.getString(R.string.y_m_d, getGoalsAchievementStatus.endDate)
+                                context.getString(R.string.y_m_d_slash, getGoalsAchievementStatus.endDate)
 
                             val currentTimeDays =
                                 TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()).toFloat()

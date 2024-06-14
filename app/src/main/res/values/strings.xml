@@ -31,7 +31,7 @@
     <!--  Date  -->
     <string name="y_m_d_tilde_y_m_d_slash">%1$tY/%1$tm/%1$td ~ %2$tY/%2$tm/%2$td</string>
     <string name="y_m_d_tilde_y_m_d_dotted">%1$tY.%1$tm.%1$td ~ %2$tY.%2$tm.%2$td</string>
-    <string name="y_m_d">%1$tY/%1$tm/%1$td</string>
+    <string name="y_m_d_slash">%1$tY/%1$tm/%1$td</string>
 
     <!--  Permission  -->
     <string name="title_permission_notice">필수 권한 허용 안내</string>
@@ -70,8 +70,11 @@
     <string name="toast_not_goal_period_setting">목표 기간을 설졍해 주세요.</string>
     <string name="toast_unusual_goal_period">목표 기간이 올바른지 확인해 주세요.</string>
 
+
     <string name="notice_no_search_result_for_keyword">\"%s\" 에 대한 검색 결과가 없습니다.</string>
+    <string name="notice_set_you_goal">당신의 목표를 설정해 주세요!!</string>
     <string name="notice_please_check_the_period_again">선택 하신 기간을 다시 확인해 주세요.</string>
+    <string name="notice_let_is_record_achievement">운동을 기록해 보세요!</string>
 
     <!--  Title  -->
     <string name="title_nickname">닉네임</string>
@@ -92,8 +95,9 @@
     <string name="default_zero" translatable="false">0</string>
     <string name="default_hyphen" translatable="false">-</string>
     <string name="default_hyphen_out_of_hyphen" translatable="false">- / -</string>
-    <string name="default_y_m_d_tilde_y_m_d_slash" translatable="false">0000/00/00 ~ 0000/00/00</string>
-    <string name="default_y_m_d_tilde_y_m_d_dotted" translatable="false">0000.00.00 ~ 0000.00.00</string>
+    <string name="default_y_m_d_tilde_y_m_d_slash">0000/00/00 ~ 0000/00/00</string>
+    <string name="default_y_m_d_tilde_y_m_d_dotted">0000.00.00 ~ 0000.00.00</string>
+    <string name="default_y_m_d_slash">0000/00/00</string>
     <string name="default_unknown" translatable="false">Unknown</string>
     <string name="default_question_mark" translatable="false">\?</string>
 

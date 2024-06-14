@@ -2,6 +2,7 @@ package com.ihavesookchi.climbingrecord.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,6 +12,8 @@ import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
 import com.ihavesookchi.climbingrecord.databinding.ActivityBaseBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.toast
 import com.ihavesookchi.climbingrecord.view.goals.GoalsFragment
+import com.ihavesookchi.climbingrecord.view.records.AddRecordFragment
+import com.ihavesookchi.climbingrecord.view.records.RecordListFragment
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +25,13 @@ open class BaseActivity : AppCompatActivity() {
     private val sharedViewModel: BaseViewModel by viewModels()
 
     private val CLASS_NAME = this::class.java.simpleName
+
+    private val menuFragmentMap: Map<Int, Fragment> = mapOf(
+        R.id.menu_map to MapFragment(),
+        R.id.menu_record_list to RecordListFragment(),
+        R.id.menu_add_record to AddRecordFragment(),
+        R.id.menu_goals to GoalsFragment()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +46,7 @@ open class BaseActivity : AppCompatActivity() {
         setNavigationBarSelectedListener()
     }
 
-    fun observingGoalsDataUiState() {
+    private fun observingGoalsDataUiState() {
         sharedViewModel.userDataUiState.observe(this) {
             when (it) {
                 is UserDataUiState.UserDataSuccess -> {
@@ -63,32 +73,16 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun setNavigationBarSelectedListener() {
         binding.bnBottomNavigationBar.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.menu_map -> {
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : menu_map")
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fl_frame_layout)
 
-                    replaceFragment(MapFragment())
-                }
-                R.id.menu_record_list -> {
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : menu_record_list")
+            menuFragmentMap[item.itemId]?.let { fragment ->
+                if (fragment != currentFragment) {
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : ${fragment}")
 
-                    replaceFragment(RecordListFragment())
+                    replaceFragment(fragment)
                 }
-                R.id.menu_add_record -> {
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : menu_add_record")
-
-                    replaceFragment(AddRecordFragment())
-                }
-                R.id.menu_goals -> {
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : menu_goals")
-
-                    replaceFragment(GoalsFragment())
-                }
-                else -> {
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar.setOnItemSelectedListener -> else  {  item: ${item},  itemId: ${item.itemId}, itemTitle: ${item.title}, itemOrder: ${item.order}  }")
-                }
-            }
-            return@setOnItemSelectedListener true
+                true
+            }?: false
         }
     }
 

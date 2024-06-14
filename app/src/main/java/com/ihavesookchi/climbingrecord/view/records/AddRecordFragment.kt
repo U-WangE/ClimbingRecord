@@ -1,4 +1,4 @@
-package com.ihavesookchi.climbingrecord.view
+package com.ihavesookchi.climbingrecord.view.records
 
 import android.os.Bundle
 import android.view.LayoutInflater

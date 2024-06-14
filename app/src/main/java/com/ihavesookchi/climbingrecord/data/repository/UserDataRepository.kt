@@ -8,7 +8,7 @@ import com.ihavesookchi.climbingrecord.data.response.UserDataResponse
 interface UserDataRepository {
     fun initUserData()
     suspend fun getUserDataFromFirebaseDB(): Task<DocumentSnapshot>?
-    fun setUserData(documentSnapshot: DocumentSnapshot? = null, userDataResponse: UserDataResponse? = null)
+    fun setUserData(documentSnapshot: DocumentSnapshot? = null)
     suspend fun initUserDataToFirebaseDB(): Task<Void>?
     fun getUserData(): UserDataResponse
     suspend fun updateUserData(userDataResponse: UserDataResponse): Task<Void>?

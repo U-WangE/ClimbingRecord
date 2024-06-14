@@ -19,13 +19,14 @@ class UserDataRepositoryImpl @Inject constructor(
     private val db: FirebaseFirestore,
     private val firebaseAuth: FirebaseAuth
 ): UserDataRepository {
-    private var userDataResponse: UserDataResponse = UserDataResponse()
     private val CLASS_NAME = this::class.java.simpleName
+
+    private var userDataResponse: UserDataResponse = UserDataResponse()
 
     override fun initUserData() { userDataResponse = UserDataResponse() }
 
-    override fun setUserData(documentSnapshot: DocumentSnapshot?, userDataResponse: UserDataResponse?) {
-        this.userDataResponse = documentSnapshot?.toObject(UserDataResponse::class.java)?:userDataResponse?:UserDataResponse()
+    override fun setUserData(documentSnapshot: DocumentSnapshot?) {
+        userDataResponse = documentSnapshot?.toObject(UserDataResponse::class.java)?:UserDataResponse()
 
         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "setUserData Set GoalsDataResponse Done    goalsDataResponse  :  ${documentSnapshot?:userDataResponse}")
     }

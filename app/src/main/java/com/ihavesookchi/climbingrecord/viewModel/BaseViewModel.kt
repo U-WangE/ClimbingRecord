@@ -48,7 +48,7 @@ class BaseViewModel @Inject constructor(
 
                         if (it?.isSuccessful == true) {
                             if (it.result.exists()) {
-                                userDataRepository.setUserData(it.result, null)
+                                userDataRepository.setUserData(it.result)
                                 _userDataUiState.value = UserDataUiState.UserDataSuccess
                             } else
                                 initUserDataToFirebaseDB()

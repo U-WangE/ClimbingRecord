@@ -190,11 +190,11 @@ class GoalsFragment : Fragment() {
         if (goalsData.goalsAchievementStatus.goalDetails.isEmpty()) {
             // goal achievement data 가 없는 경우
             binding.icGoalsStatus.clGoalsAchievementLayout.visibility = GONE
-            binding.icGoalsStatus.tvAdviseSettingGoal.visibility = VISIBLE
+            binding.icGoalsStatus.tvNoticeSetYourGoal.visibility = VISIBLE
         } else {
             // 목표 및 달성율 Ui에 해당 하는 기능
             binding.icGoalsStatus.clGoalsAchievementLayout.visibility = VISIBLE
-            binding.icGoalsStatus.tvAdviseSettingGoal.visibility = GONE
+            binding.icGoalsStatus.tvNoticeSetYourGoal.visibility = GONE
             setDDay()
             setGoalsAchievementDetail()
             setGoalsAchievementPeriod()

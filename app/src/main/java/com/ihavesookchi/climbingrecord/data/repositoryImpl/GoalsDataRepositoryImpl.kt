@@ -14,7 +14,6 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class GoalsDataRepositoryImpl @Inject constructor(
-    private val kakaoRetrofit: KakaoApi
 ): GoalsDataRepository {
     private var goalsDataResponse: GoalsDataResponse = GoalsDataResponse()
 

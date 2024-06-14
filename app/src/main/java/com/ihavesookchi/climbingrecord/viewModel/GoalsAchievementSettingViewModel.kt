@@ -56,7 +56,7 @@ class GoalsAchievementSettingViewModel @Inject constructor(
     fun isValueEntered() {
         _goalsAchievementDataUiState.value =
             when {
-                goalsAchievementStatus.endDate == null || goalsAchievementStatus.startDate == goalsAchievementStatus.endDate -> GoalsAchievementUiState.NotGoalPeriodSetting
+                goalsAchievementStatus.endDate == 0L || goalsAchievementStatus.startDate == goalsAchievementStatus.endDate -> GoalsAchievementUiState.NotGoalPeriodSetting
                 ((goalsAchievementStatus.endDate) - (goalsAchievementStatus.startDate)) < 0 -> GoalsAchievementUiState.UnusualGoalPeriod
                 goalsAchievementStatus.goalDetails.size == 0 -> GoalsAchievementUiState.NotGoalSetting
                 else -> {

@@ -1,7 +1,5 @@
 package com.ihavesookchi.climbingrecord.di
 
-import android.content.Context
-import android.content.SharedPreferences
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -10,15 +8,16 @@ import com.ihavesookchi.climbingrecord.data.Const
 import com.ihavesookchi.climbingrecord.data.Const.KAKAO_URL
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.GoalsDataRepository
+import com.ihavesookchi.climbingrecord.data.repository.RecordDataRepository
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.repository.UserDataRepository
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.GoalsDataRepositoryImpl
+import com.ihavesookchi.climbingrecord.data.repositoryImpl.RecordDataRepositoryImpl
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.SearchRepositoryImpl
 import com.ihavesookchi.climbingrecord.data.repositoryImpl.UserDataRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -56,12 +55,13 @@ object AppModule {
             .create(KakaoApi::class.java)
     }
 
-    // 시범 사용
+    //TODO:: 시범 사용
     @Singleton
     @Provides
     @Named("db")
     fun provideDB(): FirebaseFirestore = Firebase.firestore
 
+    //TODO:: 시범 사용
     @Singleton
     @Provides
     @Named("firebaseAuth")
@@ -80,5 +80,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGoalsDataRepository(kakaoRetrofit: KakaoApi): GoalsDataRepository = GoalsDataRepositoryImpl(kakaoRetrofit)
+    fun provideGoalsDataRepository(): GoalsDataRepository = GoalsDataRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideRecordDataRepository(
+        @Named("db") db: FirebaseFirestore,
+        @Named("firebaseAuth") firebaseAuth: FirebaseAuth
+    ): RecordDataRepository = RecordDataRepositoryImpl(db, firebaseAuth)
 }
