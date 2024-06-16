@@ -1,7 +1,6 @@
 package com.ihavesookchi.climbingrecord.view.records
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -16,7 +15,6 @@ import com.ihavesookchi.climbingrecord.data.uistate.RecordsDataUiState
 import com.ihavesookchi.climbingrecord.databinding.FragmentRecordListBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.view.BaseActivity
-import com.ihavesookchi.climbingrecord.view.goals.GoalsFragment
 import com.ihavesookchi.climbingrecord.viewModel.BaseViewModel
 import com.ihavesookchi.climbingrecord.viewModel.RecordListViewModel
 import dagger.hilt.android.AndroidEntryPoint

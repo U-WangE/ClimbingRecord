@@ -1,9 +1,7 @@
 package com.ihavesookchi.climbingrecord.util
 
 import android.content.Context
-import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText

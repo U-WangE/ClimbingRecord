@@ -1,7 +1,6 @@
 package com.ihavesookchi.climbingrecord.data.repositoryImpl
 
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks.await
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -10,7 +9,6 @@ import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.data.KakaoApi
 import com.ihavesookchi.climbingrecord.data.repository.SearchRepository
 import com.ihavesookchi.climbingrecord.data.response.SearchKeywordResponse
-import com.ihavesookchi.climbingrecord.util.CommonUtil.retry
 import retrofit2.Response
 import javax.inject.Inject
 

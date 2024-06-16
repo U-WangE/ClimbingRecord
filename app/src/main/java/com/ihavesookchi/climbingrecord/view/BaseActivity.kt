@@ -2,7 +2,6 @@ package com.ihavesookchi.climbingrecord.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -77,7 +76,7 @@ open class BaseActivity : AppCompatActivity() {
 
             menuFragmentMap[item.itemId]?.let { fragment ->
                 if (fragment != currentFragment) {
-                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : ${fragment}")
+                    ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : $fragment")
 
                     replaceFragment(fragment)
                 }
@@ -87,12 +86,25 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun replaceFragment(fragment: Fragment, bundle: Bundle? = null) {
-        fragment.arguments = bundle
+        val currentFragment: Fragment? = supportFragmentManager.findFragmentById(binding.flFrameLayout.id)
 
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction
-            .replace(R.id.fl_frame_layout, fragment)
-            .commit()
+        if (currentFragment != fragment) {
+            fragment.arguments = bundle
+
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction
+                .replace(R.id.fl_frame_layout, fragment)
+                .runOnCommit {
+                    // bottom menu 중 replace 하는 Fragment 를 가리키고 있는 menu가 있다면, 해당 menu select event 적용
+                    // menu 외의 버튼으로 fragment 이동시 사용하는 코드
+                    menuFragmentMap.entries.find {
+                        it.value::class.java == fragment::class.java
+                    }?.let { (key, _) ->
+                        binding.bnBottomNavigationBar.selectedItemId = key
+                    }
+                }
+                .commit()
+        }
     }
 
     fun addFragment(fragment: Fragment, bundle: Bundle? = null) {

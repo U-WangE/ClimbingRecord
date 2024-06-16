@@ -17,9 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.ihavesookchi.climbingrecord.util.CommonUtil.twoButtonPopupWindow
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.ActivitySplashBinding
+import com.ihavesookchi.climbingrecord.util.CommonUtil.twoButtonPopupWindow
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.system.exitProcess
 
