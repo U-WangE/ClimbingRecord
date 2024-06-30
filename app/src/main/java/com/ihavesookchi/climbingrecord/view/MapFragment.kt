@@ -16,7 +16,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -52,7 +52,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
 
-    private val viewModel: MapViewModel by viewModels()
+    private lateinit var viewModel: MapViewModel
 
     @Inject
     lateinit var kakaoApi: KakaoApi
@@ -77,6 +77,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(this)[MapViewModel::class.java]
 
         searchViewAction()
 

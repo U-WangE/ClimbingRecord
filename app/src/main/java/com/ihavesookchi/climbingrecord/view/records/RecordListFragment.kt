@@ -8,7 +8,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.adapter.RecordListAdapter
 import com.ihavesookchi.climbingrecord.data.uistate.RecordsDataUiState
@@ -27,13 +27,15 @@ class RecordListFragment : Fragment() {
     private val CLASS_NAME = this::class.java.simpleName
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
-    private val viewModel: RecordListViewModel by viewModels()
+    private lateinit var viewModel: RecordListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentRecordListBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(this)[RecordListViewModel::class.java]
 
         viewModel.getFirebaseRecordListData()
         setSVGColorFilter(binding.ivRecordAdd, R.color.svgFilterColorLightGrayishBlack, requireContext())

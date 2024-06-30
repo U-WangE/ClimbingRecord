@@ -21,7 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.data.uistate.UserDataUiState
@@ -49,7 +49,7 @@ class ProfileItemChangeFragment : Fragment() {
     private val CLASS_NAME = this::class.java.simpleName
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
-    private val viewModel: ProfileItemChangeViewModel by viewModels()
+    private lateinit var viewModel: ProfileItemChangeViewModel
 
     private val readStoragePermission = if (SDK_INT > VERSION_CODES.S_V2) READ_MEDIA_IMAGES else READ_EXTERNAL_STORAGE
 
@@ -60,6 +60,8 @@ class ProfileItemChangeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentProfileItemChangeBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(this)[ProfileItemChangeViewModel::class.java]
 
         // Image, EditText Setting
         setProfileImageSetting()

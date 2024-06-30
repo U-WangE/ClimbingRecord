@@ -14,6 +14,7 @@
         android:orientation="vertical"
         android:paddingVertical="30dp"
         android:elevation="1dp"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView

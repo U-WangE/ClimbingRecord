@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
@@ -38,13 +38,15 @@ class GoalsFragment : Fragment() {
     private val CLASS_NAME = this::class.java.simpleName
 
     private val sharedViewModel: BaseViewModel by activityViewModels()
-    private val viewModel: GoalsViewModel by viewModels()
+    private lateinit var viewModel: GoalsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentGoalsBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
 
         setDefaultUISetting()
 

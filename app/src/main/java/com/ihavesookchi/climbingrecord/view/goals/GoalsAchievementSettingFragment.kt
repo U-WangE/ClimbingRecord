@@ -10,7 +10,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.adapter.GoalsAchievementSettingAdapter
 import com.ihavesookchi.climbingrecord.data.uistate.GoalsAchievementUiState
@@ -36,7 +36,7 @@ class GoalsAchievementSettingFragment : Fragment() {
 
     private val CLASS_NAME = this::class.java.simpleName
 
-    private val viewModel: GoalsAchievementSettingViewModel by viewModels()
+    private lateinit var viewModel: GoalsAchievementSettingViewModel
 
     private lateinit var adapter: GoalsAchievementSettingAdapter
 
@@ -64,6 +64,8 @@ class GoalsAchievementSettingFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentGoalsAchievementSettingBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(this)[GoalsAchievementSettingViewModel::class.java]
 
         setSVGColorFilter(binding.btBackButton, R.color.svgFilterColorMediumGrayDarkGray, requireContext())
         setSVGColorFilter(binding.ivCalendarImage, R.color.svgFilterColorLightGrayishBlack, requireContext())

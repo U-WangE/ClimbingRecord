@@ -39,7 +39,7 @@ class RecordListViewModel @Inject constructor(
                         ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseRecordListData() Record List Api Success    DocumentSnapshot : ${it?.result}")
 
                         if (it?.isSuccessful == true)
-                            if (it.result.exists()) {
+                            if (it.result != null && !it.result.isEmpty) {
                                 // set data
                                 recordDataRepository.setRecordsDataResponse(it.result)
                                 _recordListDataUiState.value = RecordsDataUiState.RecordsDataSuccess

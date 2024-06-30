@@ -71,9 +71,12 @@
         style="@style/style_kcc_chassam_medium"
         android:text="@string/default_y_m_d_slash"
         android:textColor="@color/gray"
+        android:textAlignment="viewEnd"
         android:focusable="false"
+        android:maxLines="1"
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_record_contents"
+        app:layout_constraintStart_toEndOf="@id/rv_achievement_layout"
         app:layout_constraintEnd_toEndOf="parent"
         />
 

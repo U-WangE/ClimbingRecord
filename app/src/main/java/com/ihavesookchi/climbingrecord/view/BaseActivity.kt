@@ -77,7 +77,6 @@ open class BaseActivity : AppCompatActivity() {
             menuFragmentMap[item.itemId]?.let { fragment ->
                 if (fragment != currentFragment) {
                     ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "BottomNavigationBar Item Selected : $fragment")
-
                     replaceFragment(fragment)
                 }
                 true
