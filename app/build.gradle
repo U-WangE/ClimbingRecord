@@ -23,9 +23,9 @@ android {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.ihavesookchi.climbingrecord"
         minSdk 28
-        targetSdk 33
+        targetSdk 34
         versionCode 1
-        versionName "1.0"
+        versionName "0.0.1"
 
         buildConfigField("String", "KAKAO_REST_API_KEY", properties.getProperty("KAKAO_REST_API_KEY"))
         manifestPlaceholders = [
@@ -104,10 +104,10 @@ dependencies {
     kapt 'com.google.dagger:hilt-android-compiler:2.44'
 
     // google Map
-    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.android.gms:play-services-maps:19.0.0'
 
     // google Login
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation 'com.google.android.gms:play-services-auth:21.2.0'
 
     // firebase
     implementation platform('com.google.firebase:firebase-bom:32.8.0')
@@ -117,4 +117,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-appcheck-playintegrity'
     implementation 'com.google.firebase:firebase-appcheck-debug'
+
+    // 화면 크기 가져오기 위해 사용
+    implementation 'androidx.window:window:1.3.0'
 }

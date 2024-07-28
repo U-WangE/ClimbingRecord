@@ -1,5 +1,6 @@
 package com.ihavesookchi.climbingrecord.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
@@ -36,10 +37,10 @@ class RecordListViewModel @Inject constructor(
             try {
                 recordDataRepository.getRecordListDataFromFirebaseDB().let {
                     launch(Dispatchers.Main) {
-                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseRecordListData() Record List Api Success    DocumentSnapshot : ${it?.result}")
+                        ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "getFirebaseRecordListData() Record List Api Success    DocumentSnapshot : ${it?.result?.documents}")
 
                         if (it?.isSuccessful == true)
-                            if (it.result != null && !it.result.isEmpty) {
+                            if (it.result != null || !it.result.isEmpty) {
                                 // set data
                                 recordDataRepository.setRecordsDataResponse(it.result)
                                 _recordListDataUiState.value = RecordsDataUiState.RecordsDataSuccess

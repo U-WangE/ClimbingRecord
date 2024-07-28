@@ -13,9 +13,12 @@ import com.ihavesookchi.climbingrecord.databinding.ItemRecordListBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.convertTimeMillisToCalendar
 import com.ihavesookchi.climbingrecord.util.CommonUtil.setSVGColorFilter
 import com.ihavesookchi.climbingrecord.util.ImageLoadTask
+import com.ihavesookchi.climbingrecord.view.BaseActivity
+import com.ihavesookchi.climbingrecord.view.records.RecordDetailFragment
 
 class RecordListAdapter(
-    private val recordList: List<RecordsDataResponse.Record>
+    private val recordList: List<RecordsDataResponse.Record>,
+    private val activity: BaseActivity
 ): RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
 
     private val CLASS_NAME = this::class.java.simpleName
@@ -43,11 +46,12 @@ class RecordListAdapter(
     inner class ViewHolder(view: View, private val context: Context) : RecyclerView.ViewHolder(view) {
         val binding = ItemRecordListBinding.bind(view)
         fun bind(record: RecordsDataResponse.Record) {
+            // item image setting
             if (record.recordImages.isNotEmpty())
-                ImageLoadTask(binding.ivRecordImage).loadImage(record.recordImages[0])
+                ImageLoadTask(binding.ivRecordImages).loadImage(record.recordImages[0])
             else {
-                binding.ivRecordImage.setImageResource(R.drawable.ic_photo)
-                setSVGColorFilter(binding.ivRecordImage, R.color.svgFilterColorMediumGrayDarkGray, context)
+                binding.ivRecordImages.setImageResource(R.drawable.ic_photo)
+                setSVGColorFilter(binding.ivRecordImages, R.color.svgFilterColorMediumGrayDarkGray, context)
             }
 
             binding.ivRecordImageMoreIcon.visibility = if (record.recordImages.size > 1) VISIBLE else GONE
@@ -56,7 +60,12 @@ class RecordListAdapter(
             binding.tvRecordContents.text = record.content
             binding.tvAchievementDate.text = context.getString(R.string.y_m_d_slash, convertTimeMillisToCalendar(record.achievementDate))
 
+            // item achievement setting
             binding.rvAchievementLayout.adapter = RecordListAchievementAdapter(record.achievementDataList)
+
+            binding.clRecordListItemLayout.setOnClickListener {
+                activity.addFragment(RecordDetailFragment())
+            }
         }
     }
 }

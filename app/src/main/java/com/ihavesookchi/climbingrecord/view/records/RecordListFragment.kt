@@ -59,7 +59,7 @@ class RecordListFragment : Fragment() {
             when(it) {
                 RecordsDataUiState.RecordsDataSuccess -> {
                     binding.clRecordAddLayout.visibility = if (viewModel.getRecordList().isNotEmpty()) GONE else VISIBLE
-                    binding.rvRecordListLayout.adapter = RecordListAdapter(viewModel.getRecordList())
+                    binding.rvRecordListLayout.adapter = RecordListAdapter(viewModel.getRecordList(), requireActivity() as BaseActivity)
                 }
                 else -> {}
             }

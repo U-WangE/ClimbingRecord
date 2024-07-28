@@ -1,6 +1,8 @@
 package com.ihavesookchi.climbingrecord
 
 import android.app.Application
+import android.content.Context
+import android.util.TypedValue
 import com.google.firebase.Firebase
 import com.google.firebase.appcheck.appCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
@@ -10,6 +12,14 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class ClimbingRecord: Application() {
+    init {
+        instance = this
+    }
+
+    companion object {
+        var instance: ClimbingRecord? = null
+        fun context(): Context = instance!!.applicationContext
+    }
 
     override fun onCreate() {
         super.onCreate()
