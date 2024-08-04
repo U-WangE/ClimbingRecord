@@ -25,6 +25,7 @@ class RecordListViewModel @Inject constructor(
     private suspend fun handleGoalsDataError(logMessage: String, exception: Exception) {
         withContext(Dispatchers.Main) {
             ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME, "$logMessage    exception : $exception")
+
             _recordListDataUiState.value = when (exception) {
                 is IllegalStateException -> RecordsDataUiState.AttemptLimitExceeded
                 else -> RecordsDataUiState.RecordsDataFailure

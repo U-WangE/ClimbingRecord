@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ihavesookchi.climbingrecord.ClimbingRecordLogger
 import com.ihavesookchi.climbingrecord.R
 import com.ihavesookchi.climbingrecord.databinding.ItemRecordDetailImageBinding
 import com.ihavesookchi.climbingrecord.util.CommonUtil.getWindowWidth
@@ -13,11 +14,14 @@ import com.ihavesookchi.climbingrecord.util.CommonUtil.getWindowWidth
 class RecordDetailSRVAdapter(
     private val recordImages: List<String>
 ) : RecyclerView.Adapter<RecordDetailSRVAdapter.ViewHolder>() {
+    private val CLASS_NAME = this::class.java.simpleName
+
     private val colors: MutableList<Int>
 
     private var widthDiffItemToWindow = 0
     private var isWidthCalculated = false
 
+    //TODO:: Example
     init {
         colors = ArrayList()
         colors.add(Color.RED)
@@ -51,6 +55,13 @@ class RecordDetailSRVAdapter(
                 val windowWidth = getWindowWidth()
                 widthDiffItemToWindow = windowWidth - itemWidth
                 isWidthCalculated = true
+
+                ClimbingRecordLogger.getInstance()?.saveLog(CLASS_NAME,
+                    "setStartEndMargin(view, position)   \n" +
+                            "itemWidth : $windowWidth\n" +
+                            "windowWidth : $windowWidth\n" +
+                            "widthDiffItemToWindow : $widthDiffItemToWindow\n" +
+                            "isWidthCalculated : $isWidthCalculated")
             }
         }
 

@@ -230,8 +230,7 @@ object CommonUtil {
 
     fun convertTimeMillisToCalendar(timeMillis: Long): Calendar {
         return Calendar.getInstance().apply {
-            this.
-            timeInMillis = timeMillis
+            this.timeInMillis = timeMillis
         }
     }
 
