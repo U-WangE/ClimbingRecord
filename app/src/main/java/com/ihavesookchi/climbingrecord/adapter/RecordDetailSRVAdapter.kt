@@ -73,22 +73,6 @@ class RecordDetailSRVAdapter(
         fun bind(position: Int) {
             val backgroundColor = colors[position % colors.size]
             binding.ivRecordImage.setBackgroundColor(backgroundColor)
-
-            setStartEndMargin(view, position)
-        }
-    }
-
-    // first, last item 의 start, end Margin 설정
-    private fun setStartEndMargin(view: View, position: Int) {
-        view.post {
-            val layoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
-
-            if (position == 0)
-                layoutParams.marginStart = widthDiffItemToWindow / 2
-            else if (position == 4)
-                layoutParams.marginEnd = widthDiffItemToWindow / 2
-
-            view.layoutParams = layoutParams
         }
     }
 }

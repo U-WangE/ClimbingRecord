@@ -37,6 +37,7 @@ class RecordDetailFragment : Fragment() {
 
     private fun setRecordImageAdapter() {
         with (binding.rvRecordImageList) {
+            val imageSpacing = 50
             adapter = RecordDetailSRVAdapter(listOf())
 
             PagerSnapHelper().attachToRecyclerView(this)
@@ -45,8 +46,7 @@ class RecordDetailFragment : Fragment() {
             addItemDecoration(
                 ItemOffsetDecoration(
                     ItemOffsetDecoration.Orientation.HORIZONTAL,
-                    25,
-                    false
+                    imageSpacing
                 )
             )
 

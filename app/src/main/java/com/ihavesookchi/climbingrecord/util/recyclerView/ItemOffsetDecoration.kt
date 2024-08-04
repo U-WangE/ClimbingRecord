@@ -13,8 +13,7 @@ import com.ihavesookchi.climbingrecord.util.CommonUtil.dpToPx
  **/
 class ItemOffsetDecoration(
     private val orientation: Orientation,
-    itemSpacing: Int = 0,
-    private var isStartEndSpacing: Boolean = true
+    itemSpacing: Int = 0
 ): RecyclerView.ItemDecoration() {
     private var spacingItem: Int = itemSpacing.dpToPx()
 
@@ -28,9 +27,6 @@ class ItemOffsetDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        val position = parent.getChildAdapterPosition(view)
-        val endPosition = state.itemCount - 1
-
         val applySpacing: (Int) -> Unit = { startSpacing ->
             when (orientation) {
                 Orientation.VERTICAL -> {
@@ -44,12 +40,6 @@ class ItemOffsetDecoration(
             }
         }
 
-        if (!isStartEndSpacing) {
-            applySpacing(
-                if (position == 0 || position == endPosition) 0 else spacingItem
-            )
-        } else {
-            applySpacing(spacingItem)
-        }
+        applySpacing(spacingItem)
     }
 }
