@@ -9,27 +9,23 @@ repositories {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:8.2.2")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
-    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.22")
+    implementation(libs.android.gradlePlugin)
+    implementation(libs.kotlin.gradlePlugin)
+    compileOnly(libs.compose.compiler.gradle.plugin)
 }
 
 gradlePlugin {
     plugins {
-        register("androidLibrary") {
-            id = "uwange.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
-        }
         register("androidApplication") {
-            id = "uwange.android.application"
+            id = "climbingrecord.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
-        register("kotlinLibrary") {
-            id = "uwange.kotlin.library"
-            implementationClass = "KotlinLibraryConventionPlugin"
+        register("androidLibrary") {
+            id = "climbingrecord.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidCompose") {
-            id = "uwange.android.compose"
+            id = "climbingrecord.android.compose"
             implementationClass = "AndroidComposeConventionPlugin"
         }
     }

@@ -1,6 +1,6 @@
 plugins {
-    id("uwange.android.library")
-    id("uwange.android.compose")
+    id("climbingrecord.android.library")
+    id("climbingrecord.android.compose")
 }
 
 android {
