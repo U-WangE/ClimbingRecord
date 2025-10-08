@@ -6,8 +6,3 @@ plugins {
 android {
     namespace = "com.uwange.climbingrecord.data"
 }
-
-dependencies {
-    implementation(project(":core"))
-    implementation(project(":domain"))
-}

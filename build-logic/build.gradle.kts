@@ -20,13 +20,17 @@ gradlePlugin {
             id = "climbingrecord.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
-        register("androidLibrary") {
-            id = "climbingrecord.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
-        }
         register("androidCompose") {
             id = "climbingrecord.android.compose"
             implementationClass = "AndroidComposeConventionPlugin"
+        }
+        register("androidFeature") {
+            id = "climbingrecord.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "climbingrecord.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
         }
     }
 }

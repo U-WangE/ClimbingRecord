@@ -10,7 +10,7 @@ internal fun Project.configureKotlinAndroid() {
 
     // 공통 Android 설정 적용
     androidExtension.apply {
-        compileSdk = 35
+        compileSdk = 36
 
         defaultConfig {
             minSdk = 26

@@ -1,4 +1,6 @@
 pluginManagement {
+    includeBuild("build-logic")
+
     repositories {
         google {
             content {
@@ -10,7 +12,6 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    includeBuild("build-logic")
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -22,8 +23,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "ClimbingRecord"
 include(":app")
-include(":core")
+include(":core:common")
+include(":core:database")
+include(":core:datastore")
+include(":core:designsystem")
+include(":core:mvi")
+include(":core:navigation")
+include(":core:ui")
 include(":data")
 include(":domain")
-include(":feature")
-include(":presentation")
+include(":feature:dashboard")
+include(":presentation:main")
