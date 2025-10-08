@@ -1,4 +1,6 @@
 pluginManagement {
+    includeBuild("build-logic")
+
     repositories {
         google {
             content {
@@ -21,4 +23,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "ClimbingRecord"
 include(":app")
- 
+include(":core:common")
+include(":core:database")
+include(":core:datastore")
+include(":core:designsystem")
+include(":core:mvi")
+include(":core:navigation")
+include(":core:ui")
+include(":data")
+include(":domain")
+include(":feature:dashboard")
+include(":presentation:main")
