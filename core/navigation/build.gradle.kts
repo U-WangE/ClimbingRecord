@@ -1,12 +1,7 @@
 plugins {
     id("climbingrecord.android.library")
-    alias(libs.plugins.kotlin.serialization)
+    id("climbingrecord.android.compose")
 }
 android {
     namespace = "com.uwange.climbingrecord.navigation"
-}
-
-dependencies {
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
 }

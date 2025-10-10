@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.uwange.climbingrecord.domain-release-30:/layout/custom_dialog.xml",
+        "source": "com.uwange.climbingrecord.domain-core-1.15.0-17:/layout/custom_dialog.xml"
+    },
+    {
+        "merged": "com.uwange.climbingrecord.domain-release-30:/layout/notification_template_part_time.xml",
+        "source": "com.uwange.climbingrecord.domain-core-1.15.0-17:/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "com.uwange.climbingrecord.domain-release-30:/layout/ime_secondary_split_test_activity.xml",
+        "source": "com.uwange.climbingrecord.domain-core-1.15.0-17:/layout/ime_secondary_split_test_activity.xml"
+    },
+    {
+        "merged": "com.uwange.climbingrecord.domain-release-30:/layout/ime_base_split_test_activity.xml",
+        "source": "com.uwange.climbingrecord.domain-core-1.15.0-17:/layout/ime_base_split_test_activity.xml"
+    },
+    {
+        "merged": "com.uwange.climbingrecord.domain-release-30:/layout/notification_template_part_chronometer.xml",
+        "source": "com.uwange.climbingrecord.domain-core-1.15.0-17:/layout/notification_template_part_chronometer.xml"
+    }
+]

@@ -32,9 +32,5 @@ gradlePlugin {
             id = "climbingrecord.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-        register("kotlinLibrary") {
-            id = "climbingrecord.kotlin.library"
-            implementationClass = "KotlinLibraryConventionPlugin"
-        }
     }
 }
