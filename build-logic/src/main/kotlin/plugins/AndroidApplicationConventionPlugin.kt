@@ -17,6 +17,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             }
 
             configureKotlinAndroid()
+            configureHiltAndroid()
         }
     }
 }
