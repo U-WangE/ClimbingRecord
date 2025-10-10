@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.uwange.climbingrecord.domain-mergeReleaseResources-28:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ParkChanYoung\\.gradle\\caches\\8.13\\transforms\\3e27bf5f8bbcd507d60854d7f926f8cc\\transformed\\material3\\res\\values-v30\\values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.uwange.climbingrecord.domain-release-30:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ParkChanYoung\\.gradle\\caches\\8.13\\transforms\\3e27bf5f8bbcd507d60854d7f926f8cc\\transformed\\material3\\res\\values-v30\\values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}

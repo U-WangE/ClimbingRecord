@@ -10,11 +10,11 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("climbingrecord.android.compose")
             }
 
-            configureHiltAndroid()
-
             dependencies {
                 add("implementation", project(":core:designsystem"))
             }
+
+            configureKotlinAndroid()
         }
     }
 }
