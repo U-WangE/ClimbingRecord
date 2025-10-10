@@ -30,6 +30,8 @@
             <option value="$PROJECT_DIR$/core/designsystem" />
             <option value="$PROJECT_DIR$/core/mvi" />
             <option value="$PROJECT_DIR$/core/navigation" />
+            <option value="$PROJECT_DIR$/core/network" />
+            <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />

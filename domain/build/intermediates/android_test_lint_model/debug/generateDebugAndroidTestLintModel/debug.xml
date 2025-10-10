@@ -25,6 +25,6 @@
       type="INSTRUMENTATION_TEST"
       applicationId="com.uwange.climbingrecord.domain.test"
       generatedResourceFolders="build\generated\res\resValues\androidTest\debug"
-      desugaredMethodsFiles="C:\Users\ParkChanYoung\.gradle\caches\8.13\transforms\dca37d0ebca113d0017e924f0aa544a5\transformed\D8BackportedDesugaredMethods.txt">
+      desugaredMethodsFiles="C:\Users\ParkChanYoung\.gradle\caches\8.13\transforms\102d76b998fcf57e9301d054ce717b6c\transformed\D8BackportedDesugaredMethods.txt">
   </artifact>
 </variant>

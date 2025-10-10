@@ -1,6 +1,6 @@
 [
     {
         "merged": "com.uwange.climbingrecord.domain-release-30:/drawable-v21/notification_action_background.xml",
-        "source": "com.uwange.climbingrecord.domain-core-1.15.0-0:/drawable-v21/notification_action_background.xml"
+        "source": "com.uwange.climbingrecord.domain-core-1.15.0-17:/drawable-v21/notification_action_background.xml"
     }
 ]
