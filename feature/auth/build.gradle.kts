@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.uwange.climbingrecord.dashboard"
+    namespace = "com.uwange.climbingrecord.auth"
 }
 
 dependencies {
