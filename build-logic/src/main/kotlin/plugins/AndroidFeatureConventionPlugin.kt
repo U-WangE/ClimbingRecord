@@ -12,8 +12,11 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
             configureHiltAndroid()
 
+            val libs = extensions.libs
             dependencies {
                 add("implementation", project(":core:designsystem"))
+
+                add("implementation", libs.findLibrary("androidx.compose.navigation").get())
             }
         }
     }

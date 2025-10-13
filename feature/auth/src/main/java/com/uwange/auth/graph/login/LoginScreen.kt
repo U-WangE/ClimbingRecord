@@ -1,4 +1,4 @@
-package com.uwange.auth.login
+package com.uwange.auth.graph.login
 
 import androidx.compose.runtime.Composable
 
