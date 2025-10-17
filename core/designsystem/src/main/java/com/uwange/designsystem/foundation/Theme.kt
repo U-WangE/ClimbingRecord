@@ -1,4 +1,4 @@
-package com.uwange.designsystem
+package com.uwange.designsystem.foundation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
