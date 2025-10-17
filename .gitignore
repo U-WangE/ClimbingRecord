@@ -13,6 +13,8 @@ build/
 */build/
 **/build/
 !gradle/wrapper/gradle-wrapper.jar
+keystore/
+keystore.properties
 
 # Local configuration file (sdk path, etc)
 local.properties
