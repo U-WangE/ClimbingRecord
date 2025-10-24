@@ -4,5 +4,5 @@ plugins {
 }
 
 android {
-    namespace = "com.uwange.climbingrecord.ui"
+    namespace = "com.uwange.climbingrecord.common.ui"
 }

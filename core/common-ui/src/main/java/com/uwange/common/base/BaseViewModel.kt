@@ -1,4 +1,4 @@
-package com.uwange.ui.base
+package com.uwange.common.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

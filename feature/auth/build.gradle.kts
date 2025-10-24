@@ -7,6 +7,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.ui)
+    implementation(projects.core.commonUi)
     implementation(libs.kakao.user)
 }

@@ -1,6 +1,6 @@
 package com.uwange.auth.graph.login.contract
 
-import com.uwange.ui.base.UiState
+import com.uwange.common.base.UiState
 
 
 data class LoginState(

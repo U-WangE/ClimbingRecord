@@ -25,12 +25,12 @@ dependencyResolutionManagement {
 rootProject.name = "ClimbingRecord"
 include(":app")
 include(":core:common")
+include(":core:common-ui")
 include(":core:database")
 include(":core:datastore")
 include(":core:designsystem")
 include(":core:mvi")
 include(":core:navigation")
-include(":core:ui")
 include(":data")
 include(":domain")
 include(":presentation:main")
