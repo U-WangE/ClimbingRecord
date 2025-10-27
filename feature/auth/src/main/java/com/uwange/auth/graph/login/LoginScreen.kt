@@ -10,29 +10,53 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.user.UserApiClient
+import com.uwange.auth.graph.login.contract.LoginIntent
+import com.uwange.auth.graph.login.contract.LoginSideEffect
 import com.uwange.climbingrecord.designsystem.R
+import com.uwange.common.ui.repeatOnStarted
 import com.uwange.designsystem.component.ClimbingRecordLoginButton
+import com.uwange.domain.model.OAuthProvider
 
 @Composable
 internal fun LoginRoute(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     BackHandler {
 
     }
 
     LaunchedEffect(viewModel) {
-
+        lifecycleOwner.repeatOnStarted {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is LoginSideEffect.LoginKakao -> {
+                        loginKakao(
+                            context = context,
+                            onFailure = {},
+                            onSuccess = { accessToken ->
+                            }
+                        )
+                    }
+                }
+            }
+        }
     }
 
     LoginScreen(
-        loginKakao = {}
+        loginKakao = {
+            viewModel.onIntent(LoginIntent.LoginOAuth(OAuthProvider.KAKAO))
+        }
     )
 }
 
