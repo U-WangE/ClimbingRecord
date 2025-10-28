@@ -1,15 +1,17 @@
 package com.uwange.auth.graph.login
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.uwange.auth.graph.login.contract.LoginIntent
 import com.uwange.auth.graph.login.contract.LoginSideEffect
 import com.uwange.auth.graph.login.contract.LoginState
 import com.uwange.common.base.BaseViewModel
+import com.uwange.common.suspendRunCatching
 import com.uwange.domain.model.OAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,5 +34,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-
+    internal fun loginOAuth(oAuthProvider: OAuthProvider, token: String) = viewModelScope.launch {
+        suspendRunCatching {
+        }
+    }
 }
