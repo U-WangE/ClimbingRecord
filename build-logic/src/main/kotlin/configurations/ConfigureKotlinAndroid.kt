@@ -1,5 +1,6 @@
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -20,6 +21,13 @@ internal fun Project.configureKotlinAndroid() {
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17
         }
+    }
+
+    val libs = extensions.libs
+    dependencies {
+        add("implementation", platform(libs.findLibrary("firebase-bom").get()))
+        add("implementation", libs.findLibrary("firebase-analytics").get())
+        add("implementation", libs.findLibrary("firebase-crashlytics").get())
     }
     
     configureKotlin()

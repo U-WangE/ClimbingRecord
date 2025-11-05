@@ -10,3 +10,8 @@ android {
         }
     }
 }
+
+dependencies {
+    implementation(libs.firebase.config)
+    implementation(libs.kotlinx.serialization.json)
+}
