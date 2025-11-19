@@ -1,3 +1,6 @@
+package com.uwange.build.logic.configurations
+
+import com.uwange.build.logic.extensions.androidExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -5,6 +8,7 @@ import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.uwange.build.logic.extensions.libs
 
 internal fun Project.configureKotlinAndroid() {
     plugins.apply("org.jetbrains.kotlin.android")
@@ -23,13 +27,6 @@ internal fun Project.configureKotlinAndroid() {
         }
     }
 
-    val libs = extensions.libs
-    dependencies {
-        add("implementation", platform(libs.findLibrary("firebase-bom").get()))
-        add("implementation", libs.findLibrary("firebase-analytics").get())
-        add("implementation", libs.findLibrary("firebase-crashlytics").get())
-    }
-    
     configureKotlin()
 }
 

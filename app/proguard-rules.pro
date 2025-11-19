@@ -7,3 +7,6 @@
 
 # 도메인 모델 전체 보호
 -keep class com.uwange.domain.model.** { *; }
+
+## 파이어베이스
+-keep class com.google.firebase.** { *; }

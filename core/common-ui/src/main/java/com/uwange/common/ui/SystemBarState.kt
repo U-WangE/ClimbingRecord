@@ -15,14 +15,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class SystemBarState {
-    private val _stateBarColor = MutableStateFlow(Color.Transparent)
-    val stateBarColor: StateFlow<Color> = _stateBarColor.asStateFlow()
+    private val _statusBarColor = MutableStateFlow(Color.Transparent)
+    val statusBarColor: StateFlow<Color> = _statusBarColor.asStateFlow()
 
     private val _navigationBarColor = MutableStateFlow(Color.Transparent)
-    val navigationBarState: StateFlow<Color> = _navigationBarColor.asStateFlow()
+    val navigationBarColor: StateFlow<Color> = _navigationBarColor.asStateFlow()
 
-    fun setStateBarColor(color: Color) {
-        _stateBarColor.value = color
+    fun setStatusBarColor(color: Color) {
+        _statusBarColor.value = color
     }
 
     fun setNavigationBarColor(color: Color) {
@@ -58,7 +58,7 @@ fun NavigationBarColor(color: Color) {
     LaunchedEffect(color) {
         if (!view.isInEditMode) {
             val window = (view.context as Activity).window
-            window.navigationBarColor    = color.toArgb()
+            window.navigationBarColor = color.toArgb()
             delay(200L)
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
                 useDarkIcons

@@ -1,12 +1,12 @@
 [versions]
 ## Android gradle plugin
-agp = "8.13.0"
+agp = "8.13.1"
 
 ## Kotlin
 # https://github.com/JetBrains/kotlin
-kotlin = "2.2.10"
+kotlin = "2.1.0"
 
-ksp = "2.2.10-2.0.2"
+ksp = "2.1.0-1.0.29"
 
 coreKtx = "1.17.0"
 # https://developer.android.com/jetpack/androidx/releases/core
@@ -19,7 +19,7 @@ activityCompose = "1.11.0"
 composeBom = "2025.10.00"
 appcompat = "1.7.1"
 material = "1.13.0"
-jetbrainsKotlinJvm = "2.2.20"
+jetbrainsKotlinJvm = "2.1.0"
 composeNavigation = "2.9.5"
 
 hilt = "2.57.2"
@@ -30,7 +30,7 @@ kotlinSerializationJson = "1.9.0"
 ## firebase
 googleServices = "4.4.4"
 firebaseBom = "34.5.0"
-firebaseConfigKtx = "23.0.1"
+crashlytics = "3.0.3"
 
 ## Auth
 kakao = "2.22.0"
@@ -81,16 +81,17 @@ kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao" 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
-firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx", version.ref = "firebaseConfigKtx" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-android-library = { id = "com.android.library", version.ref = "agp" }
-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 
