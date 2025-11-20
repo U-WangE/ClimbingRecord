@@ -6,5 +6,8 @@ plugins {
 
 android {
     namespace = "com.uwange.climbingrecord.analytics"
+}
 
+dependencies {
+    implementation(projects.core.navigation)
 }
