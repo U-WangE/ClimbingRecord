@@ -32,6 +32,7 @@ class MainViewModel @Inject constructor(
         }.onSuccess {
             _forceUpdate.value = it
         }.onFailure {
+
         }
     }
 }
