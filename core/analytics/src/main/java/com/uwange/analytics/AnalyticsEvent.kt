@@ -1,8 +1,10 @@
 package com.uwange.analytics
 
+import android.os.Bundle
+
 data class AnalyticsEvent(
     val type: String,
-    val properties: MutableMap<String, Any?>? = null
+    val properties: Bundle? = null
 ) {
     object Type {
         const val SCREEN_VIEW = "screen_view"

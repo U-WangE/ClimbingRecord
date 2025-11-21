@@ -1,4 +1,4 @@
-package com.uwange.main
+package com.uwange.presentation
 
 import androidx.lifecycle.ViewModel
 import com.uwange.common.suspendRunCatching

@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.presentation.main)
+    implementation(projects.presentation)
 
     implementation(libs.kakao.user)
 }

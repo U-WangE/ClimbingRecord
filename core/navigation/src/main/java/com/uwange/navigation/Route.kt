@@ -18,3 +18,6 @@ data object DashBoardBaseRoute : Route
 sealed interface DashBoardGraph : Route {
 
 }
+
+@Serializable
+data object AnalyticsRoute : Route

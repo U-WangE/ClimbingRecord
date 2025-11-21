@@ -5,4 +5,8 @@ plugins {
 
 android {
     namespace = "com.uwange.climbingrecord.common.ui"
+
+    buildFeatures {
+        buildConfig = true
+    }
 }

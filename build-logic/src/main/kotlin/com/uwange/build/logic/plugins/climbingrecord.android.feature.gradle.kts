@@ -9,10 +9,11 @@ plugins {
 configureHiltAndroid()
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":core:analytics"))
+    implementation(project(":core:common-ui"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))
-    implementation(project(":core:common-ui"))
-    implementation(project(":domain"))
 
     val libs = project.libs
 

@@ -17,7 +17,7 @@
         android:theme="@style/Theme.ClimbingRecord">
 
         <activity
-            android:name="com.uwange.main.MainActivity"
+            android:name="com.uwange.presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ClimbingRecord">

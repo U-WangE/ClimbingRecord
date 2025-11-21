@@ -1,8 +1,10 @@
 package com.uwange.analytics
 
+import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.core.os.bundleOf
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -20,9 +22,9 @@ abstract class AnalyticsHelper {
     fun trackClickEvent(
         screenName: String,
         buttonName: String,
-        properties: MutableMap<String, Any?>? = null
+        properties: Bundle? = null
     ) {
-        val eventProperties = mutableMapOf<String, Any?>(
+        val eventProperties = bundleOf(
             SCREEN_NAME to screenName,
             BUTTON_NAME to buttonName
         ).apply {
@@ -40,9 +42,9 @@ abstract class AnalyticsHelper {
     fun trackActionEvent(
         screenName: String,
         actionName: String,
-        properties: MutableMap<String, Any?>? = null
+        properties: Bundle? = null
     ) {
-        val eventProperties = mutableMapOf<String, Any?>(
+        val eventProperties = bundleOf(
             SCREEN_NAME to screenName,
             ACTION_NAME to actionName
         ).apply {
@@ -60,6 +62,7 @@ abstract class AnalyticsHelper {
     fun clearUserId() = setUserId(null)
 }
 
+
 class NoOpAnalyticsHelper: AnalyticsHelper() {
     override fun logEvent(event: AnalyticsEvent) = Unit
     override fun setUserId(userId: String?) = Unit
@@ -73,22 +76,20 @@ val LocalAnalyticsHelper = staticCompositionLocalOf<AnalyticsHelper> {
 fun TrackScreenViewEvent(
     key: Any? = Unit,
     screenName: String?,
-    params: Map<String, Any?> = emptyMap(),
+    params: Bundle? = null,
     analyticsHelper: AnalyticsHelper = LocalAnalyticsHelper.current
 ) = LaunchedEffect(key) {
     if (screenName != null) {
-        val properties = mutableMapOf<String, Any?>(
+        val properties = bundleOf(
             SCREEN_NAME to screenName
         ).apply {
-            if (params.isNotEmpty()) {
-                putAll(params)
-            }
+            params?.let { putAll(it) }
         }
 
         analyticsHelper.logEvent(
             AnalyticsEvent(
                 type = SCREEN_VIEW,
-                properties
+                properties = properties
             )
         )
     }
@@ -105,7 +106,7 @@ fun TrackNavigationDestination(navController: NavHostController) {
                 analyticsHelper.logEvent(
                     AnalyticsEvent(
                         type = SCREEN_VIEW,
-                        properties = mutableMapOf(SCREEN_NAME to screenName)
+                        properties = bundleOf(SCREEN_NAME to screenName)
                     )
                 )
             }
