@@ -1,13 +1,15 @@
 package com.uwange.presentation.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.uwange.debug.DebugDrawer
 import com.uwange.domain.model.ForceUpdate
+import com.uwange.presentation.navigation.AppNavHost
 
 @Composable
 fun ClimbingRecordApp(
@@ -17,10 +19,24 @@ fun ClimbingRecordApp(
     val scope = rememberCoroutineScope()
 
     DebugDrawer(navController = appState.navController) {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
+        Scaffold() { innerPadding ->
+            val topPadding by animateDpAsState(
+                targetValue = innerPadding.calculateTopPadding(),
+                label = "topPadding",
+            )
+            val bottomPadding by animateDpAsState(
+                targetValue = innerPadding.calculateBottomPadding(),
+                label = "bottomPadding"
+            )
+            val contentModifier = Modifier.padding(
+                top = topPadding,
+                bottom = bottomPadding
+            )
+
+            AppNavHost(
+                navController = appState.navController,
+                modifier = contentModifier
+            )
         }
     }
 }

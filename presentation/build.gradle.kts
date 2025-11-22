@@ -6,6 +6,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.auth)
     implementation(projects.core.common)
     implementation(projects.debug)
 
