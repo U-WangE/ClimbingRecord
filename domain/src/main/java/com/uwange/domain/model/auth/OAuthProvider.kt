@@ -1,4 +1,4 @@
-package com.uwange.domain.model
+package com.uwange.domain.model.auth
 
 enum class OAuthProvider(val apiValue: String, val displayName: String) {
     KAKAO("kakao", "카카오");

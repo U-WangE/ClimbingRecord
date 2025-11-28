@@ -2,7 +2,8 @@ package com.uwange.presentation
 
 import androidx.lifecycle.ViewModel
 import com.uwange.common.suspendRunCatching
-import com.uwange.domain.model.ForceUpdate
+import com.uwange.domain.model.configure.ForceUpdate
+import com.uwange.domain.model.error.ErrorHelper
 import com.uwange.domain.repository.ConfigureRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val configureRepository: ConfigureRepository
+    private val configureRepository: ConfigureRepository,
+    private val errorHelper: ErrorHelper
 ): ViewModel() {
     private val _forceUpdate = MutableStateFlow<ForceUpdate?>(null)
     val forceUpdate = _forceUpdate.asStateFlow()
@@ -31,8 +33,6 @@ class MainViewModel @Inject constructor(
             configureRepository.getUpdateInfo()
         }.onSuccess {
             _forceUpdate.value = it
-        }.onFailure {
-
-        }
+        }.onFailure { errorHelper.sendError(it) }
     }
 }

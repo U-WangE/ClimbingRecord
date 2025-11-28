@@ -1,6 +1,6 @@
 package com.uwange.data.repository
 
-import com.uwange.domain.model.ForceUpdate
+import com.uwange.domain.model.configure.ForceUpdate
 import com.uwange.domain.repository.ConfigureRepository
 import com.uwange.network.model.configure.GetForceUpdateInfoResponse
 import com.uwange.network.source.configure.ConfigDataSource

@@ -5,6 +5,8 @@ agp = "8.7.3"
 ## Kotlin
 # https://github.com/JetBrains/kotlin
 kotlin = "2.0.21"
+kotlinSerializationJson = "1.7.3"
+kotlinxCoroutine = "1.10.1"
 
 ksp = "2.0.21-1.0.28"
 
@@ -25,7 +27,6 @@ composeNavigation = "2.8.6"
 hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 
-kotlinSerializationJson = "1.7.3"
 
 ## firebase
 googleServices = "4.4.2"
@@ -63,6 +64,8 @@ androidx-compose-navigation = { group = "androidx.navigation", name = "navigatio
 androidx-navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidxNavigation" }
 
 compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutine" }
 
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 

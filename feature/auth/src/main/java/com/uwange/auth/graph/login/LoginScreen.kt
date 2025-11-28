@@ -1,5 +1,6 @@
 package com.uwange.auth.graph.login
 
+import android.app.Activity
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -23,7 +28,7 @@ import com.uwange.auth.graph.login.contract.LoginSideEffect
 import com.uwange.climbingrecord.designsystem.R
 import com.uwange.common.ui.repeatOnStarted
 import com.uwange.designsystem.component.ClimbingRecordLoginButton
-import com.uwange.domain.model.OAuthProvider
+import com.uwange.domain.model.auth.OAuthProvider
 
 @Composable
 internal fun LoginRoute(
@@ -31,9 +36,14 @@ internal fun LoginRoute(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    var backPressedTime by remember { mutableLongStateOf(0L) }
 
     BackHandler {
+        if (System.currentTimeMillis() - backPressedTime <= 2000L) {
+            (context as Activity).finish()
+        } else {
 
+        }
     }
 
     LaunchedEffect(viewModel) {

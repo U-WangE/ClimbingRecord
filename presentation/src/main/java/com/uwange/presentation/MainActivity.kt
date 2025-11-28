@@ -53,7 +53,8 @@ class MainActivity : ComponentActivity() {
                 ClimbingRecordTheme {
                     ClimbingRecordApp(
                         appState = appState,
-                        forceUpdate = forceUpdate
+                        forceUpdate = forceUpdate,
+
                     )
                 }
             }

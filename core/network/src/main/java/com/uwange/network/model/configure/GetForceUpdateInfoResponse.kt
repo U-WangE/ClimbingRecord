@@ -1,6 +1,6 @@
 package com.uwange.network.model.configure
 
-import com.uwange.domain.model.ForceUpdate
+import com.uwange.domain.model.configure.ForceUpdate
 import kotlinx.serialization.Serializable
 
 @Serializable

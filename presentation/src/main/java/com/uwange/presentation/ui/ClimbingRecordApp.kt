@@ -8,7 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.uwange.debug.DebugDrawer
-import com.uwange.domain.model.ForceUpdate
+import com.uwange.designsystem.foundation.ClimbingRecordTheme
+import com.uwange.domain.model.configure.ForceUpdate
 import com.uwange.presentation.navigation.AppNavHost
 
 @Composable
@@ -19,7 +20,9 @@ fun ClimbingRecordApp(
     val scope = rememberCoroutineScope()
 
     DebugDrawer(navController = appState.navController) {
-        Scaffold() { innerPadding ->
+        Scaffold(
+            containerColor = ClimbingRecordTheme.colors.white
+        ) { innerPadding ->
             val topPadding by animateDpAsState(
                 targetValue = innerPadding.calculateTopPadding(),
                 label = "topPadding",
