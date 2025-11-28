@@ -1,6 +1,6 @@
 package com.uwange.common
 
-import kotlinx.coroutines.CancellationException
+import java.util.concurrent.CancellationException
 
 suspend inline fun <T, R> T.suspendRunCatching(crossinline block: suspend T.() -> R): Result<R> {
     return try {

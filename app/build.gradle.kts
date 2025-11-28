@@ -47,6 +47,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.data)
+    implementation(projects.domain)
     implementation(projects.presentation)
 
     implementation(libs.kakao.user)

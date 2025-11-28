@@ -24,7 +24,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.uwange.analytics.DebugAnalyticsHelper
 import com.uwange.analytics.LocalAnalyticsHelper
-import com.uwange.common.getSafeValue
+import com.uwange.common.ui.getSafeValue
 import com.uwange.designsystem.foundation.ClimbingRecordTheme
 import com.uwange.navigation.AnalyticsRoute
 import java.text.SimpleDateFormat

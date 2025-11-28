@@ -38,6 +38,8 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             viewModel.initConfig()
+
+            isInitialized = false
         }
 
         enableEdgeToEdge()

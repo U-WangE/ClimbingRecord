@@ -1,4 +1,4 @@
-package com.uwange.common
+package com.uwange.common.ui
 
 import android.os.Bundle
 

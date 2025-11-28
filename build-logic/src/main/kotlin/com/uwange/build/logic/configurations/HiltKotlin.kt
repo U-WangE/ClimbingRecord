@@ -6,18 +6,23 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-internal class FirebaseAndroidPlugin : Plugin<Project> {
+internal class HiltKotlinPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            configureFirebaseAndroid()
+            configureHiltKotlin()
         }
     }
 }
 
-internal fun Project.configureFirebaseAndroid() {
+internal fun Project.configureHiltKotlin() {
+    with(pluginManager) {
+        apply("com.google.devtools.ksp")
+    }
+
+    val libs = project.libs
+
     dependencies {
-        implementation(platform(libs.findLibrary("firebase-bom").get()))
-        implementation(libs.findLibrary("firebase-analytics").get())
-        implementation(libs.findLibrary("firebase-crashlytics").get())
+        implementation(libs.findLibrary("hilt.core").get())
+        "ksp"(libs.findLibrary("hilt.compiler").get())
     }
 }

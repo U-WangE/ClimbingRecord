@@ -14,6 +14,10 @@ gradlePlugin {
             id = "climbingrecord.android.hilt"
             implementationClass = "com.uwange.build.logic.configurations.HiltAndroidPlugin"
         }
+        register("kotlinHilt") {
+            id = "climbingrecord.kotlin.hilt"
+            implementationClass = "com.uwange.build.logic.configurations.HiltKotlinPlugin"
+        }
         register("androidFirebase") {
             id = "climbingrecord.android.firebase"
             implementationClass = "com.uwange.build.logic.configurations.FirebaseAndroidPlugin"
