@@ -5,9 +5,14 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.uwange.climbingrecord.network.BuildConfig
+import com.uwange.network.source.firebase.FirebaseAuthDataSource
+import com.uwange.network.source.firebase.FirebaseAuthDataSourceImpl
 import com.uwange.network.source.error.DebugErrorDataSourceImpl
 import com.uwange.network.source.error.ErrorDataSource
 import com.uwange.network.source.error.ErrorDataSourceImpl
+import com.uwange.network.source.firebase.FireStoreDataSource
+import com.uwange.network.source.firebase.FireStoreDataSourceImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +20,23 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class NetworkBindsModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindsFirebaseAuthDataSource(
+        firebaseAuthDataSourceImpl: FirebaseAuthDataSourceImpl
+    ): FirebaseAuthDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsFireStoreDataSource(
+        fireStoreDataSourceImpl: FireStoreDataSourceImpl
+    ): FireStoreDataSource
+}
 
 @Module
 @InstallIn(SingletonComponent::class)

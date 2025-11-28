@@ -55,6 +55,7 @@ internal fun LoginRoute(
                             context = context,
                             onFailure = {},
                             onSuccess = { accessToken ->
+                                viewModel.loginOAuth(OAuthProvider.KAKAO, accessToken)
                             }
                         )
                     }

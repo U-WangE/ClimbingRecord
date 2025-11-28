@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     id("climbingrecord.android.application")
     id("climbingrecord.android.compose")
+    id("climbingrecord.android.firebase")
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.google.services)
 }

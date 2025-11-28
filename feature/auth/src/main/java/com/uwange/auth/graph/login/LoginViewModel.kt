@@ -9,6 +9,7 @@ import com.uwange.common.base.BaseViewModel
 import com.uwange.common.suspendRunCatching
 import com.uwange.domain.model.auth.OAuthProvider
 import com.uwange.domain.model.error.ErrorHelper
+import com.uwange.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private var authRepository: AuthRepository,
     private val errorHelper: ErrorHelper,
     private val analyticsHelper: AnalyticsHelper
 ) : BaseViewModel<LoginState, LoginIntent>(LoginState()) {
@@ -39,7 +41,11 @@ class LoginViewModel @Inject constructor(
 
     internal fun loginOAuth(oAuthProvider: OAuthProvider, token: String) = viewModelScope.launch {
         suspendRunCatching {
-        }.onSuccess {
+            authRepository.loginOauth(
+                oAuthProvider,
+                token
+            )
+        }.onSuccess { userRole ->
 
         }.onFailure { errorHelper.sendError(it) }
             .also { setState { copy(isLoading = false) } }

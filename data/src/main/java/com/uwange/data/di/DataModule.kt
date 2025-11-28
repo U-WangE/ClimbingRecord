@@ -1,7 +1,9 @@
 package com.uwange.data.di
 
+import com.uwange.data.repository.AuthRepositoryImpl
 import com.uwange.data.repository.ConfigureRepositoryImpl
 import com.uwange.data.repository.ErrorRepositoryImpl
+import com.uwange.domain.repository.AuthRepository
 import com.uwange.domain.repository.ConfigureRepository
 import com.uwange.domain.repository.ErrorRepository
 import dagger.Binds
@@ -13,6 +15,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataModule {
+    @Binds
+    @Singleton
+    abstract fun bindsAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
+
+
 
     @Binds
     @Singleton
