@@ -1,7 +1,8 @@
 plugins {
-    id("climbingrecord.android.library")
+    id("climbingrecord.kotlin.library")
+    id("climbingrecord.kotlin.hilt")
 }
 
-android {
-    namespace = "com.uwange.climbingrecord.common"
+dependencies {
+
 }

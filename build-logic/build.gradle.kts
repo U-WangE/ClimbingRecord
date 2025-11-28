@@ -1,11 +1,6 @@
 plugins {
     `kotlin-dsl`
-}
-
-repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
+    `kotlin-dsl-precompiled-script-plugins`
 }
 
 dependencies {
@@ -16,25 +11,17 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("androidApplication") {
-            id = "climbingrecord.android.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
+        register("androidHilt") {
+            id = "climbingrecord.android.hilt"
+            implementationClass = "com.uwange.build.logic.configurations.HiltAndroidPlugin"
         }
-        register("androidCompose") {
-            id = "climbingrecord.android.compose"
-            implementationClass = "AndroidComposeConventionPlugin"
+        register("kotlinHilt") {
+            id = "climbingrecord.kotlin.hilt"
+            implementationClass = "com.uwange.build.logic.configurations.HiltKotlinPlugin"
         }
-        register("androidFeature") {
-            id = "climbingrecord.android.feature"
-            implementationClass = "AndroidFeatureConventionPlugin"
-        }
-        register("androidLibrary") {
-            id = "climbingrecord.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
-        }
-        register("kotlinLibrary") {
-            id = "climbingrecord.kotlin.library"
-            implementationClass = "KotlinLibraryConventionPlugin"
+        register("androidFirebase") {
+            id = "climbingrecord.android.firebase"
+            implementationClass = "com.uwange.build.logic.configurations.FirebaseAndroidPlugin"
         }
     }
 }

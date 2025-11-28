@@ -7,6 +7,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.kotlinx.serialization.json)
 }

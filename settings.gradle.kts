@@ -1,5 +1,10 @@
 pluginManagement {
     includeBuild("build-logic")
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
 
     repositories {
         google {
@@ -18,21 +23,25 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = java.net.URI("https://devrepo.kakao.com/nexus/content/groups/public/") }
     }
 }
 
 rootProject.name = "ClimbingRecord"
 include(":app")
+include(":core:analytics")
 include(":core:common")
+include(":core:common-ui")
 include(":core:database")
 include(":core:datastore")
 include(":core:designsystem")
 include(":core:mvi")
 include(":core:navigation")
-include(":core:ui")
 include(":data")
 include(":domain")
-include(":feature:dashboard")
-include(":presentation:main")
+include(":presentation")
 include(":core:network")
 include(":core:testing")
+include(":feature:dashboard")
+include(":feature:auth")
+include(":debug")

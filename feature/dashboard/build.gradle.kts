@@ -4,10 +4,6 @@ plugins {
 
 android {
     namespace = "com.uwange.climbingrecord.dashboard"
-
-    buildFeatures {
-        buildConfig = true
-    }
 }
 
 dependencies {
