@@ -48,9 +48,11 @@ android {
 }
 
 dependencies {
-    implementation(projects.data)
-    implementation(projects.domain)
+    implementation(projects.core.data)
+    implementation(projects.core.domain)
     implementation(projects.presentation)
 
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
     implementation(libs.kakao.user)
 }

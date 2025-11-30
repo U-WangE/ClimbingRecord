@@ -9,8 +9,8 @@ plugins {
 configureHiltAndroid()
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":core:analytics"))
+    implementation(project(":core:domain"))
     implementation(project(":core:common-ui"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))
