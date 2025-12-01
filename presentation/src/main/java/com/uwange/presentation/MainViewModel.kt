@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.uwange.common.suspendRunCatching
 import com.uwange.domain.model.configure.ForceUpdate
 import com.uwange.domain.model.error.ErrorHelper
+import com.uwange.domain.repository.AuthRepository
 import com.uwange.domain.repository.ConfigureRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val configureRepository: ConfigureRepository,
     private val errorHelper: ErrorHelper
 ): ViewModel() {
@@ -34,5 +36,11 @@ class MainViewModel @Inject constructor(
         }.onSuccess {
             _forceUpdate.value = it
         }.onFailure { errorHelper.sendError(it) }
+    }
+
+    internal suspend fun checkSessionRouting() {
+        suspendRunCatching {
+            authRepository.checkTokenHealth()
+        }
     }
 }

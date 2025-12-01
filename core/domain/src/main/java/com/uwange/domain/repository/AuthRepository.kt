@@ -10,8 +10,7 @@ interface AuthRepository {
         oauthCredential: String
     ): UserRole
 
-    suspend fun getCurrentUser(): User?
-    suspend fun updateUserRole(userRole: UserRole)
     suspend fun logout()
-    suspend fun isLoggedIn(): Boolean
+
+    suspend fun checkTokenHealth()
 }

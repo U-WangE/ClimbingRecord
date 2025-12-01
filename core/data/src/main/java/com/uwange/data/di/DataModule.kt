@@ -21,8 +21,6 @@ abstract class DataModule {
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
 
-
-
     @Binds
     @Singleton
     abstract fun bindsErrorRepository(

@@ -39,6 +39,10 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             viewModel.initConfig()
 
+            viewModel.checkSessionRouting()
+
+            delay(200L)
+
             isInitialized = false
         }
 

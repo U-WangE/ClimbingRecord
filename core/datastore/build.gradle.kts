@@ -5,3 +5,8 @@ plugins {
 android {
     namespace = "com.uwange.climbingrecord.datastore"
 }
+
+dependencies {
+    implementation(libs.androidx.datastore)
+    implementation(libs.gson)
+}
