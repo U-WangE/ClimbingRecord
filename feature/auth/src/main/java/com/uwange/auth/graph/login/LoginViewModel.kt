@@ -45,7 +45,7 @@ class LoginViewModel @Inject constructor(
                 oAuthProvider,
                 token
             )
-        }.onSuccess { userRole ->
+        }.onSuccess { uid ->
 
         }.onFailure { errorHelper.sendError(it) }
             .also { setState { copy(isLoading = false) } }

@@ -1,6 +1,10 @@
 package com.uwange.network.di
 
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.gson.Gson
 import com.uwange.climbingrecord.network.BuildConfig
+import com.uwange.network.call.FunctionsApi
+import com.uwange.network.call.FunctionsApiImpl
 import com.uwange.network.source.error.DebugErrorDataSourceImpl
 import com.uwange.network.source.error.ErrorDataSource
 import com.uwange.network.source.error.ErrorDataSourceImpl
@@ -14,12 +18,6 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class NetworkBindsModule {
-
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
 object NetworkProvidesModule {
 
     @Singleton
@@ -27,6 +25,18 @@ object NetworkProvidesModule {
     fun provideJson(): Json = Json {
         ignoreUnknownKeys = true
     }
+
+    @Singleton
+    @Provides
+    fun provideGson(): Gson = Gson()
+
+    @Singleton
+    @Provides
+    fun provideFunctionsApi(
+        functions: FirebaseFunctions,
+        gson: Gson
+    ): FunctionsApi =
+        FunctionsApiImpl(functions, gson)
 
     @Provides
     @Singleton

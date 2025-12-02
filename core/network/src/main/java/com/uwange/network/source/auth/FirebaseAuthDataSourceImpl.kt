@@ -1,34 +1,29 @@
 package com.uwange.network.source.auth
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.uwange.domain.model.auth.OAuthProvider
-import com.uwange.domain.model.auth.User
+import com.uwange.network.call.FunctionsApi
+import com.uwange.network.model.auth.LoginOauthRequest
+import com.uwange.network.model.auth.LoginOauthResponse
+import com.uwange.network.model.unwrapData
 import javax.inject.Inject
 
 class FirebaseAuthDataSourceImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    private val firestore: FirebaseFirestore
+    private val functionsApi: FunctionsApi
 ): AuthDataSource {
     override suspend fun loginOauth(
         provider: OAuthProvider,
-        oauthToken: String
-    ): User {
-    }
+        accessToken: String
+    ): LoginOauthResponse = functionsApi.call(
+        "loginOauth",
+        LoginOauthRequest(
+            providerName = provider.apiValue,
+            accessToken = accessToken
+        ),
+        LoginOauthResponse::class.java
+    ).unwrapData()
 
-    override suspend fun fetchUserFromFirestore(userId: String): User? {
+    override suspend fun checkTokenHealth(accessToken: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateUserRoleInFirestore(userId: String, userRole: String) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun logout() {
-        TODO("Not yet implemented")
-    }
-
-    override fun isLoggedIn(): Boolean {
-        TODO("Not yet implemented")
-    }
 }
