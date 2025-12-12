@@ -10,6 +10,8 @@ data object AuthGraphBaseRoute : Route
 sealed interface AuthGraph : Route {
     @Serializable
     data object LoginRout : AuthGraph
+    @Serializable
+    data object SignUpRout : AuthGraph
 }
 
 @Serializable

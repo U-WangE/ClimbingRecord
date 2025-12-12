@@ -21,7 +21,7 @@ class LocalTokenDataSourceImpl @Inject constructor(
     }
 
     override suspend fun setRefreshToken(refreshToken: String) {
-        dataStore.setValue(ACCESS_TOKEN, refreshToken)
+        dataStore.setValue(REFRESH_TOKEN, refreshToken)
     }
 
     override suspend fun clearToken() {

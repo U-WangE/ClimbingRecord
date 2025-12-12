@@ -25,15 +25,8 @@ class AuthRepositoryImpl @Inject constructor(
         val response = authDataSource.loginOauth(oAuthProvider, oauthCredential)
 
         coroutineScope {
-            val accessTokenJob = launch {
-                response.accessToken?.let { localTokenDataSource.setAccessToken(it) }
-            }
-            val userRoleJob = launch {
-                response.role?.let { localUserDataSource.setUserRole(it) }
-            }
-
-            accessTokenJob.join()
-            userRoleJob.join()
+            launch { response.accessToken?.let { localTokenDataSource.setAccessToken(it) } }
+            launch {response.role?.let { localUserDataSource.setUserRole(it) } }
         }
 
         return UserRole.create(response.role)
@@ -41,11 +34,8 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun logout() {
         coroutineScope {
-            val clearTokenJob = launch { localTokenDataSource.clearToken() }
-
-            clearTokenJob.join()
-
-            firebaseAuth.signOut()
+            launch { localTokenDataSource.clearToken() }
+            launch { firebaseAuth.signOut() }
         }
     }
 
